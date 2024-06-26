@@ -1,3 +1,4 @@
-import Navbar from "./Navbar";
+import Navbar from "./navbar/Navbar.jsx";
+import SearchBar from "./searchBar/SearchBar.jsx";
 
-export { Navbar };
+export { Navbar, SearchBar };
