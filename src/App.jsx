@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Navbar } from "./components";
-import Home from "./pages";
+import { Home, Timetable, AddTimetableStepper } from "./pages";
 
 function App() {
   return (
@@ -10,6 +10,8 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/timetable" element={<Timetable />} />
+          <Route path="/addtimetable" element={<AddTimetableStepper />} />
         </Routes>
       </Router>
     </div>
