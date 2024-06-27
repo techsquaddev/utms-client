@@ -1,9 +1,23 @@
 import React from "react";
 import styles from "./session.module.css";
 
-const Session = ({ session }) => {
+const Session = ({ session, currentDay }) => {
+  const now = new Date();
+  const sessionTime = new Date();
+  sessionTime.setHours(session.time.from.split(":")[0]);
+  sessionTime.setMinutes(session.time.from.split(":")[1]);
+
+  const isCurrentSession =
+    currentDay &&
+    now >= sessionTime &&
+    now <= sessionTime.setMinutes(sessionTime.getMinutes() + 90);
+
   return (
-    <div className={styles.sessionContainer}>
+    <div
+      className={`${styles.sessionContainer} ${
+        isCurrentSession ? styles.currentSession : ""
+      }`}
+    >
       <div className={styles.info}>
         <p>
           <strong>Day:</strong> {session.day}

@@ -1,19 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./timetable.module.css";
 import { Session } from "../../components";
-
-const sessionData = {
-  day: "Monday",
-  time: { from: "09:00", to: "10:30" },
-  moduleName: "Software Engineering",
-  moduleCode: "SE101",
-  sessionType: "Lecture",
-  coordinator: "Dr. Smith",
-  location: "Room 101",
-  deliveryType: "In-person",
-};
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { sessionsData } from "../../components/session/sessionsData";
 
 const Timetable = () => {
+  const [currentDay, setCurrentDay] = useState(new Date().getDay());
+
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    initialSlide: currentDay,
+    afterChange: (current) => setCurrentDay(current),
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      setCurrentDay(now.getDay());
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className={styles.timetable}>
       <div className={styles.container}>
@@ -45,11 +58,29 @@ const Timetable = () => {
           </p>
         </div>
         <div>
-          <Session session={sessionData} />
-          <Session session={sessionData} />
-          <Session session={sessionData} />
-          <Session session={sessionData} />
-          <Session session={sessionData} />
+          <Slider {...settings}>
+            {[
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday",
+            ].map((day, index) => (
+              <div key={index}>
+                {sessionsData
+                  .filter((session) => session.day === day)
+                  .map((session, idx) => (
+                    <Session
+                      key={idx}
+                      session={session}
+                      currentDay={currentDay === index}
+                    />
+                  ))}
+              </div>
+            ))}
+          </Slider>
         </div>
       </div>
     </div>
