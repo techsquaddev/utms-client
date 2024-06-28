@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./timetable.module.css";
-import { Session } from "../../components";
+import { Session, Clock } from "../../components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -9,14 +9,21 @@ import { sessionsData } from "../../components/session/sessionsData";
 const Timetable = () => {
   const [currentDay, setCurrentDay] = useState(new Date().getDay());
 
-  const settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    initialSlide: currentDay,
-    afterChange: (current) => setCurrentDay(current),
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  const handleDayChange = (direction) => {
+    setCurrentDay((prevDay) => {
+      const newDay = (prevDay + direction + 7) % 7;
+      return newDay;
+    });
   };
 
   useEffect(() => {
@@ -58,29 +65,34 @@ const Timetable = () => {
           </p>
         </div>
         <div>
-          <Slider {...settings}>
-            {[
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday",
-              "Saturday",
-              "Sunday",
-            ].map((day, index) => (
-              <div key={index}>
-                {sessionsData
-                  .filter((session) => session.day === day)
-                  .map((session, idx) => (
-                    <Session
-                      key={idx}
-                      session={session}
-                      currentDay={currentDay === index}
-                    />
-                  ))}
-              </div>
+          <Clock />
+        </div>
+        <div className={styles.navigation}>
+          <button onClick={() => handleDayChange(-1)}>Previous</button>
+          <button onClick={() => handleDayChange(1)}>Next</button>
+        </div>
+        <div className={styles.dayTabs}>
+          {days.map((day, index) => (
+            <button
+              key={index}
+              className={currentDay === index ? styles.activeTab : ""}
+              onClick={() => setCurrentDay(index)}
+            >
+              {day}
+            </button>
+          ))}
+        </div>
+
+        <div className={styles.sessions}>
+          {sessionsData
+            .filter((session) => session.day === days[currentDay])
+            .map((session, idx) => (
+              <Session
+                key={idx}
+                session={session}
+                currentDay={currentDay === new Date().getDay()}
+              />
             ))}
-          </Slider>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import Session from "./session/Session.jsx";
 import AddTimetableDetails from "./addTimetableDetails/AddTimetableDetails.jsx";
 import ManageSessions from "./manageSessions/ManageSessions.jsx";
 import ReviewAndSubmit from "./reviewAndSubmit/ReviewAndSubmit.jsx";
+import Clock from "./clock/Clock.jsx";
 
 export {
   Navbar,
@@ -12,4 +13,5 @@ export {
   AddTimetableDetails,
   ManageSessions,
   ReviewAndSubmit,
+  Clock,
 };

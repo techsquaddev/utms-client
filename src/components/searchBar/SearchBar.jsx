@@ -9,7 +9,7 @@ const SearchBar = () => {
           type="text"
           className={styles.textInput}
           id="text-input"
-          placeholder="කැමති දෙයක් ලියන්න..."
+          placeholder="Search Timetables..."
         />
       </div>
     </div>
