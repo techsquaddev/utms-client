@@ -10,7 +10,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/timetable" element={<Timetable />} />
+          <Route path="/timetable/:id" element={<Timetable />} />
           <Route path="/addtimetable" element={<AddTimetableStepper />} />
           <Route path="/find" element={<FindTimetable />} />
         </Routes>

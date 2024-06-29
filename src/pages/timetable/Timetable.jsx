@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styles from "./timetable.module.css";
 import { Session, Clock } from "../../components";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { sessionsData } from "../../components/session/sessionsData";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const Timetable = () => {
   const [currentDay, setCurrentDay] = useState(new Date().getDay());
+  const { id } = useParams();
+  const [timetable, setTimetable] = useState(null);
+  const [error, setError] = useState(null);
+
+  console.log(timetable);
 
   const days = [
     "Sunday",
@@ -27,6 +33,19 @@ const Timetable = () => {
   };
 
   useEffect(() => {
+    const fetchTimetable = async () => {
+      try {
+        const response = await axios.get(`/api/timetable/${id}`);
+        setTimetable(response.data);
+      } catch (error) {
+        setError(error.response.data.message);
+      }
+    };
+
+    fetchTimetable();
+  }, [id]);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
       setCurrentDay(now.getDay());
@@ -34,34 +53,42 @@ const Timetable = () => {
     return () => clearInterval(interval);
   }, []);
 
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!timetable) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className={styles.timetable}>
       <div className={styles.container}>
-        <h1 className={styles.heading}>Y4.S1.WE.FOC.SE.1.1</h1>
+        <h1 className={styles.heading}>{timetable.data.name}</h1>
         <div className={styles.info}>
           <p>
-            <strong>Group:</strong> 1
+            <strong>Group:</strong> {timetable.data.group}
           </p>
           <p>
-            <strong>Sub Group:</strong> 1
+            <strong>Sub Group:</strong> {timetable.data.subGroup}
           </p>
           <p>
-            <strong>Year:</strong> 4
+            <strong>Year:</strong> {timetable.data.year}
           </p>
           <p>
-            <strong>Semester:</strong> 1
+            <strong>Semester:</strong> {timetable.data.semester}
           </p>
           <p>
-            <strong>Batch:</strong> WE
+            <strong>Batch:</strong> {timetable.data.batch}
           </p>
           <p>
-            <strong>Faculty:</strong> FOC
+            <strong>Faculty:</strong> {timetable.data.faculty}
           </p>
           <p>
-            <strong>Specialization:</strong> SE
+            <strong>Specialization:</strong> {timetable.data.specialization}
           </p>
           <p>
-            <strong>Status:</strong> Approved
+            <strong>Status:</strong> {timetable.data.status}
           </p>
         </div>
         <div>
