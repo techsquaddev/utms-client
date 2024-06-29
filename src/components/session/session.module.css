@@ -1,0 +1,33 @@
+/* Session.module.css */
+.sessionContainer {
+  margin: 10px 0;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.currentSession {
+  background-color: yellow;
+}
+
+.heading {
+  text-align: center;
+  font-size: 1.5em;
+  margin-bottom: 15px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.info p {
+  margin: 5px 0;
+}
+
+@media (max-width: 600px) {
+  .info p {
+    font-size: 0.9em;
+  }
+}

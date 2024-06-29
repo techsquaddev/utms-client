@@ -11,3 +11,32 @@
   font-family: "Poppins", sans-serif;
   scroll-behavior: smooth;
 }
+
+:root {
+  /* colors */
+
+  /* background colors */
+  --primary-color: #333333;
+  --secondary-color: #555555;
+  --background-color: #fdfbfb;
+  --accent-color: #ff4d00;
+
+  /* text colors */
+  --primary-text-color: #222222;
+  --secondary-text-color: #ffffff;
+  --light-text-color: #555555;
+  --link-color: #4366a5;
+
+  --hover-opacity: rgba(231, 231, 231, 0.5);
+
+  /* border colors */
+  --border-color: #ababab;
+
+  /* typo */
+  --font-family: "Poppins", sans-serif;
+
+  /* spacing */
+  --desktop-container-width: 800px;
+  --mobile-container-width: 90%;
+  --letter-spacing: 1.5px;
+}

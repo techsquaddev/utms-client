@@ -1,0 +1,11 @@
+.home {
+  width: 100%;
+}
+
+.home_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: var(--desktop-container-width);
+  margin: 0 auto;
+}
