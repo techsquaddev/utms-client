@@ -20,28 +20,6 @@ const AddTimetableStepper = () => {
     sessions: [],
   });
 
-  const steps = [
-    {
-      title: "Add Timetable Details",
-      component: (
-        <AddTimetableDetails
-          timetable={timetable}
-          setTimetable={setTimetable}
-        />
-      ),
-    },
-    {
-      title: "Manage Sessions",
-      component: (
-        <ManageSessions timetable={timetable} setTimetable={setTimetable} />
-      ),
-    },
-    {
-      title: "Review and Submit",
-      component: <ReviewAndSubmit timetable={timetable} />,
-    },
-  ];
-
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
@@ -53,6 +31,34 @@ const AddTimetableStepper = () => {
       setCurrentStep(currentStep - 1);
     }
   };
+
+  const steps = [
+    {
+      title: "Add Timetable Details",
+      component: (
+        <AddTimetableDetails
+          timetable={timetable}
+          setTimetable={setTimetable}
+          nextStep={nextStep}
+        />
+      ),
+    },
+    {
+      title: "Manage Sessions",
+      component: (
+        <ManageSessions
+          timetable={timetable}
+          setTimetable={setTimetable}
+          nextStep={nextStep}
+          prevStep={prevStep}
+        />
+      ),
+    },
+    {
+      title: "Review and Submit",
+      component: <ReviewAndSubmit timetable={timetable} prevStep={prevStep} />,
+    },
+  ];
 
   return (
     <div className={styles.stepper}>
