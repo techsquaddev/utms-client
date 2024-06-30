@@ -1,150 +1,111 @@
 import React, { useState } from "react";
 import styles from "./addTimetable.module.css";
+import { faculties, specializations } from "../../data";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { TimetableName } from "../../components";
 
 const AddTimetable = () => {
+  const [selectedFaculty, setSelectedFaculty] = useState("FOC");
   const [timetable, setTimetable] = useState({
-    group: "",
-    subGroup: "",
-    year: "",
-    semester: "",
-    batch: "",
-    faculty: "",
+    year: "Y1",
+    semester: "S1",
+    batch: "WE",
+    faculty: "FOC",
     specialization: "IT",
-    status: "Pending",
-    sessions: [],
+    group: 1,
+    subGroup: 1,
   });
 
-  const [session, setSession] = useState({
-    day: "",
-    time: { from: "", to: "" },
-    moduleName: "",
-    moduleCode: "",
-    sessionType: "",
-    coordinator: "",
-    location: "",
-    deliveryType: "",
-  });
-
-  const [editIndex, setEditIndex] = useState(-1);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setTimetable({ ...timetable, [name]: value });
-  };
-
-  const handleSessionChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "from" || name === "to") {
-      setSession({ ...session, time: { ...session.time, [name]: value } });
-    } else {
-      setSession({ ...session, [name]: value });
-    }
-  };
-
-  const addOrUpdateSession = () => {
-    if (editIndex === -1) {
-      setTimetable({
-        ...timetable,
-        sessions: [...timetable.sessions, session],
-      });
-    } else {
-      const updatedSessions = timetable.sessions.map((sess, index) =>
-        index === editIndex ? session : sess
-      );
-      setTimetable({ ...timetable, sessions: updatedSessions });
-      setEditIndex(-1);
-    }
-
-    setSession({
-      day: "",
-      time: { from: "", to: "" },
-      moduleName: "",
-      moduleCode: "",
-      sessionType: "",
-      coordinator: "",
-      location: "",
-      deliveryType: "",
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setTimetable({
+      ...timetable,
+      [name]: value,
     });
+
+    if (name === "faculty") {
+      setSelectedFaculty(value);
+    }
   };
 
-  const editSession = (index) => {
-    setSession(timetable.sessions[index]);
-    setEditIndex(index);
-  };
-
-  const deleteSession = (index) => {
-    const updatedSessions = timetable.sessions.filter((_, i) => i !== index);
-    setTimetable({ ...timetable, sessions: updatedSessions });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Timetable:", timetable);
-    // Add logic to send timetable data to the server
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post("/api/timetable", timetable);
+      toast.success("Timetable created successfully! 🥳");
+      // Clear form or handle response appropriately
+      setTimetable({
+        year: "Y1",
+        semester: "S1",
+        batch: "WE",
+        faculty: "FOC",
+        specialization: "IT",
+        group: 1,
+        subGroup: 1,
+      });
+      setSelectedFaculty("FOC");
+    } catch (err) {
+      toast.error("Something went wrong! 🤨");
+    }
   };
 
   return (
     <div className={styles.formContainer}>
-      <h1 className={styles.heading}>Add New Timetable</h1>
+      <TimetableName timetable={timetable} />
       <form onSubmit={handleSubmit}>
         <div className={styles.field}>
-          <label>Group:</label>
-          <input
-            type="text"
-            name="group"
-            value={timetable.group}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className={styles.field}>
-          <label>Sub Group:</label>
-          <input
-            type="text"
-            name="subGroup"
-            value={timetable.subGroup}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className={styles.field}>
           <label>Year:</label>
-          <input
-            type="text"
+          <select
             name="year"
             value={timetable.year}
             onChange={handleChange}
-          />
+            required
+          >
+            <option value="Y1">Y1</option>
+            <option value="Y2">Y2</option>
+            <option value="Y3">Y3</option>
+            <option value="Y4">Y4</option>
+          </select>
         </div>
         <div className={styles.field}>
           <label>Semester:</label>
-          <input
-            type="text"
+          <select
             name="semester"
             value={timetable.semester}
             onChange={handleChange}
             required
-          />
+          >
+            <option value="S1">S1</option>
+            <option value="S2">S2</option>
+          </select>
         </div>
         <div className={styles.field}>
           <label>Batch:</label>
-          <input
-            type="text"
+          <select
             name="batch"
             value={timetable.batch}
             onChange={handleChange}
             required
-          />
+          >
+            <option value="WE">WE</option>
+            <option value="WD">WD</option>
+          </select>
         </div>
         <div className={styles.field}>
           <label>Faculty:</label>
-          <input
-            type="text"
+          <select
             name="faculty"
             value={timetable.faculty}
             onChange={handleChange}
             required
-          />
+          >
+            {faculties.map((faculty) => (
+              <option key={faculty} value={faculty}>
+                {faculty}
+              </option>
+            ))}
+          </select>
         </div>
         <div className={styles.field}>
           <label>Specialization:</label>
@@ -154,153 +115,44 @@ const AddTimetable = () => {
             onChange={handleChange}
             required
           >
-            <option value="IT">IT</option>
-            <option value="SE">SE</option>
-            <option value="IS">IS</option>
-            <option value="CS">CS</option>
-            <option value="DS">DS</option>
-            <option value="CSNE">CSNE</option>
+            {specializations[selectedFaculty] ? (
+              specializations[selectedFaculty].map((specialization) => (
+                <option key={specialization} value={specialization}>
+                  {specialization}
+                </option>
+              ))
+            ) : (
+              <option value="" disabled>
+                No specializations available
+              </option>
+            )}
           </select>
         </div>
         <div className={styles.field}>
-          <label>Status:</label>
-          <select
-            name="status"
-            value={timetable.status}
+          <label>Group:</label>
+          <input
+            type="number"
+            name="group"
+            value={timetable.group}
             onChange={handleChange}
             required
-          >
-            <option value="Pending">Pending</option>
-            <option value="Updated">Updated</option>
-            <option value="Approved">Approved</option>
-          </select>
-        </div>
-
-        <h2 className={styles.heading}>Add/Edit Session</h2>
-        <div className={styles.field}>
-          <label>Day:</label>
-          <input
-            type="text"
-            name="day"
-            value={session.day}
-            onChange={handleSessionChange}
-            required
           />
         </div>
         <div className={styles.field}>
-          <label>Time From:</label>
+          <label>Sub Group:</label>
           <input
-            type="time"
-            name="from"
-            value={session.time.from}
-            onChange={handleSessionChange}
+            type="number"
+            name="subGroup"
+            value={timetable.subGroup}
+            onChange={handleChange}
             required
           />
         </div>
-        <div className={styles.field}>
-          <label>Time To:</label>
-          <input
-            type="time"
-            name="to"
-            value={session.time.to}
-            onChange={handleSessionChange}
-            required
-          />
-        </div>
-        <div className={styles.field}>
-          <label>Module Name:</label>
-          <input
-            type="text"
-            name="moduleName"
-            value={session.moduleName}
-            onChange={handleSessionChange}
-            required
-          />
-        </div>
-        <div className={styles.field}>
-          <label>Module Code:</label>
-          <input
-            type="text"
-            name="moduleCode"
-            value={session.moduleCode}
-            onChange={handleSessionChange}
-            required
-          />
-        </div>
-        <div className={styles.field}>
-          <label>Session Type:</label>
-          <input
-            type="text"
-            name="sessionType"
-            value={session.sessionType}
-            onChange={handleSessionChange}
-            required
-          />
-        </div>
-        <div className={styles.field}>
-          <label>Coordinator:</label>
-          <input
-            type="text"
-            name="coordinator"
-            value={session.coordinator}
-            onChange={handleSessionChange}
-            required
-          />
-        </div>
-        <div className={styles.field}>
-          <label>Location:</label>
-          <input
-            type="text"
-            name="location"
-            value={session.location}
-            onChange={handleSessionChange}
-            required
-          />
-        </div>
-        <div className={styles.field}>
-          <label>Delivery Type:</label>
-          <input
-            type="text"
-            name="deliveryType"
-            value={session.deliveryType}
-            onChange={handleSessionChange}
-            required
-          />
-        </div>
-        <button
-          type="button"
-          onClick={addOrUpdateSession}
-          className={styles.addButton}
-        >
-          {editIndex === -1 ? "Add Session" : "Update Session"}
-        </button>
 
         <button type="submit" className={styles.submitButton}>
-          Submit Timetable
+          Add Timetable
         </button>
       </form>
-
-      <h2 className={styles.heading}>Sessions</h2>
-      <ul className={styles.sessionList}>
-        {timetable.sessions.map((sess, index) => (
-          <li key={index} className={styles.sessionItem}>
-            {sess.day} {sess.time.from}-{sess.time.to} {sess.moduleName} (
-            {sess.moduleCode}) - {sess.coordinator}
-            <button
-              onClick={() => editSession(index)}
-              className={styles.editButton}
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => deleteSession(index)}
-              className={styles.deleteButton}
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };

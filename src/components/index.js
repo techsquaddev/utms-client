@@ -6,7 +6,7 @@ import ManageSessions from "./manageSessions/ManageSessions.jsx";
 import ReviewAndSubmit from "./reviewAndSubmit/ReviewAndSubmit.jsx";
 import Clock from "./clock/Clock.jsx";
 import FindTimetable from "./findTimetable/FindTimetable.jsx";
-import AddTimetable from "./addTimetable/AddTimetable.jsx";
+import TimetableName from "./timetableName/TimetableName.jsx";
 
 export {
   Navbar,
@@ -17,5 +17,5 @@ export {
   ReviewAndSubmit,
   Clock,
   FindTimetable,
-  AddTimetable,
+  TimetableName,
 };
