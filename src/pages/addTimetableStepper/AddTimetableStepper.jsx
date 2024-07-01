@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import styles from "./addTimetableStepper.module.css";
-import {
-  AddTimetableDetails,
-  ManageSessions,
-  ReviewAndSubmit,
-} from "../../components";
+import { ManageSessions } from "../../components";
 
 const AddTimetableStepper = () => {
   const [currentStep, setCurrentStep] = useState(0);

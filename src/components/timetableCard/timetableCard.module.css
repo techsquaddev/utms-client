@@ -1,0 +1,23 @@
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 16px;
+  max-width: 400px;
+}
+
+.title {
+  font-size: 1.5em;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.details p {
+  margin: 4px 0;
+}
+
+.details strong {
+  color: #555;
+}
