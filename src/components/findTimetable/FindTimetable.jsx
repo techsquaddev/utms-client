@@ -1,26 +1,34 @@
 import React, { useState } from "react";
 import styles from "./findTimetable.module.css";
 import axios from "axios";
+import { faculties, specializations } from "../../data";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const FindTimetable = () => {
+  const [selectedFaculty, setSelectedFaculty] = useState("FOC");
   const [formData, setFormData] = useState({
-    group: "",
+    year: "Y1",
+    semester: "S1",
+    batch: "WE",
+    faculty: "FOC",
+    specialization: "IT",
+    group: 1,
     subGroup: "",
-    year: "",
-    semester: "",
-    batch: "",
-    faculty: "",
-    specialization: "",
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (event) => {
+    const { name, value } = event.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+
+    if (name === "faculty") {
+      setSelectedFaculty(value);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -30,76 +38,85 @@ const FindTimetable = () => {
         "/api/timetable/find-timetable",
         formData
       );
-      if (response.data.success) {
+      if (response.data) {
+        toast.success("Timetable Found! 🥳");
+
+        setFormData({
+          year: "Y1",
+          semester: "S1",
+          batch: "WE",
+          faculty: "FOC",
+          specialization: "IT",
+          group: 1,
+          subGroup: "",
+        });
+        setSelectedFaculty("FOC");
+
         // Redirect to the timetable page
-        navigate(`/timetable/${response.data.data._id}`);
+        navigate(`/timetables/${response.data._id}`);
+      } else {
+        toast.info("Couldn't find the timetable! 🤷");
       }
     } catch (error) {
       setError(error.response.data.message);
-      console.error("Error finding timetable:", error.response.data);
+      toast.error("Error finding timetable 😕");
     }
   };
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit}>
         <div className={styles.field}>
-          <label>Group:</label>
-          <input
-            type="text"
-            name="group"
-            value={formData.group}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className={styles.field}>
-          <label>Sub Group:</label>
-          <input
-            type="text"
-            name="subGroup"
-            value={formData.subGroup}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className={styles.field}>
           <label>Year:</label>
-          <input
-            type="text"
+          <select
+            name="year"
             value={formData.year}
             onChange={handleChange}
-            name="year"
-          />
+            required
+          >
+            <option value="Y1">Y1</option>
+            <option value="Y2">Y2</option>
+            <option value="Y3">Y3</option>
+            <option value="Y4">Y4</option>
+          </select>
         </div>
         <div className={styles.field}>
           <label>Semester:</label>
-          <input
-            type="text"
+          <select
+            name="semester"
             value={formData.semester}
             onChange={handleChange}
-            name="semester"
             required
-          />
+          >
+            <option value="S1">S1</option>
+            <option value="S2">S2</option>
+          </select>
         </div>
         <div className={styles.field}>
           <label>Batch:</label>
-          <input
-            type="text"
+          <select
+            name="batch"
             value={formData.batch}
             onChange={handleChange}
-            name="batch"
             required
-          />
+          >
+            <option value="WE">WE</option>
+            <option value="WD">WD</option>
+          </select>
         </div>
         <div className={styles.field}>
           <label>Faculty:</label>
-          <input
-            type="text"
+          <select
+            name="faculty"
             value={formData.faculty}
             onChange={handleChange}
-            name="faculty"
             required
-          />
+          >
+            {faculties.map((faculty) => (
+              <option key={faculty} value={faculty}>
+                {faculty}
+              </option>
+            ))}
+          </select>
         </div>
         <div className={styles.field}>
           <label>Specialization:</label>
@@ -109,15 +126,42 @@ const FindTimetable = () => {
             onChange={handleChange}
             required
           >
-            <option value="IT">IT</option>
-            <option value="SE">SE</option>
-            <option value="IS">IS</option>
-            <option value="CS">CS</option>
-            <option value="DS">DS</option>
-            <option value="CSNE">CSNE</option>
+            {specializations[selectedFaculty] ? (
+              specializations[selectedFaculty].map((specialization) => (
+                <option key={specialization} value={specialization}>
+                  {specialization}
+                </option>
+              ))
+            ) : (
+              <option value="" disabled>
+                No specializations available
+              </option>
+            )}
           </select>
         </div>
-        <button type="submit">Find Timetable</button>
+        <div className={styles.field}>
+          <label>Group:</label>
+          <input
+            type="number"
+            name="group"
+            value={formData.group}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className={styles.field}>
+          <label>Sub Group:</label>
+          <input
+            type="number"
+            name="subGroup"
+            value={formData.subGroup}
+            onChange={handleChange}
+          />
+        </div>
+
+        <button type="submit" className={styles.submitButton}>
+          Find Timetable
+        </button>
       </form>
     </div>
   );

@@ -13,13 +13,13 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/timetable/:id" element={<Timetable />} />
-          <Route path="/addtimetable" element={<AddTimetable />} />
+          <Route path="/timetables/:timetableId" element={<Timetable />} />
+          <Route path="/timetables/add" element={<AddTimetable />} />
           <Route
-            path="/updatetimetable/:timetableId"
+            path="/timetables/update/:timetableId"
             element={<UpdateTimetable />}
           />
-          <Route path="/find" element={<FindTimetable />} />
+          <Route path="timetables/find" element={<FindTimetable />} />
         </Routes>
       </Router>
     </div>

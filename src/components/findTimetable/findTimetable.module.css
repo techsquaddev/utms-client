@@ -1,8 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
-  max-width: var(--desktop-container-width);
-  margin: 0 auto;
+  max-width: 500px;
+  margin: 50px auto 50px auto;
 }
 
 .field {
@@ -21,4 +21,10 @@
   box-sizing: border-box;
   border: 1px solid #ddd;
   border-radius: 4px;
+}
+
+.submitButton {
+  padding: 10px 24px;
+  background-color: antiquewhite;
+  border-radius: 5px;
 }

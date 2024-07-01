@@ -9,11 +9,9 @@ import axios from "axios";
 
 const Timetable = () => {
   const [currentDay, setCurrentDay] = useState(new Date().getDay());
-  const { id } = useParams();
+  const { timetableId } = useParams();
   const [timetable, setTimetable] = useState(null);
   const [error, setError] = useState(null);
-
-  console.log(timetable);
 
   const days = [
     "Sunday",
@@ -35,7 +33,7 @@ const Timetable = () => {
   useEffect(() => {
     const fetchTimetable = async () => {
       try {
-        const response = await axios.get(`/api/timetable/${id}`);
+        const response = await axios.get(`/api/timetable/${timetableId}`);
         setTimetable(response.data);
       } catch (error) {
         setError(error.response.data.message);
@@ -43,7 +41,7 @@ const Timetable = () => {
     };
 
     fetchTimetable();
-  }, [id]);
+  }, [timetableId]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -64,31 +62,33 @@ const Timetable = () => {
   return (
     <div className={styles.timetable}>
       <div className={styles.container}>
-        <h1 className={styles.heading}>{timetable.data.name}</h1>
+        <h1 className={styles.heading}>{timetable.name}</h1>
         <div className={styles.info}>
           <p>
-            <strong>Group:</strong> {timetable.data.group}
+            <strong>Group:</strong> {timetable.group}
+          </p>
+          {timetable.subGroup && (
+            <p>
+              <strong>Sub Group:</strong> {timetable.subGroup}
+            </p>
+          )}
+          <p>
+            <strong>Year:</strong> {timetable.year}
           </p>
           <p>
-            <strong>Sub Group:</strong> {timetable.data.subGroup}
+            <strong>Semester:</strong> {timetable.semester}
           </p>
           <p>
-            <strong>Year:</strong> {timetable.data.year}
+            <strong>Batch:</strong> {timetable.batch}
           </p>
           <p>
-            <strong>Semester:</strong> {timetable.data.semester}
+            <strong>Faculty:</strong> {timetable.faculty}
           </p>
           <p>
-            <strong>Batch:</strong> {timetable.data.batch}
+            <strong>Specialization:</strong> {timetable.specialization}
           </p>
           <p>
-            <strong>Faculty:</strong> {timetable.data.faculty}
-          </p>
-          <p>
-            <strong>Specialization:</strong> {timetable.data.specialization}
-          </p>
-          <p>
-            <strong>Status:</strong> {timetable.data.status}
+            <strong>Status:</strong> {timetable.status}
           </p>
         </div>
         <div>

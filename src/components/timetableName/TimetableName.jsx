@@ -9,8 +9,12 @@ const TimetableName = ({ timetable }) => {
       <span className={styles.box}>{timetable.batch}</span>.
       <span className={styles.box}>{timetable.faculty}</span>.
       <span className={styles.box}>{timetable.specialization}</span>.
-      <span className={styles.box}>{timetable.group}</span>.
-      <span className={styles.box}>{timetable.subGroup}</span>
+      <span className={styles.box}>{timetable.group}</span>
+      {timetable.subGroup && (
+        <>
+          .<span className={styles.box}>{timetable.subGroup}</span>
+        </>
+      )}
     </div>
   );
 };

@@ -14,7 +14,7 @@ const AddTimetable = () => {
     faculty: "FOC",
     specialization: "IT",
     group: 1,
-    subGroup: 1,
+    subGroup: "",
   });
 
   const handleChange = (event) => {
@@ -34,7 +34,7 @@ const AddTimetable = () => {
     try {
       const response = await axios.post("/api/timetable", timetable);
       toast.success("Timetable created successfully! 🥳");
-      // Clear form or handle response appropriately
+      // Set form data after submit the timetable
       setTimetable({
         year: "Y1",
         semester: "S1",
@@ -42,7 +42,7 @@ const AddTimetable = () => {
         faculty: "FOC",
         specialization: "IT",
         group: 1,
-        subGroup: 1,
+        subGroup: "",
       });
       setSelectedFaculty("FOC");
     } catch (err) {
@@ -145,7 +145,6 @@ const AddTimetable = () => {
             name="subGroup"
             value={timetable.subGroup}
             onChange={handleChange}
-            required
           />
         </div>
 

@@ -18,12 +18,14 @@ const UpdateTimetable = () => {
     group: "",
     subGroup: "",
   });
+  const [initialTimetable, setInitialTimetable] = useState(null);
 
   useEffect(() => {
     const fetchTimetable = async () => {
       try {
         const response = await axios.get(`/api/timetable/${timetableId}`);
         setTimetable(response.data);
+        setInitialTimetable(response.data);
         setSelectedFaculty(response.data.faculty);
       } catch (err) {
         toast.error("Failed to fetch timetable data! 😟");
@@ -47,6 +49,11 @@ const UpdateTimetable = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (JSON.stringify(timetable) === JSON.stringify(initialTimetable)) {
+      toast.warn("No changes made to update the timetable.");
+      return;
+    }
+
     try {
       const response = await axios.put(
         `/api/timetable/${timetableId}`,
