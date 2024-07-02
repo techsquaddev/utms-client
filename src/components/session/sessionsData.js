@@ -1,17 +1,7 @@
 export const sessionsData = [
   {
     day: "Monday",
-    time: { from: "09:00", to: "10:30" },
-    moduleName: "Software Engineering",
-    moduleCode: "SE101",
-    sessionType: "Lecture",
-    coordinator: "Dr. Smith",
-    location: "Room 101",
-    deliveryType: "In-person",
-  },
-  {
-    day: "Monday",
-    time: { from: "11:00", to: "12:30" },
+    time: { startTime: "11:00 AM", endTime: "12:30 PM" },
     moduleName: "Data Structures",
     moduleCode: "CS102",
     sessionType: "Lecture",
@@ -20,8 +10,18 @@ export const sessionsData = [
     deliveryType: "In-person",
   },
   {
+    day: "Monday",
+    time: { startTime: "09:00 AM", endTime: "10:30 AM" },
+    moduleName: "Software Engineering",
+    moduleCode: "SE101",
+    sessionType: "Lecture",
+    coordinator: "Dr. Smith",
+    location: "Room 101",
+    deliveryType: "In-person",
+  },
+  {
     day: "Tuesday",
-    time: { from: "10:00", to: "11:30" },
+    time: { startTime: "10:00", endTime: "11:30" },
     moduleName: "Algorithms",
     moduleCode: "CS103",
     sessionType: "Lecture",
@@ -31,7 +31,7 @@ export const sessionsData = [
   },
   {
     day: "Wednesday",
-    time: { from: "14:00", to: "15:30" },
+    time: { startTime: "14:00", endTime: "15:30" },
     moduleName: "Operating Systems",
     moduleCode: "CS104",
     sessionType: "Lecture",
@@ -41,7 +41,7 @@ export const sessionsData = [
   },
   {
     day: "Thursday",
-    time: { from: "13:00", to: "14:30" },
+    time: { startTime: "13:00", endTime: "14:30" },
     moduleName: "Databases",
     moduleCode: "CS105",
     sessionType: "Lecture",
@@ -51,7 +51,7 @@ export const sessionsData = [
   },
   {
     day: "Friday",
-    time: { from: "08:00", to: "09:30" },
+    time: { startTime: "08:00", endTime: "09:30" },
     moduleName: "Networks",
     moduleCode: "CS106",
     sessionType: "Lecture",
@@ -61,7 +61,7 @@ export const sessionsData = [
   },
   {
     day: "Saturday",
-    time: { from: "10:00", to: "11:30" },
+    time: { startTime: "10:00", endTime: "11:30" },
     moduleName: "Software Testing",
     moduleCode: "CS107",
     sessionType: "Lab",
@@ -71,7 +71,7 @@ export const sessionsData = [
   },
   {
     day: "Sunday",
-    time: { from: "15:00", to: "16:30" },
+    time: { startTime: "15:00", endTime: "16:30" },
     moduleName: "Machine Learning",
     moduleCode: "CS108",
     sessionType: "Lecture",

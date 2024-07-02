@@ -4,8 +4,8 @@ import styles from "./session.module.css";
 const Session = ({ session, currentDay }) => {
   const now = new Date();
   const sessionTime = new Date();
-  sessionTime.setHours(session.time.from.split(":")[0]);
-  sessionTime.setMinutes(session.time.from.split(":")[1]);
+  sessionTime.setHours(session.time.startTime.split(":")[0]);
+  sessionTime.setMinutes(session.time.startTime.split(":")[1]);
 
   const isCurrentSession =
     currentDay &&
@@ -23,7 +23,8 @@ const Session = ({ session, currentDay }) => {
           <strong>Day:</strong> {session.day}
         </p>
         <p>
-          <strong>Time:</strong> {session.time.from} - {session.time.to}
+          <strong>Time:</strong> {session.time.startTime} -{" "}
+          {session.time.endTime}
         </p>
         <p>
           <strong>Module Name:</strong> {session.moduleName}

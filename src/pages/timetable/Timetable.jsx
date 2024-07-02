@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./timetable.module.css";
-import { Session, Clock } from "../../components";
+import { Clock, TimetableCard, SessionsContainer } from "../../components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { sessionsData } from "../../components/session/sessionsData";
@@ -8,27 +8,9 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const Timetable = () => {
-  const [currentDay, setCurrentDay] = useState(new Date().getDay());
   const { timetableId } = useParams();
   const [timetable, setTimetable] = useState(null);
   const [error, setError] = useState(null);
-
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-
-  const handleDayChange = (direction) => {
-    setCurrentDay((prevDay) => {
-      const newDay = (prevDay + direction + 7) % 7;
-      return newDay;
-    });
-  };
 
   useEffect(() => {
     const fetchTimetable = async () => {
@@ -91,36 +73,12 @@ const Timetable = () => {
             <strong>Status:</strong> {timetable.status}
           </p>
         </div>
+
         <div>
           <Clock />
         </div>
-        <div className={styles.navigation}>
-          <button onClick={() => handleDayChange(-1)}>Previous</button>
-          <button onClick={() => handleDayChange(1)}>Next</button>
-        </div>
-        <div className={styles.dayTabs}>
-          {days.map((day, index) => (
-            <button
-              key={index}
-              className={currentDay === index ? styles.activeTab : ""}
-              onClick={() => setCurrentDay(index)}
-            >
-              {day}
-            </button>
-          ))}
-        </div>
 
-        <div className={styles.sessions}>
-          {sessionsData
-            .filter((session) => session.day === days[currentDay])
-            .map((session, idx) => (
-              <Session
-                key={idx}
-                session={session}
-                currentDay={currentDay === new Date().getDay()}
-              />
-            ))}
-        </div>
+        <SessionsContainer sessions={sessionsData} />
       </div>
     </div>
   );

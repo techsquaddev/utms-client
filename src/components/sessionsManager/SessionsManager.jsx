@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import styles from "./manageSessions.module.css";
-import { TimetableCard, SessionCard, SessionsManager } from "../../components";
+import styles from "./sessionsManager.module.css";
+import SessionCard from "../sessionCard/sessionCard";
 
-const ManageSessions = () => {
-  const { timetableId } = useParams();
-  const [timetable, setTimetable] = useState(null);
+const SessionsManager = ({ timetableId }) => {
   const [sessions, setSessions] = useState([]);
   const [formState, setFormState] = useState({
     day: "",
@@ -24,19 +21,16 @@ const ManageSessions = () => {
   const [currentSessionId, setCurrentSessionId] = useState(null);
 
   useEffect(() => {
-    const fetchTimetableAndSessions = async () => {
+    const fetchSessions = async () => {
       try {
-        const timetableResponse = await axios.get(
-          `/api/timetable/${timetableId}`
-        );
-        setTimetable(timetableResponse.data);
         const sessionsResponse = await axios.get(`/api/session/${timetableId}`);
         setSessions(sessionsResponse.data);
+        console.log(sessionsResponse.data);
       } catch (error) {
-        console.error("Error fetching timetable and sessions:", error);
+        console.error("Error fetching sessions:", error);
       }
     };
-    fetchTimetableAndSessions();
+    fetchSessions();
   }, [timetableId]);
 
   const handleChange = (e) => {
@@ -131,7 +125,6 @@ const ManageSessions = () => {
 
   return (
     <div className={styles.container}>
-      {timetable && <TimetableCard timetable={timetable} />}
       <form className={styles.form} onSubmit={handleSubmit}>
         <h2>{isUpdate ? "Update Session" : "Add Session"}</h2>
         <label>
@@ -257,10 +250,8 @@ const ManageSessions = () => {
           />
         ))}
       </div>
-
-      {/* <SessionsManager timetableId={timetableId} /> */}
     </div>
   );
 };
 
-export default ManageSessions;
+export default SessionsManager;

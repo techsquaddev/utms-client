@@ -1,10 +1,12 @@
 import React from "react";
 import styles from "./timetableCard.module.css";
+import Clock from "../clock/Clock";
 
 const TimetableCard = ({ timetable }) => {
   return (
     <div className={styles.card}>
       <h2 className={styles.title}>{timetable.name}</h2>
+      <Clock />
       <div className={styles.details}>
         <p>
           <strong>Year:</strong> {timetable.year}
