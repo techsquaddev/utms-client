@@ -1,14 +1,14 @@
 .container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 30px;
+  margin-top: 30px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  margin: 20px 0;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -55,4 +55,54 @@
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
+}
+
+/* from sessions container */
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.navigation button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.navigation button:hover {
+  background-color: #0056b3;
+}
+
+.dayTabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.dayTabs button {
+  background-color: #e9ecef;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dayTabs .activeTab {
+  background-color: #007bff;
+  color: white;
+}
+
+.dayTabs button:hover {
+  background-color: #d6d8db;
+}
+
+.sessions {
+  margin-top: 20px;
 }
