@@ -35,7 +35,9 @@ const SessionsManager = ({ timetableId }) => {
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        const sessionsResponse = await axios.get(`/api/session`);
+        const sessionsResponse = await axios.get(
+          `/api/session/getall/${timetableId}`
+        );
         setSessions(sessionsResponse.data);
         console.log(sessionsResponse.data);
       } catch (error) {
