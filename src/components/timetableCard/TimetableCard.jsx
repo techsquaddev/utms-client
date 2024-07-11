@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./timetableCard.module.css";
 import Clock from "../clock/Clock";
+import { Link } from "react-router-dom";
 
-const TimetableCard = ({ timetable }) => {
+const TimetableCard = ({ timetable, onUpdate, onDelete }) => {
   return (
     <div className={styles.card}>
       <h2 className={styles.title}>{timetable.name}</h2>
@@ -34,6 +35,20 @@ const TimetableCard = ({ timetable }) => {
         <p>
           <strong>Status:</strong> {timetable.status}
         </p>
+      </div>
+      <div className={styles.buttons}>
+        <button
+          onClick={() => onUpdate(session)}
+          className={styles.updateButton}
+        >
+          Update
+        </button>
+        <button
+          onClick={() => onDelete(session)}
+          className={styles.deleteButton}
+        >
+          Delete
+        </button>
       </div>
     </div>
   );
