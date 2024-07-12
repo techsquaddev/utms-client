@@ -7,6 +7,7 @@ import {
   AddTimetable,
   UpdateTimetable,
   ManageSessions,
+  Dashboard,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -19,6 +20,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
           <Route path="/timetables/add" element={<AddTimetable />} />
           <Route
