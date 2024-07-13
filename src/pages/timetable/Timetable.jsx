@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
-import styles from "./timetable.module.css";
-import { Clock, TimetableCard, SessionsContainer } from "../../components";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { sessionsData } from "../../components/session/sessionsData";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import styles from './timetable.module.css';
+import { Clock, TimetableCard, SessionsContainer } from '../../components';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { sessionsData } from '../../components/session/sessionsData';
+import { useParams } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const Timetable = () => {
   const { timetableId } = useParams();
@@ -17,6 +18,10 @@ const Timetable = () => {
       try {
         const response = await axios.get(`/api/timetable/${timetableId}`);
         setTimetable(response.data);
+        localStorage.setItem('Time_Table', JSON.stringify(response.data));
+        Cookies.set('Name', response.data.name, {
+          expires: new Date().getUTCFullYear() + 1,
+        });
       } catch (error) {
         setError(error.response.data.message);
       }
@@ -40,6 +45,13 @@ const Timetable = () => {
   if (!timetable) {
     return <div>Loading...</div>;
   }
+  // const saveToLocalStorage = () => {
+  //   if (localStorage.getItem('Time_Table')) {
+  //     return localStorage.getItem('Time_Table');
+  //   } else {
+  //     localStorage.setItem('Time_Table', JSON.stringify(timetable));
+  //   }
+  // };
 
   return (
     <div className={styles.timetable}>
@@ -77,6 +89,11 @@ const Timetable = () => {
         <div>
           <Clock />
         </div>
+        {/* local storage save button */}
+        {/* <div className={styles.navigation}>
+          <button onClick={() => saveToLocalStorage()}>Save Timetable</button>
+        </div> */}
+        {/* end */}
 
         <SessionsContainer sessions={sessionsData} />
       </div>
