@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './timetable.module.css';
-import { Clock, TimetableCard, SessionsContainer } from '../../components';
+import { Clock, SessionsContainer } from '../../components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { sessionsData } from '../../components/session/sessionsData';
-import { useParams } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const Timetable = () => {
   const { timetableId } = useParams();
   const [timetable, setTimetable] = useState(null);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTimetable = async () => {
@@ -19,9 +20,13 @@ const Timetable = () => {
         const response = await axios.get(`/api/timetable/${timetableId}`);
         setTimetable(response.data);
         localStorage.setItem('Time_Table', JSON.stringify(response.data));
-        Cookies.set('Name', response.data.name, {
-          expires: new Date().getUTCFullYear() + 1,
-        });
+        const getCookies = Cookies.get('Time_Table_ID');
+        if (!getCookies) {
+          navigate('/timetables/add');
+        }
+        // const setCookies = Cookies.set('Name', response.data.name, {
+        //   expires: new Date().getUTCFullYear() + 1,
+        // });
       } catch (error) {
         setError(error.response.data.message);
       }

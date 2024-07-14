@@ -1,15 +1,15 @@
-import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Navbar, FindTimetable } from "./components";
+import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Navbar, FindTimetable } from './components';
 import {
   Home,
-  Timetable,
   AddTimetable,
   UpdateTimetable,
   ManageSessions,
-} from "./pages";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+  Timetable,
+} from './pages';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (

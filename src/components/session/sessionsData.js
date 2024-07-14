@@ -30,6 +30,16 @@ export const sessionsData = [
     deliveryType: 'In-person',
   },
   {
+    day: 'Monday',
+    time: { startTime: '11:00:00', endTime: '01:00:00' },
+    moduleName: 'Software',
+    moduleCode: 'SE103',
+    sessionType: 'Lecture',
+    coordinator: 'Dr. Smith',
+    location: 'Room 101',
+    deliveryType: 'In-person',
+  },
+  {
     day: 'Tuesday',
     time: { startTime: '10:00', endTime: '11:30' },
     moduleName: 'Algorithms',
