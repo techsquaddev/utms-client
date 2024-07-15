@@ -1,23 +1,23 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
-import styles from './sessionsContainer.module.css';
-import Session from '../session/Session';
-import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import styles from "./sessionsContainer.module.css";
+import Session from "../session/Session";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const SessionsContainer = ({ sessions }) => {
   const [currentDay, setCurrentDay] = useState(new Date().getDay());
   const navigate = useNavigate();
 
   const days = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
   ];
 
   const handleDayChange = (direction) => {
@@ -28,12 +28,11 @@ const SessionsContainer = ({ sessions }) => {
   };
 
   const backPage = async () => {
-    const getCookies = Cookies.get('Time_Table_ID');
-    if (getCookies) {
-      Cookies.remove('Time_Table_ID');
-      navigate('/timetables/find');
-      window.location.reload();
+    const timetableId = localStorage.getItem("timetableId");
+    if (timetableId) {
+      localStorage.removeItem("timetableId");
     }
+    navigate("/timetables/find");
   };
 
   return (
@@ -50,7 +49,7 @@ const SessionsContainer = ({ sessions }) => {
         {days.map((day, index) => (
           <button
             key={index}
-            className={currentDay === index ? styles.activeTab : ''}
+            className={currentDay === index ? styles.activeTab : ""}
             onClick={() => setCurrentDay(index)}
           >
             {day}
