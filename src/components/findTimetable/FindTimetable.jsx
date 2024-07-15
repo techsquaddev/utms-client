@@ -1,20 +1,21 @@
-import React, { useState } from "react";
-import styles from "./findTimetable.module.css";
-import axios from "axios";
-import { faculties, specializations } from "../../data";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import React, { useState } from 'react';
+import styles from './findTimetable.module.css';
+import axios from 'axios';
+import { faculties, specializations } from '../../data';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 const FindTimetable = () => {
-  const [selectedFaculty, setSelectedFaculty] = useState("FOC");
+  const [selectedFaculty, setSelectedFaculty] = useState('FOC');
   const [formData, setFormData] = useState({
-    year: "Y1",
-    semester: "S1",
-    batch: "WE",
-    faculty: "FOC",
-    specialization: "IT",
+    year: 'Y1',
+    semester: 'S1',
+    batch: 'WE',
+    faculty: 'FOC',
+    specialization: 'IT',
     group: 1,
-    subGroup: "",
+    subGroup: '',
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const FindTimetable = () => {
       [name]: value,
     });
 
-    if (name === "faculty") {
+    if (name === 'faculty') {
       setSelectedFaculty(value);
     }
   };
@@ -35,22 +36,26 @@ const FindTimetable = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "/api/timetable/find-timetable",
+        '/api/timetable/find-timetable',
         formData
       );
       if (response.data) {
-        toast.success("Timetable Found! 🥳");
+        toast.success('Timetable Found! 🥳');
 
         setFormData({
-          year: "Y1",
-          semester: "S1",
-          batch: "WE",
-          faculty: "FOC",
-          specialization: "IT",
+          year: 'Y1',
+          semester: 'S1',
+          batch: 'WE',
+          faculty: 'FOC',
+          specialization: 'IT',
           group: 1,
-          subGroup: "",
+          subGroup: '',
         });
-        setSelectedFaculty("FOC");
+        setSelectedFaculty('FOC');
+
+        Cookies.set('Time_Table_ID', response.data._id, {
+          expires: new Date().getUTCFullYear() + 1,
+        });
 
         // Redirect to the timetable page
         navigate(`/timetables/${response.data._id}`);
@@ -59,9 +64,10 @@ const FindTimetable = () => {
       }
     } catch (error) {
       setError(error.response.data.message);
-      toast.error("Error finding timetable 😕");
+      toast.error('Error finding timetable 😕');
     }
   };
+
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit}>
@@ -159,9 +165,14 @@ const FindTimetable = () => {
           />
         </div>
 
-        <button type="submit" className={styles.submitButton}>
-          Find Timetable
-        </button>
+        <div className={styles.btns}>
+          <button className={styles.navigation} onClick={() => navigate('/')}>
+            Back
+          </button>
+          <button type="submit" className={styles.submitButton}>
+            Find Timetable
+          </button>
+        </div>
       </form>
     </div>
   );

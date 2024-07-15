@@ -28,3 +28,15 @@
   background-color: antiquewhite;
   border-radius: 5px;
 }
+
+.btns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navigation {
+  padding: 10px 24px;
+  background-color: #007bff;
+  border-radius: 5px;
+  /* justify-content: flex-end; */
+}

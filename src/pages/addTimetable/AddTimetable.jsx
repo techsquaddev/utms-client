@@ -48,15 +48,15 @@ const AddTimetable = () => {
         subGroup: '',
       });
       setSelectedFaculty('FOC');
-      if (response.data) {
-        console.log('response' + response.data);
-        const res = await axios.get(`/api/timetable/${response.data._id}`);
-        console.log('id:' + res.data._id);
-        navigate(`/timetables/${res.data._id}`);
-        Cookies.set('Time_Table_ID', res.data._id, {
-          expires: new Date().getUTCFullYear() + 1,
-        });
-      }
+      // if (response.data) {
+      //   console.log('response' + response.data);
+      //   const res = await axios.get(`/api/timetable/${response.data._id}`);
+      //   console.log('id:' + res.data._id);
+      //   navigate(`/timetables/${res.data._id}`);
+      //   Cookies.set('Time_Table_ID', res.data._id, {
+      //     expires: new Date().getUTCFullYear() + 1,
+      //   });
+      // }
     } catch (err) {
       toast.error('Something went wrong! 🤨');
     }

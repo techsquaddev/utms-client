@@ -22,7 +22,7 @@ const Timetable = () => {
         localStorage.setItem('Time_Table', JSON.stringify(response.data));
         const getCookies = Cookies.get('Time_Table_ID');
         if (!getCookies) {
-          navigate('/timetables/add');
+          navigate('/timetables/find');
         }
         // const setCookies = Cookies.set('Name', response.data.name, {
         //   expires: new Date().getUTCFullYear() + 1,
