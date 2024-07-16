@@ -4,15 +4,17 @@ import styles from "./dashboard.module.css";
 import ManageNotices from "@/components/manageNotices/ManageNotices";
 import ManageTimetables from "@/components/manageTimetables/ManageTimetables";
 import ManageUsers from "@/components/manageUsers/ManageUsers";
+import ManageSessions from "@/components/manageSessions/ManageSessions";
 
 const Dashboard = () => {
+  const [activeTab, setActiveTab] = useState();
+
   const sideNavigation = {
     notices: <ManageNotices />,
-    timetables: <ManageTimetables />,
+    timetables: <ManageTimetables setActiveTab={setActiveTab} />,
     users: <ManageUsers />,
+    sessions: <ManageSessions />,
   };
-
-  const [activeTab, setActiveTab] = useState();
 
   return (
     <div className={styles.body}>
