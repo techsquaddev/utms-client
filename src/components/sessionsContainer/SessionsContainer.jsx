@@ -1,9 +1,14 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import styles from "./sessionsContainer.module.css";
 import Session from "../session/Session";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const SessionsContainer = ({ sessions }) => {
   const [currentDay, setCurrentDay] = useState(new Date().getDay());
+  const navigate = useNavigate();
 
   const days = [
     "Sunday",
@@ -22,12 +27,24 @@ const SessionsContainer = ({ sessions }) => {
     });
   };
 
+  const backPage = async () => {
+    const timetableId = localStorage.getItem("timetableId");
+    if (timetableId) {
+      localStorage.removeItem("timetableId");
+    }
+    navigate("/timetables/find");
+  };
+
   return (
     <div>
       <div className={styles.navigation}>
         <button onClick={() => handleDayChange(-1)}>Previous</button>
         <button onClick={() => handleDayChange(1)}>Next</button>
       </div>
+      <div className={styles.navigation}>
+        <button onClick={() => backPage()}>Back</button>
+      </div>
+
       <div className={styles.dayTabs}>
         {days.map((day, index) => (
           <button
@@ -43,11 +60,7 @@ const SessionsContainer = ({ sessions }) => {
       <div className={styles.sessions}>
         {sessions
           .filter((session) => session.day === days[currentDay])
-          .sort(
-            (a, b) =>
-              new Date(a.time.startTime).getTime() -
-              new Date(b.time.startTime).getTime()
-          )
+          .sort((a, b) => a.time.startTime.localeCompare(b.time.startTime))
           .map((session, idx) => (
             <Session
               key={idx}

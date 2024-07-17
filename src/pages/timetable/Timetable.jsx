@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./timetable.module.css";
-import { Clock, TimetableCard, SessionsContainer } from "../../components";
+import { Clock, SessionsContainer } from "../../components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { sessionsData } from "../../components/session/sessionsData";
@@ -77,6 +77,11 @@ const Timetable = () => {
         <div>
           <Clock />
         </div>
+        {/* local storage save button */}
+        {/* <div className={styles.navigation}>
+          <button onClick={() => saveToLocalStorage()}>Save Timetable</button>
+        </div> */}
+        {/* end */}
 
         <SessionsContainer sessions={sessionsData} />
       </div>

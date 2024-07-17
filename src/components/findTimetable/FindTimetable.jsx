@@ -52,6 +52,9 @@ const FindTimetable = () => {
         });
         setSelectedFaculty("FOC");
 
+        // Save timetable to the local storage
+        localStorage.setItem("timetableId", response.data._id);
+
         // Redirect to the timetable page
         navigate(`/timetables/${response.data._id}`);
       } else {
@@ -62,6 +65,7 @@ const FindTimetable = () => {
       toast.error("Error finding timetable 😕");
     }
   };
+
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit}>
@@ -159,9 +163,14 @@ const FindTimetable = () => {
           />
         </div>
 
-        <button type="submit" className={styles.submitButton}>
-          Find Timetable
-        </button>
+        <div className={styles.btns}>
+          <button className={styles.navigation} onClick={() => navigate("/")}>
+            Back
+          </button>
+          <button type="submit" className={styles.submitButton}>
+            Find Timetable
+          </button>
+        </div>
       </form>
     </div>
   );
