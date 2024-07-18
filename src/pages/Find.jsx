@@ -9,7 +9,7 @@ const Find = () => {
     <div>
       <Wrapper>
         <button
-          className="mb-5 bg-soft-gray p-2 shadow-lg rounded-lg hover:bg-soft-gray transition-colors duration-300"
+          className="mb-5 bg-white border border-border p-2 shadow-lg rounded-lg hover:bg-soft-gray transition-colors duration-300"
           onClick={() => navigate("/")}
         >
           <ArrowBackIosNewIcon className="text-soft-text" />

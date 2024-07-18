@@ -18,11 +18,15 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <Link to="/">
             <div className="p-3 bg-primary rounded-xl shadow-lg">
-              <img className="w-16 md:w-20" src={Logo} alt="logo" />
+              <img
+                className="w-16 object-contain md:w-20"
+                src={Logo}
+                alt="logo"
+              />
             </div>
           </Link>
           <button
-            className="text-text bg-soft-gray p-2 rounded-lg shadow-lg focus:outline-none"
+            className="text-text bg-white border border-border p-2 rounded-lg shadow-lg hover:bg-soft-gray transition-colors duration-300"
             onClick={toggleMenu}
           >
             <MenuIcon />

@@ -21,9 +21,11 @@ import { useEffect } from "react";
 
 const App = () => {
   return (
-    <Router>
-      <Main />
-    </Router>
+    <div className="app">
+      <Router>
+        <Main />
+      </Router>
+    </div>
   );
 };
 
@@ -38,7 +40,7 @@ const Main = () => {
   }, [navigate]);
 
   return (
-    <div className="app">
+    <div className="main">
       <ToastContainer />
       <Navbar />
       <Routes>
@@ -57,6 +59,7 @@ const Main = () => {
         />
       </Routes>
       <Footer />
+      <div className="gradient" />
     </div>
   );
 };

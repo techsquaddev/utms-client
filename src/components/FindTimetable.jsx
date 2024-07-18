@@ -69,7 +69,7 @@ const FindTimetable = () => {
   return (
     <div>
       <TimetableName timetable={formData} />
-      <div className="flex flex-col p-5 bg-white rounded-lg shadow-xl">
+      <div className="flex flex-col p-5 bg-white rounded-xl shadow-xl border border-border">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <select
