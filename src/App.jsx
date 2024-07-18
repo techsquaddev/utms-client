@@ -5,7 +5,7 @@ import {
   Route,
   useNavigate,
 } from "react-router-dom";
-import { Navbar, FindTimetable } from "./components";
+import { Footer, Navbar } from "./components";
 import {
   Home,
   AddTimetable,
@@ -13,6 +13,7 @@ import {
   ManageSessions,
   Dashboard,
   Timetable,
+  Find,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -49,12 +50,13 @@ const Main = () => {
           path="/timetables/update/:timetableId"
           element={<UpdateTimetable />}
         />
-        <Route path="timetables/find" element={<FindTimetable />} />
+        <Route path="timetables/find" element={<Find />} />
         <Route
           path="timetables/sessions/:timetableId"
           element={<ManageSessions />}
         />
       </Routes>
+      <Footer />
     </div>
   );
 };

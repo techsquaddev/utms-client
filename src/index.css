@@ -36,7 +36,7 @@
   --font-family: "Poppins", sans-serif;
 
   /* spacing */
-  --desktop-container-width: 800px;
+  --desktop-container-width: 33.333333%;
   --mobile-container-width: 90%;
   --letter-spacing: 1.5px;
 }
