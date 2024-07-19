@@ -15,8 +15,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const AddSession = () => {
-  const { timetableId } = useParams();
+const AddSession = (props) => {
+  // const { timetableId } = useParams();
   const [timetable, setTimetable] = useState(null);
   const [sessions, setSessions] = useState([]);
   const [formState, setFormState] = useState({
@@ -31,15 +31,14 @@ const AddSession = () => {
     deliveryType: "",
     sessionLink: "",
   });
+
   const [isUpdate, setIsUpdate] = useState(false);
   const [currentSessionId, setCurrentSessionId] = useState(null);
 
   useEffect(() => {
     const fetchTimetableAndSessions = async () => {
       try {
-        const timetableResponse = await axios.get(
-          `/api/timetable/${timetableId}`
-        );
+        const timetableResponse = await axios.get(`/api/timetable/${props.id}`);
         setTimetable(timetableResponse.data);
         const sessionsResponse = await axios.get(`/api/session`);
         setSessions(sessionsResponse.data);
@@ -48,7 +47,7 @@ const AddSession = () => {
       }
     };
     fetchTimetableAndSessions();
-  }, [timetableId]);
+  }, [props.id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,7 +80,7 @@ const AddSession = () => {
           )
         );
       } else {
-        const newSession = await axios.post(`/api/session/${timetableId}`, {
+        const newSession = await axios.post(`/api/session/${props.id}`, {
           ...formState,
           time: {
             startTime: formatTime(formState.startTime),
@@ -156,7 +155,7 @@ const AddSession = () => {
               <div className={styles.container}>
                 {timetable && <TimetableCard timetable={timetable} />}
 
-                <SessionsManager timetableId={timetableId} />
+                <SessionsManager timetableId={props.id} />
               </div>
             </DialogDescription>
           </DialogHeader>

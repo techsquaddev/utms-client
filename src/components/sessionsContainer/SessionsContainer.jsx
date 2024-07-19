@@ -6,7 +6,7 @@ import Session from "../session/Session";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
-const SessionsContainer = ({ sessions }) => {
+const SessionsContainer = ({ sessions, props }) => {
   const [currentDay, setCurrentDay] = useState(new Date().getDay());
   const navigate = useNavigate();
 
@@ -35,14 +35,13 @@ const SessionsContainer = ({ sessions }) => {
     navigate("/timetables/find");
   };
 
+  console.log(sessions);
+
   return (
     <div>
       <div className={styles.navigation}>
         <button onClick={() => handleDayChange(-1)}>Previous</button>
         <button onClick={() => handleDayChange(1)}>Next</button>
-      </div>
-      <div className={styles.navigation}>
-        <button onClick={() => backPage()}>Back</button>
       </div>
 
       <div className={styles.dayTabs}>

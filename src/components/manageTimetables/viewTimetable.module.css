@@ -1,0 +1,90 @@
+.timetable {
+  margin: 30px 0;
+}
+
+.container {
+  max-width: var(--desktop-container-width);
+  margin: 0 auto;
+  padding: 20px;
+  /* border: 1px solid var(--border-color); */
+  border-radius: 8px;
+}
+
+.heading {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.info p {
+  width: 45%;
+  margin: 10px 0;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.navigation button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-top: 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.navigation button:hover {
+  background-color: #0056b3;
+}
+
+.dayTabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.dayTabs button {
+  background-color: #e9ecef;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dayTabs .activeTab {
+  background-color: #007bff;
+  color: white;
+}
+
+.dayTabs button:hover {
+  background-color: #d6d8db;
+}
+
+.sessions {
+  margin-top: 20px;
+}
+
+.session {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .info p {
+    width: 100%;
+  }
+}
