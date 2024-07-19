@@ -4,6 +4,13 @@ import { faculties, specializations } from "../data";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { TimetableName } from ".";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const FindTimetable = () => {
   const [selectedFaculty, setSelectedFaculty] = useState("FOC");
@@ -72,21 +79,22 @@ const FindTimetable = () => {
       <div className="flex flex-col p-5 bg-white rounded-xl shadow-xl border border-border">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <select
+            <Select
               name="year"
               value={formData.year}
               onChange={handleChange}
               required
-              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4 "
             >
-              <option value="" disabled selected hidden>
-                Study year?
-              </option>
-              <option value="Y1">Y1</option>
-              <option value="Y2">Y2</option>
-              <option value="Y3">Y3</option>
-              <option value="Y4">Y4</option>
-            </select>
+              <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4 ">
+                <SelectValue placeholder="Study year?" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Y1">Y1</SelectItem>
+                <SelectItem value="Y2">Y2</SelectItem>
+                <SelectItem value="Y3">Y3</SelectItem>
+                <SelectItem value="Y4">Y4</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="mb-4">
             <select

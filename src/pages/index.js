@@ -1,5 +1,5 @@
 import Home from "./Home";
-import Timetable from "./timetable/Timetable";
+import Timetable from "./Timetable";
 import AddTimetable from "./addTimetable/AddTimetable";
 import UpdateTimetable from "./updateTimetable/UpdateTimetable";
 import ManageSessions from "./manageSessions/ManageSessions";
