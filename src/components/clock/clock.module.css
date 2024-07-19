@@ -2,12 +2,10 @@
   font-size: 18px;
   font-weight: bold;
   text-align: center;
-  margin-top: 20px;
   color: #007bff;
   background-color: #f1f1f1;
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   width: fit-content;
-  margin: 20px auto 0 auto;
 }

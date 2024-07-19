@@ -1,7 +1,11 @@
-import styles from "./miniTimetableCard.module.css";
+import { Clock } from "..";
 
 const MiniTimetableCard = () => {
-  return <div>MiniTimetableCard</div>;
+  return (
+    <div className="flex justify-between p-5 bg-white rounded-xl shadow-lg gap-5">
+      <Clock />
+    </div>
+  );
 };
 
 export default MiniTimetableCard;

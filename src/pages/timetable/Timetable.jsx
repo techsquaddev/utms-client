@@ -1,16 +1,26 @@
 import { useEffect, useState } from "react";
 import styles from "./timetable.module.css";
-import { Clock, SessionsContainer } from "../../components";
+import {
+  Clock,
+  SessionsContainer,
+  TimetableName,
+  Wrapper,
+} from "../../components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { sessionsData } from "../../components/session/sessionsData";
 import { useParams } from "react-router-dom";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import timetableBg from "../../assets/timetable_bg.jpg";
+import MiniTimetableCard from "@/components/miniTimetableCard/MiniTimetableCard";
 
 const Timetable = () => {
   const { timetableId } = useParams();
   const [timetable, setTimetable] = useState(null);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTimetable = async () => {
@@ -41,50 +51,27 @@ const Timetable = () => {
     return <div>Loading...</div>;
   }
 
+  const backPage = async () => {
+    const timetableId = localStorage.getItem("timetableId");
+    if (timetableId) {
+      localStorage.removeItem("timetableId");
+    }
+    navigate("/timetables/find");
+  };
+
   return (
-    <div className={styles.timetable}>
-      <div className={styles.container}>
-        <h1 className={styles.heading}>{timetable.name}</h1>
-        <div className={styles.info}>
-          <p>
-            <strong>Group:</strong> {timetable.group}
-          </p>
-          {timetable.subGroup && (
-            <p>
-              <strong>Sub Group:</strong> {timetable.subGroup}
-            </p>
-          )}
-          <p>
-            <strong>Year:</strong> {timetable.year}
-          </p>
-          <p>
-            <strong>Semester:</strong> {timetable.semester}
-          </p>
-          <p>
-            <strong>Batch:</strong> {timetable.batch}
-          </p>
-          <p>
-            <strong>Faculty:</strong> {timetable.faculty}
-          </p>
-          <p>
-            <strong>Specialization:</strong> {timetable.specialization}
-          </p>
-          <p>
-            <strong>Status:</strong> {timetable.status}
-          </p>
-        </div>
-
-        <div>
-          <Clock />
-        </div>
-        {/* local storage save button */}
-        {/* <div className={styles.navigation}>
-          <button onClick={() => saveToLocalStorage()}>Save Timetable</button>
-        </div> */}
-        {/* end */}
-
+    <div>
+      <Wrapper>
+        <button
+          onClick={() => backPage()}
+          className="mb-5 bg-soft-red border border-red-alert p-2 shadow-lg rounded-lg hover:bg-soft-gray transition-colors duration-300"
+        >
+          <ArrowBackIosNewIcon className="text-red-alert" />
+        </button>
+        <TimetableName timetable={timetable} />
+        <MiniTimetableCard />
         <SessionsContainer sessions={sessionsData} />
-      </div>
+      </Wrapper>
     </div>
   );
 };

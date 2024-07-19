@@ -20,6 +20,9 @@ module.exports = {
       "soft-text": "#444444",
       "soft-gray": "#f4f4f4",
       "soft-yellow": "#FFFFE0",
+      "soft-blue": "#F0FFFF",
+      "soft-red": "#fff1f1",
+      "red-alert": "#ff4545",
     },
     container: {
       center: true,

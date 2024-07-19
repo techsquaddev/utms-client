@@ -3,12 +3,12 @@
 import React, { useState } from "react";
 import styles from "./sessionsContainer.module.css";
 import Session from "../session/Session";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 
 const SessionsContainer = ({ sessions }) => {
   const [currentDay, setCurrentDay] = useState(new Date().getDay());
-  const navigate = useNavigate();
+
+  const shortDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const days = [
     "Sunday",
@@ -27,29 +27,35 @@ const SessionsContainer = ({ sessions }) => {
     });
   };
 
-  const backPage = async () => {
-    const timetableId = localStorage.getItem("timetableId");
-    if (timetableId) {
-      localStorage.removeItem("timetableId");
-    }
-    navigate("/timetables/find");
-  };
-
   return (
     <div>
-      <div className={styles.navigation}>
-        <button onClick={() => handleDayChange(-1)}>Previous</button>
-        <button onClick={() => handleDayChange(1)}>Next</button>
-      </div>
-      <div className={styles.navigation}>
-        <button onClick={() => backPage()}>Back</button>
+      <div className="flex items-center justify-between my-7">
+        <button
+          onClick={() => handleDayChange(-1)}
+          className="bg-soft-blue p-2 shadow-lg rounded-full border border-primary hover:bg-soft-gray transition-colors duration-300"
+        >
+          <ArrowBackIosNew className="text-primary" />
+        </button>
+        <h3 className="text-2xl text-soft-text font-bold text-center">
+          {days[currentDay]}
+        </h3>
+        <button
+          onClick={() => handleDayChange(1)}
+          className="bg-soft-blue p-2 shadow-lg rounded-full border border-primary hover:bg-soft-gray transition-colors duration-300"
+        >
+          <ArrowForwardIos className="text-primary" />
+        </button>
       </div>
 
-      <div className={styles.dayTabs}>
-        {days.map((day, index) => (
+      <div className="flex justify-center mb-5 gap-1.5">
+        {shortDays.map((day, index) => (
           <button
             key={index}
-            className={currentDay === index ? styles.activeTab : ""}
+            className={`py-1 px-2 rounded-xl text-xs ${
+              currentDay === index
+                ? "bg-primary text-white border border-primary"
+                : "bg-white text-soft-text border border-border"
+            } md:text-sm`}
             onClick={() => setCurrentDay(index)}
           >
             {day}

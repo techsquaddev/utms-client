@@ -1,6 +1,7 @@
 import React from "react";
-import object from "../../assets/object.png";
-import { Wrapper } from "../../components";
+import object from "../assets/object.png";
+import { Wrapper } from "../components";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -21,12 +22,14 @@ const Home = () => {
             <img src={object} alt="object" className="w-full object-contain" />
           </div>
           <div className="mt-7">
-            <button
-              type="submit"
-              className="px-6 py-4 w-full text-xl font-semibold bg-primary shadow-lg text-white rounded-lg hover:bg-dark-blue transition-colors duration-300"
-            >
-              Find My Timetable
-            </button>
+            <Link to="/timetables/find">
+              <button
+                type="submit"
+                className="px-6 py-4 w-full text-xl font-semibold bg-primary shadow-lg text-white rounded-lg hover:bg-dark-blue transition-colors duration-300"
+              >
+                Find My Timetable
+              </button>
+            </Link>
           </div>
         </div>
       </div>
