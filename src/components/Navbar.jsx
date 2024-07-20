@@ -4,13 +4,23 @@ import CloseIcon from "@mui/icons-material/Close";
 import Logo from "../assets/logo.png";
 import { Wrapper } from ".";
 import { Link } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenuGroup,
+  DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  const [showStatusBar, setShowStatusBar] = useState(true);
+  const [showActivityBar, setShowActivityBar] = useState(false);
+  const [showPanel, setShowPanel] = useState(false);
 
   return (
     <Wrapper>
@@ -25,25 +35,35 @@ const Navbar = () => {
               />
             </div>
           </Link>
-          <button
+          {/* <button
             className="text-text bg-white border border-border p-2 rounded-lg shadow-lg hover:bg-soft-gray transition-colors duration-300"
             onClick={toggleMenu}
           >
             <MenuIcon />
-          </button>
-        </div>
-
-        {/* Menu */}
-        {isOpen && (
-          <div className="mt-4">
-            <a href="#about" className="block text-white text-lg py-2">
-              About
-            </a>
-            <a href="#contact" className="block text-white text-lg py-2">
-              Contact
-            </a>
+          </button> */}
+          <div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="text-text bg-white border border-border p-2 rounded-lg shadow-lg hover:bg-soft-gray transition-colors duration-300">
+                  <MenuIcon />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56 mt-1">
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className="text-text mb-0.5 text-sm md:text-base font-semibold p-1 px-2 py-1.5 outline-none transition-colors rounded-sm select-none cursor-pointer hover:bg-soft-gray hover:text-text">
+                    <span>Home</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="text-text mb-0.5 text-sm md:text-base font-semibold p-1 px-2 py-1.5 outline-none transition-colors rounded-sm select-none cursor-pointer hover:bg-soft-gray hover:text-text">
+                    <span>About</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="text-text text-sm md:text-base font-semibold p-1 px-2 py-1.5 outline-none transition-colors rounded-sm select-none cursor-pointer hover:bg-soft-gray hover:text-text">
+                    <span>Contact</span>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
-        )}
+        </div>
       </nav>
     </Wrapper>
   );

@@ -277,7 +277,7 @@ const FindTimetableClone = () => {
                 type="submit"
                 className="px-6 py-3 w-full text-xl font-semibold bg-primary shadow-lg text-white rounded-md hover:bg-dark-blue transition-colors duration-300"
               >
-                Submit
+                Find My Timetable
               </button>
             </div>
           </form>
