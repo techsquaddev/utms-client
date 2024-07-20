@@ -10,6 +10,7 @@ import SessionsContainer from "./sessionsContainer/SessionsContainer.jsx";
 import SessionsManager from "./sessionsManager/SessionsManager.jsx";
 import Wrapper from "./Wrapper.jsx";
 import Footer from "./Footer.jsx";
+import FindTimetableClone from "./FindTimetableClone.jsx";
 
 export {
   Navbar,
@@ -24,4 +25,5 @@ export {
   SessionsManager,
   Wrapper,
   Footer,
+  FindTimetableClone,
 };
