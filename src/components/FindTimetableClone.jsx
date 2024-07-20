@@ -52,6 +52,7 @@ const FindTimetableClone = () => {
   const form = useForm({
     resolver: zodResolver(FormSchema),
   });
+  const selectedFaculty = form.watch("faculty");
 
   const navigate = useNavigate();
 
@@ -177,10 +178,11 @@ const FindTimetableClone = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="FOC">FOC</SelectItem>
-                        <SelectItem value="SOB">SOB</SelectItem>
-                        <SelectItem value="BLA1">BLA1</SelectItem>
-                        <SelectItem value="BLA2">BLA2</SelectItem>
+                        {faculties.map((faculty) => (
+                          <SelectItem key={faculty} value={faculty}>
+                            {faculty}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -205,10 +207,23 @@ const FindTimetableClone = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="IT">IT</SelectItem>
-                        <SelectItem value="SE">SE</SelectItem>
-                        <SelectItem value="DS">DS</SelectItem>
-                        <SelectItem value="BLA">BLA</SelectItem>
+                        {specializations[selectedFaculty] &&
+                        specializations[selectedFaculty].length > 0 ? (
+                          specializations[selectedFaculty].map(
+                            (specialization) => (
+                              <SelectItem
+                                key={specialization}
+                                value={specialization}
+                              >
+                                {specialization}
+                              </SelectItem>
+                            )
+                          )
+                        ) : (
+                          <div className="p-3 text-center text-soft-text border text-sm border-border md:text-base md:p-4">
+                            No specializations available
+                          </div>
+                        )}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -227,6 +242,26 @@ const FindTimetableClone = () => {
                       <Input
                         type="number"
                         placeholder="Group? (1,2,3...)"
+                        {...field}
+                        className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="mb-4">
+              <FormField
+                control={form.control}
+                name="subGroup"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Sub group? (1,2,3...)"
                         {...field}
                         className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4"
                       />
