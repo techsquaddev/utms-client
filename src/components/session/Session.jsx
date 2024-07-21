@@ -2,6 +2,13 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import styles from "./session.module.css";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { AccessTime, CorporateFare } from "@mui/icons-material";
 
 const Session = ({ session, currentDay }) => {
   const now = new Date();
@@ -16,38 +23,46 @@ const Session = ({ session, currentDay }) => {
 
   return (
     <div
-      className={`${styles.sessionContainer} ${
-        isCurrentSession ? styles.currentSession : ""
+      className={`${`bg-white border border-border rounded-lg p-5 my-2.5`} ${
+        isCurrentSession ? "bg-secondary" : ""
       }`}
     >
-      <div className={styles.info}>
-        <p>
-          <strong>Day:</strong> {session.day}
-        </p>
-        <p>
-          <strong>Time:</strong>{" "}
-          {new Date(session.time.startTime).toLocaleTimeString()} -{" "}
-          {new Date(session.time.endTime).toLocaleTimeString()}
-        </p>
-        <p>
-          <strong>Module Name:</strong> {session.moduleName}
-        </p>
-        <p>
-          <strong>Module Code:</strong> {session.moduleCode}
-        </p>
-        <p>
-          <strong>Session Type:</strong> {session.sessionType}
-        </p>
-        <p>
-          <strong>Coordinator:</strong> {session.coordinator}
-        </p>
-        <p>
-          <strong>Location:</strong> {session.location}
-        </p>
-        <p>
-          <strong>Delivery Type:</strong> {session.deliveryType}
-        </p>
-      </div>
+      <Accordion type="single" collapsible>
+        <AccordionItem value="item-1">
+          <AccordionTrigger>
+            <div className="">
+              <h2 className="text-xl text-text font-bold mb-2 md:text-2xl">
+                {session.moduleName}
+              </h2>
+              <div className="flex flex-col gap-2 md:flex-row">
+                <div className="flex items-center justify-start gap-1 py-1 px-2 rounded-md bg-primary text-white w-fit">
+                  <AccessTime
+                    fontSize="string"
+                    className="text-lg md:text-xl"
+                  />
+                  <p className="text-sm font-medium md:text-base">
+                    {new Date(session.time.startTime).toLocaleTimeString()} -{" "}
+                    {new Date(session.time.endTime).toLocaleTimeString()}
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-start gap-1 py-1 px-2 rounded-md bg-secondary text-white w-fit">
+                  <CorporateFare
+                    fontSize="string"
+                    className="text-lg md:text-xl"
+                  />
+                  <p className="text-sm font-medium md:text-base">
+                    {session.location}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent>
+            Yes. It adheres to the WAI-ARIA design pattern.
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </div>
   );
 };
