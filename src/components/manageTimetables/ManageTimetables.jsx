@@ -59,7 +59,7 @@ const ManageTimetables = ({ setActiveTab }) => {
         <AddTimetable />
       </div>
       {/* List */}
-      <div className={`${styles.tbList} overflow-y-auto`}>
+      <div className={`${styles.tbList} overflow-y-auto scrollbar`}>
         {timetables.map((timetable) => (
           <div className={styles.listItem} key={timetable.name}>
             <ViewTimetable name={timetable.name} id={timetable._id} />
