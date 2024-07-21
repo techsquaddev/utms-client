@@ -6,7 +6,7 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
-import { Footer, Navbar } from "./components";
+import { MainLayout } from "./components";
 import {
   Home,
   AddTimetable,
@@ -48,24 +48,24 @@ const Main = () => {
   return (
     <div className="main">
       <ToastContainer />
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/admin/dashboard" element={<Dashboard />} />
-        <Route path="/timetables/:timetableId" element={<Timetable />} />
-        <Route path="/timetables/add" element={<AddTimetable />} />
-        <Route
-          path="/timetables/update/:timetableId"
-          element={<UpdateTimetable />}
-        />
-        <Route path="timetables/find" element={<Find />} />
-        <Route path="/about" element={<About />} />
-        <Route
-          path="timetables/sessions/:timetableId"
-          element={<ManageSessions />}
-        />
-      </Routes>
-      <Footer />
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/timetables/:timetableId" element={<Timetable />} />
+          <Route path="/timetables/add" element={<AddTimetable />} />
+          <Route
+            path="/timetables/update/:timetableId"
+            element={<UpdateTimetable />}
+          />
+          <Route path="timetables/find" element={<Find />} />
+          <Route path="/about" element={<About />} />
+          <Route
+            path="timetables/sessions/:timetableId"
+            element={<ManageSessions />}
+          />
+        </Routes>
+      </MainLayout>
       <div className="gradient" />
     </div>
   );
