@@ -43,6 +43,7 @@ const Main = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
+        {/* <Route path="/admin/dashboard/timetables/:timetableId" element={}/> */}
         <Route path="/timetables/:timetableId" element={<Timetable />} />
         <Route path="/timetables/add" element={<AddTimetable />} />
         <Route

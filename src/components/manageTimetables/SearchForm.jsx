@@ -81,7 +81,7 @@ const SearchForm = () => {
             Find your Timetable
           </Button>
         </DialogTrigger>
-        <DialogContent className="h-[90vh] max-w-content overflow-y-scroll">
+        <DialogContent className="h-[90vh] max-w-content overflow-y-scroll no-scrollbar">
           <DialogHeader>
             <DialogTitle>Look for your relevant timetable</DialogTitle>
             <DialogDescription>

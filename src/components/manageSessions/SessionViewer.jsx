@@ -1,22 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import AddSessionForm from "./AddSessionForm";
-
-import styles from "./addSession.module.css";
+import SessionCard from "./SessionCard";
+import styles from "./sessionViewer.module.css";
 
 import { Button } from "../ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
-const AddSession = (props) => {
-  // const { timetableId } = useParams();
-  const [timetable, setTimetable] = useState(null);
+const SessionViewer = (props) => {
   const [sessions, setSessions] = useState([]);
   const [formState, setFormState] = useState({
     day: "",
@@ -30,22 +19,34 @@ const AddSession = (props) => {
     deliveryType: "",
     sessionLink: "",
   });
-
   const [isUpdate, setIsUpdate] = useState(false);
   const [currentSessionId, setCurrentSessionId] = useState(null);
 
+  // From sessions container
+  const [currentDay, setCurrentDay] = useState(new Date().getDay());
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
   useEffect(() => {
-    const fetchTimetableAndSessions = async () => {
+    const fetchSessions = async () => {
       try {
-        const timetableResponse = await axios.get(`/api/timetable/${props.id}`);
-        setTimetable(timetableResponse.data);
-        const sessionsResponse = await axios.get(`/api/session`);
+        const sessionsResponse = await axios.get(
+          `/api/session/getall/${props.id}`
+        );
         setSessions(sessionsResponse.data);
+        console.log(sessionsResponse.data);
       } catch (error) {
-        console.error("Error fetching timetable and sessions:", error);
+        console.error("Error fetching sessions:", error);
       }
     };
-    fetchTimetableAndSessions();
+    fetchSessions();
   }, [props.id]);
 
   const handleChange = (e) => {
@@ -138,28 +139,69 @@ const AddSession = (props) => {
     }
   };
 
+  // From sessions container
+  const handleDayChange = (direction) => {
+    setCurrentDay((prevDay) => {
+      const newDay = (prevDay + direction + 7) % 7;
+      return newDay;
+    });
+  };
+
   return (
-    <div>
-      <Dialog>
-        <DialogTrigger>
-          <Button className="bg-[#333333] rounded-3xl">
-            Create New Session
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="h-[90vh] max-w-max overflow-y-scroll no-scrollbar">
-          <DialogHeader>
-            <DialogTitle>Add New Session</DialogTitle>
-            <DialogDescription>
-              Fill in the following details to add a new Session.
-              <div>
-                <AddSessionForm timetableId={props.id} />
-              </div>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+    <div className="mt-5">
+      {" "}
+      <div className="">
+        {/* from sessions container */}
+        <div>
+          <div className="justify-between flex">
+            <Button
+              className="rounded-full w-24 bg-[#333333]"
+              onClick={() => handleDayChange(-1)}
+            >
+              Previous
+            </Button>
+            <Button
+              className="rounded-full w-24 bg-[#333333]"
+              onClick={() => handleDayChange(1)}
+            >
+              Next
+            </Button>
+          </div>
+          <div className="mt-5 bg-[#333333] justify-between flex">
+            {days.map((day, index) => (
+              <Button
+                key={index}
+                className={`w-full bg-[#333333] rounded-none  hover:bg-[#6da7e6] ${
+                  currentDay === index ? " bg-[#007bff]" : ""
+                }`}
+                onClick={() => setCurrentDay(index)}
+              >
+                {day}
+              </Button>
+            ))}
+          </div>
+
+          <div className={styles.sessions}>
+            {sessions
+              .filter((session) => session.day === days[currentDay])
+              .sort(
+                (a, b) =>
+                  new Date(a.time.startTime).getTime() -
+                  new Date(b.time.startTime).getTime()
+              )
+              .map((session) => (
+                <SessionCard
+                  key={session._id}
+                  session={session}
+                  onUpdate={() => handleUpdate(session)}
+                  onDelete={() => handleDelete(session)}
+                />
+              ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default AddSession;
+export default SessionViewer;

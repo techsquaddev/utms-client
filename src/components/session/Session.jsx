@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React from 'react';
-import styles from './session.module.css';
+import React from "react";
+import styles from "./session.module.css";
 
 const Session = ({ session, currentDay }) => {
   const now = new Date();
   const sessionTime = new Date();
-  sessionTime.setHours(session.time.startTime.split(':')[0]);
-  sessionTime.setMinutes(session.time.startTime.split(':')[1]);
+  sessionTime.setHours(session.time.startTime.split(":")[0]);
+  sessionTime.setMinutes(session.time.startTime.split(":")[1]);
 
   const isCurrentSession =
     currentDay &&
@@ -16,8 +16,8 @@ const Session = ({ session, currentDay }) => {
 
   return (
     <div
-      className={`${styles.sessionContainer} ${
-        isCurrentSession ? styles.currentSession : ''
+      className={`shadow-md bg-white ${styles.sessionContainer} ${
+        isCurrentSession ? styles.currentSession : ""
       }`}
     >
       <div className={styles.info}>
@@ -25,8 +25,9 @@ const Session = ({ session, currentDay }) => {
           <strong>Day:</strong> {session.day}
         </p>
         <p>
-          <strong>Time:</strong> {session.time.startTime} -{' '}
-          {session.time.endTime}
+          <strong>Time:</strong>{" "}
+          {new Date(session.time.startTime).toLocaleTimeString()} -{" "}
+          {new Date(session.time.endTime).toLocaleTimeString()}
         </p>
         <p>
           <strong>Module Name:</strong> {session.moduleName}

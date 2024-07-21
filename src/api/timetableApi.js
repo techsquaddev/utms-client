@@ -28,5 +28,5 @@ export const updateTimeTable = async (id, timetable) => {
 };
 
 export const deleteTimeTable = async (id) => {
-  await axios.delete(`${API_URL}/${id}`);
+  await axios.delete(`/api/timetable/${id}`);
 };
