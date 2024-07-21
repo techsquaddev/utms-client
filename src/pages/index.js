@@ -5,6 +5,7 @@ import UpdateTimetable from "./updateTimetable/UpdateTimetable";
 import ManageSessions from "./manageSessions/ManageSessions";
 import Dashboard from "./dashboard/Dashboard";
 import Find from "./Find";
+import About from "./About";
 
 export {
   Home,
@@ -14,4 +15,5 @@ export {
   UpdateTimetable,
   ManageSessions,
   Dashboard,
+  About,
 };

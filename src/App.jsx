@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   useNavigate,
+  useLocation,
 } from "react-router-dom";
 import { Footer, Navbar } from "./components";
 import {
@@ -14,6 +15,7 @@ import {
   Dashboard,
   Timetable,
   Find,
+  About,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -31,13 +33,17 @@ const App = () => {
 
 const Main = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const timetableId = localStorage.getItem("timetableId");
-    if (timetableId) {
+    const whitelist = ["/about", "/contact"];
+    const currentPath = location.pathname;
+
+    if (timetableId && !whitelist.includes(currentPath)) {
       navigate(`/timetables/${timetableId}`);
     }
-  }, [navigate]);
+  }, [location, navigate]);
 
   return (
     <div className="main">
@@ -53,6 +59,7 @@ const Main = () => {
           element={<UpdateTimetable />}
         />
         <Route path="timetables/find" element={<Find />} />
+        <Route path="/about" element={<About />} />
         <Route
           path="timetables/sessions/:timetableId"
           element={<ManageSessions />}
