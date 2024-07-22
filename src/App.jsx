@@ -16,6 +16,7 @@ import {
   Timetable,
   Find,
   About,
+  AdminLogin,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -50,8 +51,9 @@ const Main = () => {
       <ToastContainer />
       <MainLayout>
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/" element={<Home />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
           <Route path="/timetables/add" element={<AddTimetable />} />
           <Route

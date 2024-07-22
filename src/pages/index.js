@@ -6,6 +6,7 @@ import ManageSessions from "./manageSessions/ManageSessions";
 import Dashboard from "./dashboard/Dashboard";
 import Find from "./Find";
 import About from "./About";
+import AdminLogin from "./AdminLogin";
 
 export {
   Home,
@@ -16,4 +17,5 @@ export {
   ManageSessions,
   Dashboard,
   About,
+  AdminLogin,
 };
