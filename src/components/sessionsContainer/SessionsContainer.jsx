@@ -5,7 +5,7 @@ import styles from "./sessionsContainer.module.css";
 import Session from "../session/Session";
 import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 
-const SessionsContainer = ({ sessions }) => {
+const SessionsContainer = ({ sessions, props }) => {
   const [currentDay, setCurrentDay] = useState(new Date().getDay());
 
   const shortDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];

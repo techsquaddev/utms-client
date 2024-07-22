@@ -70,7 +70,7 @@ const AddTimetable = () => {
             Add New Timetable
           </Button>
         </DialogTrigger>
-        <DialogContent className="h-[90vh] max-w-content overflow-y-scroll">
+        <DialogContent className="h-[90vh] max-w-content overflow-y-scroll no-scrollbar">
           <DialogHeader>
             <DialogTitle>Add New Timetable</DialogTitle>
             <DialogDescription>

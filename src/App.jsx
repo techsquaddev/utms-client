@@ -52,6 +52,7 @@ const Main = () => {
       <MainLayout>
         <Routes>
           <Route path="/admin/dashboard" element={<Dashboard />} />
+          {/* <Route path="/admin/dashboard/timetables/:timetableId" element={}/> */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/" element={<Home />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
