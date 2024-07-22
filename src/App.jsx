@@ -37,14 +37,17 @@ const Main = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const timetableId = localStorage.getItem("timetableId");
+    const storedTimetable = localStorage.getItem("timetable");
     const whitelist = ["/about", "/contact"];
     const currentPath = location.pathname;
 
-    if (timetableId && !whitelist.includes(currentPath)) {
-      navigate(`/timetables/${timetableId}`);
+    if (storedTimetable && !whitelist.includes(currentPath)) {
+      const timetable = JSON.parse(storedTimetable);
+      if (timetable && timetable._id) {
+        navigate(`/timetables/${timetable._id}`, { replace: true });
+      }
     }
-  }, [location, navigate]);
+  }, [location.pathname, navigate]);
 
   return (
     <div className="main">

@@ -63,7 +63,8 @@ const FindTimetableClone = () => {
         toast.success("Timetable Found! 🥳");
 
         // Save timetable to the local storage
-        localStorage.setItem("timetableId", response.data._id);
+        //localStorage.setItem("timetableId", response.data._id);
+        localStorage.setItem("timetable", JSON.stringify(response.data));
 
         // Redirect to the timetable page
         navigate(`/timetables/${response.data._id}`);

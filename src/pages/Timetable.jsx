@@ -36,6 +36,16 @@ const Timetable = () => {
   useEffect(() => {
     const fetchTimetable = async () => {
       try {
+        const localStorageTimetable = localStorage.getItem("timetable");
+        if (localStorageTimetable) {
+          const details = JSON.parse(localStorageTimetable);
+          if (details._id === timetableId) {
+            setTimetable(details);
+            return;
+          }
+        }
+
+        // Fetch from the database if not found in local storage
         const response = await axios.get(`/api/timetable/${timetableId}`);
         setTimetable(response.data);
       } catch (error) {
@@ -63,9 +73,9 @@ const Timetable = () => {
   }
 
   const backPage = async () => {
-    const timetableId = localStorage.getItem("timetableId");
-    if (timetableId) {
-      localStorage.removeItem("timetableId");
+    const timetable = localStorage.getItem("timetable");
+    if (timetable) {
+      localStorage.removeItem("timetable");
     }
     navigate("/timetables/find");
   };
