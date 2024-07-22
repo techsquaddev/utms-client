@@ -3,16 +3,18 @@ import styles from "./timetableName.module.css";
 
 const TimetableName = ({ timetable }) => {
   return (
-    <div className={styles.timetableName}>
-      <span className={styles.box}>{timetable.year}</span>.
-      <span className={styles.box}>{timetable.semester}</span>.
-      <span className={styles.box}>{timetable.batch}</span>.
-      <span className={styles.box}>{timetable.faculty}</span>.
-      <span className={styles.box}>{timetable.specialization}</span>.
-      <span className={styles.box}>{timetable.group}</span>
+    <div className="flex items-center justify-center text-xl font-bold text-soft-text px-5 py-3 bg-white border border-border rounded-xl shadow-md mb-5 md:text-2xl">
+      <span>
+        {timetable.year ? timetable.year : "Y"}.
+        {timetable.semester ? timetable.semester : "S"}.
+        {timetable.batch ? timetable.batch : "B"}.
+        {timetable.faculty ? timetable.faculty : "F"}.
+        {timetable.specialization ? timetable.specialization : "SPEC"}.
+        {timetable.group ? timetable.group : "G"}
+      </span>
       {timetable.subGroup && (
         <>
-          .<span className={styles.box}>{timetable.subGroup}</span>
+          .<span>{timetable.subGroup ? timetable.subGroup : "SG"}</span>
         </>
       )}
     </div>

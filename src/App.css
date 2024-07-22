@@ -1,3 +1,26 @@
 #root {
-  padding: 0 10px;
+  min-height: 100vh;
+}
+
+.gradient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background-image: radial-gradient(
+      at 27% 37%,
+      hsla(200, 80%, 70%, 1) 0px,
+      transparent 50%
+    ),
+    radial-gradient(at 97% 21%, hsla(0, 0%, 80%, 1) 0px, transparent 50%),
+    radial-gradient(at 52% 99%, hsla(210, 80%, 70%, 1) 0px, transparent 50%),
+    radial-gradient(at 10% 29%, hsla(0, 0%, 60%, 1) 0px, transparent 50%),
+    radial-gradient(at 97% 96%, hsla(190, 80%, 70%, 1) 0px, transparent 50%),
+    radial-gradient(at 33% 50%, hsla(0, 0%, 70%, 1) 0px, transparent 50%),
+    radial-gradient(at 79% 53%, hsla(220, 80%, 75%, 1) 0px, transparent 50%);
+  filter: blur(100px) saturate(150%);
+  opacity: 0.15;
+  pointer-events: none;
 }

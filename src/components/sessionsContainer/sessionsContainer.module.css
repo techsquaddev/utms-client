@@ -26,24 +26,6 @@
   gap: 10px;
 }
 
-.dayTabs button {
-  background-color: #e9ecef;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.dayTabs .activeTab {
-  background-color: #007bff;
-  color: white;
-}
-
-.dayTabs button:hover {
-  background-color: #d6d8db;
-}
-
 .sessions {
   margin-top: 20px;
 }
