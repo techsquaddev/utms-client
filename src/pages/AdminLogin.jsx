@@ -1,33 +1,29 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post("/api/users/auth", { email, password });
-      // Assuming the response contains the user data and token
-      if (response.status === 200) {
-        // Handle successful login, e.g., save the token and navigate to the dashboard
-        navigate("/admin/dashboard");
-      }
-    } catch (err) {
-      setError(err.response.data.message);
+      await login(email, password);
+      navigate("/admin/dashboard");
+    } catch (error) {
+      console.error("Failed to login:", error.message);
     }
   };
+
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-white shadow-md">
         <h1 className="text-2xl font-bold text-center">Login</h1>
-        {error && <div className="text-red-500 text-center">{error}</div>}
-        <form onSubmit={handleLogin} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-1">
             <label
               htmlFor="email"
