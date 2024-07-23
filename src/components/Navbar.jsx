@@ -7,9 +7,6 @@ import { Link } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -18,10 +15,6 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 
 const Navbar = () => {
-  const [showStatusBar, setShowStatusBar] = useState(true);
-  const [showActivityBar, setShowActivityBar] = useState(false);
-  const [showPanel, setShowPanel] = useState(false);
-
   return (
     <Wrapper>
       <nav className="my-5">
@@ -35,12 +28,7 @@ const Navbar = () => {
               />
             </div>
           </Link>
-          {/* <button
-            className="text-text bg-white border border-border p-2 rounded-lg shadow-lg hover:bg-soft-gray transition-colors duration-300"
-            onClick={toggleMenu}
-          >
-            <MenuIcon />
-          </button> */}
+
           <div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <Wrapper>
-      <div className="mt-16">
+      <div className="pt-16">
         <h1 className="text-center font-bold text-xl text-text md:text-2xl">
           Welcome to SLIIT 360!
         </h1>

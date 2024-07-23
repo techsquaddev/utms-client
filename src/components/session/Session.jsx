@@ -8,7 +8,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { AccessTime, CorporateFare } from "@mui/icons-material";
+import {
+  AccessTime,
+  CorporateFare,
+  Book,
+  VpnKey,
+  AccountCircle,
+  Link,
+  RssFeed,
+} from "@mui/icons-material";
 
 const Session = ({ session, currentDay }) => {
   const now = new Date();
@@ -23,7 +31,7 @@ const Session = ({ session, currentDay }) => {
 
   return (
     <div
-      className={`${`bg-white border border-border rounded-lg p-5 my-2.5`} ${
+      className={`${`bg-white rounded-xl border border-border p-5 my-2.5 md:my-3`} ${
         isCurrentSession ? "bg-secondary" : ""
       }`}
     >
@@ -34,8 +42,8 @@ const Session = ({ session, currentDay }) => {
               <h2 className="text-xl text-text font-bold mb-2 md:text-2xl">
                 {session.moduleName}
               </h2>
-              <div className="flex flex-col gap-2 md:flex-row">
-                <div className="flex items-center justify-start gap-1 py-1 px-2 rounded-md bg-primary text-white w-fit">
+              <div className="flex flex-col gap-1 md:flex-row md:gap-2">
+                <div className="flex items-center justify-start gap-1.5 py-1 px-2 rounded-md bg-primary text-white w-fit">
                   <AccessTime
                     fontSize="string"
                     className="text-lg md:text-xl"
@@ -46,7 +54,7 @@ const Session = ({ session, currentDay }) => {
                   </p>
                 </div>
 
-                <div className="flex items-center justify-start gap-1 py-1 px-2 rounded-md bg-secondary text-white w-fit">
+                <div className="flex items-center justify-start gap-1.5 py-1 px-2 rounded-md bg-secondary text-white w-fit">
                   <CorporateFare
                     fontSize="string"
                     className="text-lg md:text-xl"
@@ -56,10 +64,52 @@ const Session = ({ session, currentDay }) => {
                   </p>
                 </div>
               </div>
+
+              <div className="mt-1 flex gap-1 md:gap-2 md:mt-2">
+                <div className="flex items-center justify-start gap-1.5 py-1 px-2 rounded-md bg-primary text-white w-fit">
+                  <Book fontSize="string" className="text-lg md:text-xl" />
+                  <p className="text-sm font-medium md:text-base">
+                    {session.sessionType}
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-start gap-1.5 py-1 px-2 rounded-md bg-secondary text-white w-fit">
+                  <RssFeed fontSize="string" className="text-lg md:text-xl" />
+                  <p className="text-sm font-medium md:text-base">
+                    {session.deliveryType}
+                  </p>
+                </div>
+              </div>
             </div>
           </AccordionTrigger>
-          <AccordionContent>
-            Yes. It adheres to the WAI-ARIA design pattern.
+          <AccordionContent className="mt-4 border-t border-border">
+            <div className="flex flex-col gap-1 md:flex-row md:gap-2">
+              <div className="flex items-center justify-start gap-1.5 py-1 px-2 rounded-md bg-soft-gray text-soft-text w-fit">
+                <VpnKey fontSize="string" className="text-lg md:text-xl" />
+                <p className="text-sm font-medium md:text-base">
+                  {session.moduleCode}
+                </p>
+              </div>
+              {session.coordinator && (
+                <div className="flex items-center justify-start gap-1.5 py-1 px-2 rounded-md bg-soft-gray text-soft-text w-fit">
+                  <AccountCircle
+                    fontSize="string"
+                    className="text-lg md:text-xl"
+                  />
+                  <p className="text-sm font-medium md:text-base">
+                    {session.coordinator}
+                  </p>
+                </div>
+              )}
+            </div>
+            {session.sessionLink && (
+              <div className="mt-1 flex items-center justify-start gap-1.5 py-1 px-2 rounded-md bg-soft-gray text-soft-text w-fit md:mt-2">
+                <Link fontSize="string" className="text-lg md:text-xl" />
+                <p className="text-sm font-medium md:text-base">
+                  {session.sessionLink}
+                </p>
+              </div>
+            )}
           </AccordionContent>
         </AccordionItem>
       </Accordion>
