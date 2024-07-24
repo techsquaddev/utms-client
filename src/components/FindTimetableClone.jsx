@@ -62,8 +62,7 @@ const FindTimetableClone = () => {
       if (response.data) {
         toast.success("Timetable Found! 🥳");
 
-        // Save timetable to the local storage
-        //localStorage.setItem("timetableId", response.data._id);
+        // Save timetable details to the local storage
         localStorage.setItem("timetable", JSON.stringify(response.data));
 
         // Redirect to the timetable page
@@ -72,7 +71,6 @@ const FindTimetableClone = () => {
         toast.info("Couldn't find the timetable! 🤷");
       }
     } catch (error) {
-      setError(error.response.data.message);
       toast.error("Error finding timetable 😕");
     }
   };
