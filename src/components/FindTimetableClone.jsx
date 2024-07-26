@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { BASE_URL } from "@/constants";
 
 const FormSchema = z.object({
   year: z.string({
@@ -58,7 +59,10 @@ const FindTimetableClone = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("/api/timetable/find-timetable", data);
+      const response = await axios.post(
+        `${BASE_URL}/api/timetable/find-timetable`,
+        data
+      );
       if (response.data) {
         toast.success("Timetable Found! 🥳");
 

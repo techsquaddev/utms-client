@@ -13,7 +13,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://utms-server.onrender.com",
+        target: "http://localhost:5000",
         changeOrigin: true,
       },
     },
