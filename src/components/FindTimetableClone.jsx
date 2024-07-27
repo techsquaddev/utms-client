@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { findTimetable } from "@/api/timetableApi";
 import { BASE_URL } from "@/constants";
 
 const FormSchema = z.object({
@@ -59,18 +60,16 @@ const FindTimetableClone = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(
-        `${BASE_URL}/api/timetable/find-timetable`,
-        data
-      );
-      if (response.data) {
+      const response = await findTimetable(data);
+
+      if (response) {
         toast.success("Timetable Found! 🥳");
 
         // Save timetable details to the local storage
-        localStorage.setItem("timetable", JSON.stringify(response.data));
+        localStorage.setItem("timetable", JSON.stringify(response));
 
         // Redirect to the timetable page
-        navigate(`/timetables/${response.data._id}`);
+        navigate(`/timetables/${response._id}`);
       } else {
         toast.info("Couldn't find the timetable! 🤷");
       }

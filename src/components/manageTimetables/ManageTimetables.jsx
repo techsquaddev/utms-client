@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./manageTimetables.module.css";
 import axios from "axios";
 
-import { deleteTimeTable } from "@/api/timetableApi";
+import { deleteTimetable } from "@/api/timetableApi";
 
 import { Button } from "../ui/button";
 

@@ -1,32 +1,33 @@
 import axios from "axios";
+import { BASE_URL } from "./baseURL";
 
-const API_URL = "/api/timetable";
+const API_URL = `${BASE_URL}/api/timetable`;
 
-export const createTimeTable = async (timetable) => {
+export const createTimetable = async (timetable) => {
   const response = await axios.post(API_URL, timetable);
   return response.data;
 };
 
-export const getAllTimeTables = async () => {
+export const getAllTimetables = async () => {
   const response = await axios.get(API_URL);
   return response.data;
 };
 
-export const getSpecificTimeTable = async (id) => {
+export const getSpecificTimetable = async (id) => {
   const response = await axios.get(`${API_URL}/${id}`);
   return response.data;
 };
 
-export const findTimeTable = async (details) => {
+export const findTimetable = async (details) => {
   const response = await axios.post(`${API_URL}/find-timetable`, details);
   return response.data;
 };
 
-export const updateTimeTable = async (id, timetable) => {
+export const updateTimetable = async (id, timetable) => {
   const response = await axios.put(`${API_URL}/${id}`, timetable);
   return response.data;
 };
 
-export const deleteTimeTable = async (id) => {
-  await axios.delete(`/api/timetable/${id}`);
+export const deleteTimetable = async (id) => {
+  await axios.delete(`${API_URL}/${id}`);
 };
