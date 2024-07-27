@@ -26,6 +26,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { getSpecificTimetable } from "@/api/timetableApi";
 
 const Timetable = () => {
   const { timetableId } = useParams();
@@ -46,10 +47,10 @@ const Timetable = () => {
         }
 
         // Fetch from the database if not found in local storage
-        const response = await axios.get(`/api/timetable/${timetableId}`);
-        setTimetable(response.data);
+        const response = await getSpecificTimetable(timetableId);
+        setTimetable(response);
       } catch (error) {
-        setError(error.response.data.message);
+        setError(error.response.message);
       }
     };
 
