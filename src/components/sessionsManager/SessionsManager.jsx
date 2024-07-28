@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./sessionsManager.module.css";
 import SessionCard from "../sessionCard/sessionCard";
+import { getAllSessionsByTimetableId } from "@/api/sessionApi";
+import { BASE_URL } from "@/api/baseURL";
 
 const SessionsManager = ({ timetableId }) => {
   const [sessions, setSessions] = useState([]);
@@ -35,11 +37,8 @@ const SessionsManager = ({ timetableId }) => {
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        const sessionsResponse = await axios.get(
-          `/api/session/getall/${timetableId}`
-        );
-        setSessions(sessionsResponse.data);
-        console.log(sessionsResponse.data);
+        const sessionsResponse = await getAllSessionsByTimetableId(timetableId);
+        setSessions(sessionsResponse);
       } catch (error) {
         console.error("Error fetching sessions:", error);
       }
@@ -56,7 +55,7 @@ const SessionsManager = ({ timetableId }) => {
     e.preventDefault();
     try {
       if (isUpdate) {
-        await axios.put(`/api/session/${currentSessionId}`, {
+        await axios.put(`${BASE_URL}/api/sessions/${currentSessionId}`, {
           ...formState,
           time: {
             startTime: formatTime(formState.startTime),
@@ -78,13 +77,16 @@ const SessionsManager = ({ timetableId }) => {
           )
         );
       } else {
-        const newSession = await axios.post(`/api/session/${timetableId}`, {
-          ...formState,
-          time: {
-            startTime: formatTime(formState.startTime),
-            endTime: formatTime(formState.endTime),
-          },
-        });
+        const newSession = await axios.post(
+          `${BASE_URL}/api/sessions/${timetableId}`,
+          {
+            ...formState,
+            time: {
+              startTime: formatTime(formState.startTime),
+              endTime: formatTime(formState.endTime),
+            },
+          }
+        );
         setSessions([...sessions, newSession.data]);
       }
       setFormState({
@@ -130,7 +132,7 @@ const SessionsManager = ({ timetableId }) => {
 
   const handleDelete = async (session) => {
     try {
-      await axios.delete(`/api/session/${session._id}`);
+      await axios.delete(`${BASE_URL}/api/sessions/${session._id}`);
       setSessions(sessions.filter((s) => s._id !== session._id));
     } catch (error) {
       console.error("Error deleting session:", error);

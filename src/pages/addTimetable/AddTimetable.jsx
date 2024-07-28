@@ -1,23 +1,21 @@
-import React, { useState } from 'react';
-import styles from './addTimetable.module.css';
-import { faculties, specializations } from '../../data';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { TimetableName } from '../../components';
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import React, { useState } from "react";
+import styles from "./addTimetable.module.css";
+import { faculties, specializations } from "../../data";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { TimetableName } from "../../components";
+import { createTimetable } from "@/api/timetableApi";
 
 const AddTimetable = () => {
-  const [selectedFaculty, setSelectedFaculty] = useState('FOC');
-  const navigate = useNavigate();
+  const [selectedFaculty, setSelectedFaculty] = useState("FOC");
   const [timetable, setTimetable] = useState({
-    year: 'Y1',
-    semester: 'S1',
-    batch: 'WE',
-    faculty: 'FOC',
-    specialization: 'IT',
+    year: "Y1",
+    semester: "S1",
+    batch: "WE",
+    faculty: "FOC",
+    specialization: "IT",
     group: 1,
-    subGroup: '',
+    subGroup: "",
   });
 
   const handleChange = (event) => {
@@ -27,7 +25,7 @@ const AddTimetable = () => {
       [name]: value,
     });
 
-    if (name === 'faculty') {
+    if (name === "faculty") {
       setSelectedFaculty(value);
     }
   };
@@ -35,30 +33,21 @@ const AddTimetable = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('/api/timetable', timetable);
-      toast.success('Timetable created successfully! 🥳');
+      const response = await createTimetable(timetable);
+      toast.success("Timetable created successfully! 🥳");
       // Set form data after submit the timetable
       setTimetable({
-        year: 'Y1',
-        semester: 'S1',
-        batch: 'WE',
-        faculty: 'FOC',
-        specialization: 'IT',
+        year: "Y1",
+        semester: "S1",
+        batch: "WE",
+        faculty: "FOC",
+        specialization: "IT",
         group: 1,
-        subGroup: '',
+        subGroup: "",
       });
-      setSelectedFaculty('FOC');
-      // if (response.data) {
-      //   console.log('response' + response.data);
-      //   const res = await axios.get(`/api/timetable/${response.data._id}`);
-      //   console.log('id:' + res.data._id);
-      //   navigate(`/timetables/${res.data._id}`);
-      //   Cookies.set('Time_Table_ID', res.data._id, {
-      //     expires: new Date().getUTCFullYear() + 1,
-      //   });
-      // }
+      setSelectedFaculty("FOC");
     } catch (err) {
-      toast.error('Something went wrong! 🤨');
+      toast.error("Something went wrong! 🤨");
     }
   };
 

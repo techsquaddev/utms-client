@@ -47,6 +47,9 @@ const Main = () => {
       "/contact",
       "/admin/login",
       "/admin/dashboard",
+      "/timetables/add",
+      "/timetables/update/:timetableId",
+      "/timetables/sessions/:timetableId",
     ];
     const currentPath = location.pathname;
 

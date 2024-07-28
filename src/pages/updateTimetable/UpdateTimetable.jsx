@@ -5,6 +5,7 @@ import { faculties, specializations } from "../../data";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { TimetableName } from "../../components";
+import { getSpecificTimetable, updateTimetable } from "@/api/timetableApi";
 
 const UpdateTimetable = () => {
   const { timetableId } = useParams();
@@ -23,10 +24,10 @@ const UpdateTimetable = () => {
   useEffect(() => {
     const fetchTimetable = async () => {
       try {
-        const response = await axios.get(`/api/timetable/${timetableId}`);
-        setTimetable(response.data);
-        setInitialTimetable(response.data);
-        setSelectedFaculty(response.data.faculty);
+        const response = await getSpecificTimetable(timetableId);
+        setTimetable(response);
+        setInitialTimetable(response);
+        setSelectedFaculty(response.faculty);
       } catch (err) {
         toast.error("Failed to fetch timetable data! 😟");
       }
@@ -55,10 +56,7 @@ const UpdateTimetable = () => {
     }
 
     try {
-      const response = await axios.put(
-        `/api/timetable/${timetableId}`,
-        timetable
-      );
+      const response = await updateTimetable(timetableId, timetable);
       toast.success("Timetable updated successfully! 🥳");
       // Handle response appropriately
     } catch (err) {
