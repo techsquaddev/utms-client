@@ -13,7 +13,7 @@ const ManageSessions = () => {
     const fetchTimetable = async () => {
       try {
         const timetableResponse = await axios.get(
-          `${BASE_URL}/api/timetable/${timetableId}`
+          `${BASE_URL}/api/timetables/${timetableId}`
         );
         setTimetable(timetableResponse.data);
       } catch (error) {

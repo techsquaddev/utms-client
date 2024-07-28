@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { TimetableName } from "../../components";
 import { BASE_URL } from "@/api/baseURL";
+import { useNavigate } from "react-router-dom";
 
 const AddTimetable = () => {
   const [selectedFaculty, setSelectedFaculty] = useState("FOC");
@@ -17,6 +18,8 @@ const AddTimetable = () => {
     group: 1,
     subGroup: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -33,7 +36,10 @@ const AddTimetable = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(`${BASE_URL}/api/timetable`, timetable);
+      const response = await axios.post(
+        `${BASE_URL}/api/timetables`,
+        timetable
+      );
       toast.success("Timetable created successfully! 🥳");
       // Set form data after submit the timetable
       setTimetable({
@@ -46,6 +52,9 @@ const AddTimetable = () => {
         subGroup: "",
       });
       setSelectedFaculty("FOC");
+
+      // Redirect to the timetable page
+      navigate(`/timetables/${response.data._id}`);
     } catch (err) {
       toast.error("Something went wrong! 🤨");
     }

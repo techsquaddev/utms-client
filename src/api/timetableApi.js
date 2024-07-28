@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BASE_URL } from "./baseURL";
 
-const API_URL = `${BASE_URL}/api/timetable`;
+const API_URL = `${BASE_URL}/api/timetables`;
 
 export const createTimetable = async (timetable) => {
   const response = await axios.post(API_URL, timetable);

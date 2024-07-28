@@ -22,16 +22,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import PrivateRoute from "./components/PrivateRoute";
-import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
   return (
     <div className="app">
-      <AuthProvider>
-        <Router>
-          <Main />
-        </Router>
-      </AuthProvider>
+      <Router>
+        <Main />
+      </Router>
     </div>
   );
 };

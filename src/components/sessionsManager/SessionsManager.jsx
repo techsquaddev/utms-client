@@ -37,7 +37,7 @@ const SessionsManager = ({ timetableId }) => {
     const fetchSessions = async () => {
       try {
         const sessionsResponse = await axios.get(
-          `${BASE_URL}/api/session/${timetableId}`
+          `${BASE_URL}/api/sessions/${timetableId}`
         );
         setSessions(sessionsResponse.data);
       } catch (error) {
@@ -56,7 +56,7 @@ const SessionsManager = ({ timetableId }) => {
     e.preventDefault();
     try {
       if (isUpdate) {
-        await axios.put(`${BASE_URL}/api/session/${currentSessionId}`, {
+        await axios.put(`${BASE_URL}/api/sessions/${currentSessionId}`, {
           ...formState,
           time: {
             startTime: formatTime(formState.startTime),
@@ -79,7 +79,7 @@ const SessionsManager = ({ timetableId }) => {
         );
       } else {
         const newSession = await axios.post(
-          `${BASE_URL}/api/session/${timetableId}`,
+          `${BASE_URL}/api/sessions/${timetableId}`,
           {
             ...formState,
             time: {
@@ -133,7 +133,7 @@ const SessionsManager = ({ timetableId }) => {
 
   const handleDelete = async (session) => {
     try {
-      await axios.delete(`${BASE_URL}/api/session/${session._id}`);
+      await axios.delete(`${BASE_URL}/api/sessions/${session._id}`);
       setSessions(sessions.filter((s) => s._id !== session._id));
     } catch (error) {
       console.error("Error deleting session:", error);
@@ -155,13 +155,18 @@ const SessionsManager = ({ timetableId }) => {
           <h2>{isUpdate ? "Update Session" : "Add Session"}</h2>
           <label>
             Day:
-            <input
-              type="text"
+            <select
               name="day"
               value={formState.day}
               onChange={handleChange}
               required
-            />
+            >
+              {days.map((day) => (
+                <option key={day} value={day}>
+                  {day}
+                </option>
+              ))}
+            </select>
           </label>
           <label>
             Start Time:
@@ -216,6 +221,7 @@ const SessionsManager = ({ timetableId }) => {
               <option value="Tutorial">Tutorial</option>
               <option value="Lecture + Tutorial">Lecture + Tutorial</option>
               <option value="Practical">Practical</option>
+              <option value="Practical BYOD">Practical BYOD</option>
             </select>
           </label>
           <label>

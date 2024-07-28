@@ -25,7 +25,7 @@ const UpdateTimetable = () => {
     const fetchTimetable = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/api/timetable/${timetableId}`
+          `${BASE_URL}/api/timetables/${timetableId}`
         );
         setTimetable(response.data);
         setInitialTimetable(response.data);
@@ -59,7 +59,7 @@ const UpdateTimetable = () => {
 
     try {
       const response = await axios.put(
-        `${BASE_URL}/api/timetable/${timetableId}`,
+        `${BASE_URL}/api/timetables/${timetableId}`,
         timetable
       );
       toast.success("Timetable updated successfully! 🥳");
