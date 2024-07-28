@@ -49,6 +49,7 @@ const FormSchema = z.object({
 });
 
 const FindTimetableClone = () => {
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(FormSchema),
   });
@@ -57,6 +58,7 @@ const FindTimetableClone = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
+    setLoading(true);
     try {
       const response = await findTimetable(data);
 
@@ -73,6 +75,8 @@ const FindTimetableClone = () => {
       }
     } catch (error) {
       toast.error("Error finding timetable 😕");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -277,7 +281,7 @@ const FindTimetableClone = () => {
                 type="submit"
                 className="px-6 py-3 w-full text-xl font-semibold bg-primary shadow-lg text-white rounded-md hover:bg-dark-blue transition-colors duration-300"
               >
-                Find My Timetable
+                {loading ? "Finding..." : "Find My Timetable"}
               </button>
             </div>
           </form>
