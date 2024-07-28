@@ -1,15 +1,15 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useSelector } from "react-redux";
 
 const PrivateRoute = ({ children, requiredRole }) => {
-  const { user } = useAuth();
+  const { userInfo } = useSelector((state) => state.auth);
 
-  if (!user) {
+  if (!userInfo) {
     return <Navigate to="/admin/login" />;
   }
 
-  if (requiredRole && user.role !== requiredRole) {
+  if (requiredRole && userInfo.role !== requiredRole) {
     return <Navigate to="/" />;
   }
 

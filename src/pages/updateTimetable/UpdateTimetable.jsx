@@ -5,6 +5,7 @@ import { faculties, specializations } from "../../data";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { TimetableName } from "../../components";
+import { BASE_URL } from "@/api/baseURL";
 
 const UpdateTimetable = () => {
   const { timetableId } = useParams();
@@ -23,7 +24,9 @@ const UpdateTimetable = () => {
   useEffect(() => {
     const fetchTimetable = async () => {
       try {
-        const response = await axios.get(`/api/timetable/${timetableId}`);
+        const response = await axios.get(
+          `${BASE_URL}/api/timetables/${timetableId}`
+        );
         setTimetable(response.data);
         setInitialTimetable(response.data);
         setSelectedFaculty(response.data.faculty);
@@ -56,7 +59,7 @@ const UpdateTimetable = () => {
 
     try {
       const response = await axios.put(
-        `/api/timetable/${timetableId}`,
+        `${BASE_URL}/api/timetables/${timetableId}`,
         timetable
       );
       toast.success("Timetable updated successfully! 🥳");

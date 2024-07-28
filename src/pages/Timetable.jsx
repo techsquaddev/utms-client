@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 import { SessionsContainer, TimetableName, Wrapper } from "../components";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { useParams } from "react-router-dom";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import MiniTimetableCard from "@/components/miniTimetableCard/MiniTimetableCard";
+import MiniTimetableCard from "@/components/MiniTimetableCard";
 import {
   AlertDialog,
   AlertDialogAction,

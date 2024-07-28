@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import axios from "axios";
 import { faculties, specializations } from "../data";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -23,7 +22,6 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { findTimetable } from "@/api/timetableApi";
-import { BASE_URL } from "@/constants";
 
 const FormSchema = z.object({
   year: z.string({
@@ -51,6 +49,7 @@ const FormSchema = z.object({
 });
 
 const FindTimetableClone = () => {
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(FormSchema),
   });
@@ -59,6 +58,7 @@ const FindTimetableClone = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
+    setLoading(true);
     try {
       const response = await findTimetable(data);
 
@@ -75,6 +75,8 @@ const FindTimetableClone = () => {
       }
     } catch (error) {
       toast.error("Error finding timetable 😕");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -279,7 +281,7 @@ const FindTimetableClone = () => {
                 type="submit"
                 className="px-6 py-3 w-full text-xl font-semibold bg-primary shadow-lg text-white rounded-md hover:bg-dark-blue transition-colors duration-300"
               >
-                Find My Timetable
+                {loading ? "Finding..." : "Find My Timetable"}
               </button>
             </div>
           </form>

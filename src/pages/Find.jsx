@@ -1,4 +1,4 @@
-import { FindTimetable, FindTimetableClone, Wrapper } from "@/components";
+import { FindTimetableClone, Wrapper } from "@/components";
 import React from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";
@@ -18,8 +18,8 @@ const Find = () => {
         <div className="mt-7 mb-4 p-5 bg-white border-2 border-primary rounded-3xl shadow-lg">
           <p className="text-soft-text text-center text-sm">
             You only have to find your timetable once. Then every time you visit
-            SLIIT TMS, it will be directly displayed to you. We recommend adding
-            SLIIT TMS as an app shortcut.
+            SLIIT 360, it will be directly displayed to you. We recommend adding
+            SLIIT 360 as an app shortcut.
           </p>
         </div>
         <div className="p-5 bg-white border-2 border-secondary rounded-3xl shadow-lg">

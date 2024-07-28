@@ -22,16 +22,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import PrivateRoute from "./components/PrivateRoute";
-import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
   return (
     <div className="app">
-      <AuthProvider>
-        <Router>
-          <Main />
-        </Router>
-      </AuthProvider>
+      <Router>
+        <Main />
+      </Router>
     </div>
   );
 };
@@ -42,7 +39,15 @@ const Main = () => {
 
   useEffect(() => {
     const storedTimetable = localStorage.getItem("timetable");
-    const whitelist = ["/about", "/contact"];
+    const whitelist = [
+      "/about",
+      "/contact",
+      "/admin/login",
+      "/admin/dashboard",
+      "/timetables/add",
+      "/timetables/update/:timetableId",
+      "/timetables/sessions/:timetableId",
+    ];
     const currentPath = location.pathname;
 
     if (storedTimetable && !whitelist.includes(currentPath)) {
@@ -62,7 +67,7 @@ const Main = () => {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
           <Route path="timetables/find" element={<Find />} />
-          <Route path="/about" element={<About />} />
+
           <Route
             path="/admin/dashboard"
             element={

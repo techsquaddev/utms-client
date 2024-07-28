@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import styles from "./sessionsContainer.module.css";
-import Session from "../session/Session";
+import Session from "./Session";
 import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 
 const SessionsContainer = ({ sessions, props }) => {
@@ -63,7 +62,7 @@ const SessionsContainer = ({ sessions, props }) => {
         ))}
       </div>
 
-      <div className={styles.sessions}>
+      <div className="mt-[20px]">
         {sessions
           .filter((session) => session.day === days[currentDay])
           .sort((a, b) => a.time.startTime.localeCompare(b.time.startTime))

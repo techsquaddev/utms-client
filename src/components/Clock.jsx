@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import styles from "./clock.module.css";
 import { AccessTime, Event } from "@mui/icons-material";
 
 const Clock = () => {
