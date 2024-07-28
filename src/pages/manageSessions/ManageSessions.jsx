@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./manageSessions.module.css";
 import { TimetableCard, SessionsManager } from "../../components";
-import { getSpecificTimetable } from "@/api/timetableApi";
+import { BASE_URL } from "@/api/baseURL";
+import axios from "axios";
 
 const ManageSessions = () => {
   const { timetableId } = useParams();
@@ -11,8 +12,10 @@ const ManageSessions = () => {
   useEffect(() => {
     const fetchTimetable = async () => {
       try {
-        const timetableResponse = await getSpecificTimetable(timetableId);
-        setTimetable(timetableResponse);
+        const timetableResponse = await axios.get(
+          `${BASE_URL}/api/timetable/${timetableId}`
+        );
+        setTimetable(timetableResponse.data);
       } catch (error) {
         console.error("Error fetching timetable", error);
       }

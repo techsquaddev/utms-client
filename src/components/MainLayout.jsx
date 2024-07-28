@@ -4,8 +4,10 @@ import { Footer, Navbar } from ".";
 const MainLayout = ({ children }) => {
   return (
     <>
-      <Navbar />
-      <div className="min-h-dvh">{children}</div>
+      <div className="min-h-dvh">
+        <Navbar />
+        {children}
+      </div>
       <Footer />
     </>
   );

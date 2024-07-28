@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./sessionsManager.module.css";
 import SessionCard from "../sessionCard/sessionCard";
-import { getAllSessionsByTimetableId } from "@/api/sessionApi";
 import { BASE_URL } from "@/api/baseURL";
 
 const SessionsManager = ({ timetableId }) => {
@@ -37,8 +36,10 @@ const SessionsManager = ({ timetableId }) => {
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        const sessionsResponse = await getAllSessionsByTimetableId(timetableId);
-        setSessions(sessionsResponse);
+        const sessionsResponse = await axios.get(
+          `${BASE_URL}/api/session/${timetableId}`
+        );
+        setSessions(sessionsResponse.data);
       } catch (error) {
         console.error("Error fetching sessions:", error);
       }
@@ -55,7 +56,7 @@ const SessionsManager = ({ timetableId }) => {
     e.preventDefault();
     try {
       if (isUpdate) {
-        await axios.put(`${BASE_URL}/api/sessions/${currentSessionId}`, {
+        await axios.put(`${BASE_URL}/api/session/${currentSessionId}`, {
           ...formState,
           time: {
             startTime: formatTime(formState.startTime),
@@ -78,7 +79,7 @@ const SessionsManager = ({ timetableId }) => {
         );
       } else {
         const newSession = await axios.post(
-          `${BASE_URL}/api/sessions/${timetableId}`,
+          `${BASE_URL}/api/session/${timetableId}`,
           {
             ...formState,
             time: {
@@ -132,7 +133,7 @@ const SessionsManager = ({ timetableId }) => {
 
   const handleDelete = async (session) => {
     try {
-      await axios.delete(`${BASE_URL}/api/sessions/${session._id}`);
+      await axios.delete(`${BASE_URL}/api/session/${session._id}`);
       setSessions(sessions.filter((s) => s._id !== session._id));
     } catch (error) {
       console.error("Error deleting session:", error);

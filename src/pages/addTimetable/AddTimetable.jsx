@@ -4,7 +4,7 @@ import { faculties, specializations } from "../../data";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { TimetableName } from "../../components";
-import { createTimetable } from "@/api/timetableApi";
+import { BASE_URL } from "@/api/baseURL";
 
 const AddTimetable = () => {
   const [selectedFaculty, setSelectedFaculty] = useState("FOC");
@@ -33,7 +33,7 @@ const AddTimetable = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await createTimetable(timetable);
+      const response = await axios.post(`${BASE_URL}/api/timetable`, timetable);
       toast.success("Timetable created successfully! 🥳");
       // Set form data after submit the timetable
       setTimetable({

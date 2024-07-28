@@ -1,39 +1,54 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLoginMutation } from "../slices/userApiSlice";
+import { setCredentials } from "../slices/authSlice";
+import { toast } from "react-toastify";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [login, { isLoading }] = useLoginMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/admin/dashboard");
+    }
+  }, [navigate, userInfo]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
       navigate("/admin/dashboard");
-    } catch (error) {
-      console.error("Failed to login:", error.message);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center mt-28">
       <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-white shadow-md">
-        <h1 className="text-2xl font-bold text-center">Login</h1>
+        <h1 className="text-2xl font-bold text-center text-text">Login</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-1">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-text"
             >
               Email
             </label>
             <input
               type="email"
               id="email"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring focus:ring-border"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -42,14 +57,14 @@ const AdminLogin = () => {
           <div className="space-y-1">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-text"
             >
               Password
             </label>
             <input
               type="password"
               id="password"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring focus:ring-border"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -60,7 +75,7 @@ const AdminLogin = () => {
               type="submit"
               className="w-full px-4 py-2 font-medium text-white bg-primary rounded-md hover:bg-dark-blue focus:outline-none focus:ring focus:ring-primary"
             >
-              Login
+              {isLoading ? "Loading..." : "Login"}
             </button>
           </div>
         </form>
