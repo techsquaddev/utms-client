@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./timetableCard.module.css";
-import Clock from "../clock/Clock";
-import { Link } from "react-router-dom";
+import Clock from "../Clock";
 
 const TimetableCard = ({ timetable, onUpdate, onDelete }) => {
   return (

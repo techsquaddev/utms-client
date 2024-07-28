@@ -1,4 +1,4 @@
-import { Clock } from "..";
+import { Clock } from ".";
 
 const MiniTimetableCard = () => {
   return (

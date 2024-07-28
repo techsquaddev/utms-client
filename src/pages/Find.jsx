@@ -1,4 +1,4 @@
-import { FindTimetable, FindTimetableClone, Wrapper } from "@/components";
+import { FindTimetableClone, Wrapper } from "@/components";
 import React from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";

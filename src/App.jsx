@@ -42,7 +42,12 @@ const Main = () => {
 
   useEffect(() => {
     const storedTimetable = localStorage.getItem("timetable");
-    const whitelist = ["/about", "/contact"];
+    const whitelist = [
+      "/about",
+      "/contact",
+      "/admin/login",
+      "/admin/dashboard",
+    ];
     const currentPath = location.pathname;
 
     if (storedTimetable && !whitelist.includes(currentPath)) {
@@ -62,7 +67,7 @@ const Main = () => {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
           <Route path="timetables/find" element={<Find />} />
-          <Route path="/about" element={<About />} />
+
           <Route
             path="/admin/dashboard"
             element={
