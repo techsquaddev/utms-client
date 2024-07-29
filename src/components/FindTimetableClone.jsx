@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { findTimetable } from "@/api/timetableApi";
+import { Loader } from ".";
 
 const FormSchema = z.object({
   year: z.string({
@@ -86,197 +87,199 @@ const FindTimetableClone = () => {
       <div className="flex flex-col p-5 bg-white rounded-xl shadow-xl border border-border">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="mb-4">
-              <FormField
-                control={form.control}
-                name="year"
-                render={({ field }) => (
-                  <FormItem>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4 ">
-                          <SelectValue placeholder="Study year?" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="Y1">Y1</SelectItem>
-                        <SelectItem value="Y2">Y2</SelectItem>
-                        <SelectItem value="Y3">Y3</SelectItem>
-                        <SelectItem value="Y4">Y4</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            <div className="relative">
+              <div className="mb-4">
+                <FormField
+                  control={form.control}
+                  name="year"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4 ">
+                            <SelectValue placeholder="Study year?" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Y1">Y1</SelectItem>
+                          <SelectItem value="Y2">Y2</SelectItem>
+                          <SelectItem value="Y3">Y3</SelectItem>
+                          <SelectItem value="Y4">Y4</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <div className="mb-4">
-              <FormField
-                control={form.control}
-                name="semester"
-                render={({ field }) => (
-                  <FormItem>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4 ">
-                          <SelectValue placeholder="Semester?" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="S1">S1</SelectItem>
-                        <SelectItem value="S2">S2</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+              <div className="mb-4">
+                <FormField
+                  control={form.control}
+                  name="semester"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4 ">
+                            <SelectValue placeholder="Semester?" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="S1">S1</SelectItem>
+                          <SelectItem value="S2">S2</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <div className="mb-4">
-              <FormField
-                control={form.control}
-                name="batch"
-                render={({ field }) => (
-                  <FormItem>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4 ">
-                          <SelectValue placeholder="Batch? (WE or WD)" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="WE">WE</SelectItem>
-                        <SelectItem value="WD">WD</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+              <div className="mb-4">
+                <FormField
+                  control={form.control}
+                  name="batch"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4 ">
+                            <SelectValue placeholder="Batch? (WE or WD)" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="WE">WE</SelectItem>
+                          <SelectItem value="WD">WD</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <div className="mb-4">
-              <FormField
-                control={form.control}
-                name="faculty"
-                render={({ field }) => (
-                  <FormItem>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4 ">
-                          <SelectValue placeholder="Faculty?" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {faculties.map((faculty) => (
-                          <SelectItem key={faculty} value={faculty}>
-                            {faculty}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+              <div className="mb-4">
+                <FormField
+                  control={form.control}
+                  name="faculty"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4 ">
+                            <SelectValue placeholder="Faculty?" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {faculties.map((faculty) => (
+                            <SelectItem key={faculty} value={faculty}>
+                              {faculty}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <div className="mb-4">
-              <FormField
-                control={form.control}
-                name="specialization"
-                render={({ field }) => (
-                  <FormItem>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4">
-                          <SelectValue placeholder="Specialization?" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {specializations[selectedFaculty] &&
-                        specializations[selectedFaculty].length > 0 ? (
-                          specializations[selectedFaculty].map(
-                            (specialization) => (
-                              <SelectItem
-                                key={specialization}
-                                value={specialization}
-                              >
-                                {specialization}
-                              </SelectItem>
+              <div className="mb-4">
+                <FormField
+                  control={form.control}
+                  name="specialization"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4">
+                            <SelectValue placeholder="Specialization?" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {specializations[selectedFaculty] &&
+                          specializations[selectedFaculty].length > 0 ? (
+                            specializations[selectedFaculty].map(
+                              (specialization) => (
+                                <SelectItem
+                                  key={specialization}
+                                  value={specialization}
+                                >
+                                  {specialization}
+                                </SelectItem>
+                              )
                             )
-                          )
-                        ) : (
-                          <div className="p-3 text-center text-soft-text border text-sm border-border md:text-base md:p-4">
-                            No specializations available
-                          </div>
-                        )}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                          ) : (
+                            <div className="p-3 text-center text-soft-text border text-sm border-border md:text-base md:p-4">
+                              No specializations available
+                            </div>
+                          )}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <div className="mb-4">
-              <FormField
-                control={form.control}
-                name="group"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Group? (1,2,3...)"
-                        {...field}
-                        className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+              <div className="mb-4">
+                <FormField
+                  control={form.control}
+                  name="group"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Group? (1,2,3...)"
+                          {...field}
+                          className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <div className="mb-4">
-              <FormField
-                control={form.control}
-                name="subGroup"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Sub group? (1,2,3...)"
-                        {...field}
-                        className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="pb-8">
+                <FormField
+                  control={form.control}
+                  name="subGroup"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Sub group? (1,2,3...)"
+                          {...field}
+                          className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              {loading && <Loader />}
             </div>
-
-            <div className="mt-8">
+            <div className="">
               <button
                 type="submit"
                 className="px-6 py-3 w-full text-xl font-semibold bg-primary shadow-lg text-white rounded-md hover:bg-dark-blue transition-colors duration-300"
