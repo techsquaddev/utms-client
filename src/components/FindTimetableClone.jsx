@@ -60,6 +60,7 @@ const FindTimetableClone = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
+    toast.info("This may take some time to find the timetable! ⏳");
     try {
       const response = await findTimetable(data);
 
