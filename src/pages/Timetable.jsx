@@ -123,7 +123,7 @@ const Timetable = () => {
         </div>
 
         <TimetableName timetable={timetable} />
-        <MiniTimetableCard />
+        <MiniTimetableCard timetable={timetable} />
         <SessionsContainer sessions={timetable.sessions} />
       </Wrapper>
     </div>
