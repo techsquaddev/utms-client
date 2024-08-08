@@ -30,17 +30,17 @@ const Clock = () => {
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-2 p-3 bg-soft-gray rounded-md border border-border">
+    <div className="flex flex-col gap-1.5 items-end">
+      <div className="flex items-center gap-2 p-2 bg-soft-gray rounded-md border border-border shadow-md">
         <AccessTime className="text-soft-text" />
         <div
-          className="text-lg font-bold  text-soft-text"
+          className="text-base font-bold  text-soft-text"
           style={{ width: "fit-content" }}
         >
           {formatTime(currentTime)}
         </div>
       </div>
-      <div className="flex items-center gap-2 p-3 bg-soft-gray rounded-md border border-border">
+      <div className="flex items-center gap-2 p-3 bg-soft-gray rounded-md border border-border shadow-md">
         <Event className="text-soft-text" />
         <div
           className="text-lg font-bold text-soft-text"

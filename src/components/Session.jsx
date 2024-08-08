@@ -30,8 +30,8 @@ const Session = ({ session, currentDay }) => {
 
   return (
     <div
-      className={`${`bg-white rounded-xl border border-border p-5 my-2.5 md:my-3`} ${
-        isCurrentSession ? "bg-secondary" : ""
+      className={`${`bg-gradient-to-t from-soft-blue to-white rounded-xl border border-border p-5 my-2.5 md:my-3`} ${
+        isCurrentSession ? "border-secondary" : ""
       }`}
     >
       <Accordion type="single" collapsible>
@@ -48,8 +48,15 @@ const Session = ({ session, currentDay }) => {
                     className="text-lg md:text-xl"
                   />
                   <p className="text-sm font-medium md:text-base">
-                    {new Date(session.time.startTime).toLocaleTimeString()} -{" "}
-                    {new Date(session.time.endTime).toLocaleTimeString()}
+                    {new Date(session.time.startTime).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}{" "}
+                    -{" "}
+                    {new Date(session.time.endTime).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </p>
                 </div>
 

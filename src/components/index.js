@@ -11,6 +11,7 @@ import Wrapper from "./Wrapper.jsx";
 import Footer from "./Footer.jsx";
 import FindTimetableClone from "./FindTimetableClone.jsx";
 import MainLayout from "./MainLayout.jsx";
+import Loader from "./Loader.jsx";
 
 export {
   Navbar,
@@ -26,4 +27,5 @@ export {
   Footer,
   FindTimetableClone,
   MainLayout,
+  Loader,
 };

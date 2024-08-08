@@ -3,8 +3,9 @@
 import React, { useState } from "react";
 import Session from "./Session";
 import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
+import { YTup } from "@/assets";
 
-const SessionsContainer = ({ sessions, props }) => {
+const SessionsContainer = ({ sessions }) => {
   const [currentDay, setCurrentDay] = useState(new Date().getDay());
 
   const shortDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -18,6 +19,10 @@ const SessionsContainer = ({ sessions, props }) => {
     "Friday",
     "Saturday",
   ];
+
+  const filteredSessions = sessions
+    .filter((session) => session.day === days[currentDay])
+    .sort((a, b) => a.time.startTime.localeCompare(b.time.startTime));
 
   const handleDayChange = (direction) => {
     setCurrentDay((prevDay) => {
@@ -63,16 +68,22 @@ const SessionsContainer = ({ sessions, props }) => {
       </div>
 
       <div className="mt-[20px]">
-        {sessions
-          .filter((session) => session.day === days[currentDay])
-          .sort((a, b) => a.time.startTime.localeCompare(b.time.startTime))
-          .map((session, idx) => (
+        {filteredSessions.length > 0 ? (
+          filteredSessions.map((session, idx) => (
             <Session
               key={idx}
               session={session}
               currentDay={currentDay === new Date().getDay()}
             />
-          ))}
+          ))
+        ) : (
+          <div className="mt-7 flex flex-col justify-center items-center">
+            <h3 className="text-soft-text text-lg mb-3">
+              No sessions available! 😀🎉
+            </h3>
+            <img src={YTup} alt="No sessions available" />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,9 +1,37 @@
 import { Clock } from ".";
+import { timetableBg, ad } from "@/assets";
 
-const MiniTimetableCard = () => {
+const MiniTimetableCard = ({ timetable }) => {
+  const getBackgroundImage = () => {
+    if (
+      timetable.year === "Y5" &&
+      timetable.faculty === "FOC" &&
+      timetable.semester === "S2"
+    ) {
+      return `url(${ad})`;
+    } else {
+      return `url(${timetableBg})`;
+    }
+  };
+
+  const backgroundImageStyle = {
+    backgroundImage: getBackgroundImage(),
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  };
+
   return (
-    <div className="flex justify-between p-5 bg-white rounded-xl shadow-lg gap-5">
-      <Clock />
+    <div
+      className="flex justify-end h-40 p-3 bg-white rounded-xl shadow-md gap-5"
+      style={backgroundImageStyle}
+    >
+      {timetable.year === "Y5" &&
+      timetable.faculty === "FOC" &&
+      timetable.semester === "S2" ? (
+        ""
+      ) : (
+        <Clock />
+      )}
     </div>
   );
 };
