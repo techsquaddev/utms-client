@@ -7,6 +7,7 @@ import Dashboard from "./dashboard/Dashboard";
 import Find from "./Find";
 import About from "./About";
 import AdminLogin from "./AdminLogin";
+import Contact from "./Contact";
 
 export {
   Home,
@@ -17,5 +18,6 @@ export {
   ManageSessions,
   Dashboard,
   About,
+  Contact,
   AdminLogin,
 };

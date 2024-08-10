@@ -62,12 +62,16 @@ const Navbar = () => {
                       <span>Home</span>
                     </DropdownMenuItem>
                   </Link>
-                  <DropdownMenuItem className="text-text mb-0.5 text-sm md:text-base font-semibold p-1 px-2 py-1.5 outline-none transition-colors rounded-sm select-none cursor-pointer hover:bg-soft-gray hover:text-text">
-                    <span>About</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="text-text text-sm md:text-base font-semibold p-1 px-2 py-1.5 outline-none transition-colors rounded-sm select-none cursor-pointer hover:bg-soft-gray hover:text-text">
-                    <span>Contact</span>
-                  </DropdownMenuItem>
+                  <Link to="/about">
+                    <DropdownMenuItem className="text-text mb-0.5 text-sm md:text-base font-semibold p-1 px-2 py-1.5 outline-none transition-colors rounded-sm select-none cursor-pointer hover:bg-soft-gray hover:text-text">
+                      <span>About</span>
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link to="/contact">
+                    <DropdownMenuItem className="text-text text-sm md:text-base font-semibold p-1 px-2 py-1.5 outline-none transition-colors rounded-sm select-none cursor-pointer hover:bg-soft-gray hover:text-text">
+                      <span>Contact</span>
+                    </DropdownMenuItem>
+                  </Link>
                   {userInfo && (
                     <DropdownMenuItem className="text-text text-sm md:text-base font-semibold p-1 px-2 py-1.5 outline-none transition-colors rounded-sm select-none cursor-pointer hover:bg-soft-gray hover:text-text">
                       <button onClick={handleLogout}>Logout</button>

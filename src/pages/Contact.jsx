@@ -1,13 +1,13 @@
 import { Wrapper } from "@/components";
-import { about } from "@/assets";
+import { contact } from "@/assets";
 
-const About = () => {
+const Contact = () => {
   return (
     <div>
       <Wrapper>
         <div className="mt-10">
           <h1 className="text-center text-xl text-text font-bold">
-            About SLIIT 360
+            Contact Us
           </h1>
           <div className="mt-7 mb-4 p-5 mx-5 bg-white border-2 border-secondary rounded-3xl shadow-lg">
             <p className="text-soft-text text-left text-sm md:text-base">
@@ -27,8 +27,8 @@ const About = () => {
               add timetables yourself. So stay with us.
             </p>
           </div>
-          <div className="p-5 mx-auto mt-4 md:p-10">
-            <img src={about} alt="about" className="w-full object-cover" />
+          <div className="p-5 mx-auto md:p-10">
+            <img src={contact} alt="contact" className="w-full object-cover" />
           </div>
         </div>
       </Wrapper>
@@ -36,4 +36,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default Contact;
