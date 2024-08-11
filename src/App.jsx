@@ -16,6 +16,7 @@ import {
   Timetable,
   Find,
   About,
+  Contact,
   AdminLogin,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
@@ -64,9 +65,11 @@ const Main = () => {
       <MainLayout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
-          <Route path="timetables/find" element={<Find />} />
+          <Route path="/timetables/find" element={<Find />} />
 
           <Route
             path="/admin/dashboard"

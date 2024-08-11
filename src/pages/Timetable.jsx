@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { SessionsContainer, TimetableName, Wrapper } from "../components";
+import {
+  SessionsContainer,
+  TimetableName,
+  TimetableSkeleton,
+  Wrapper,
+} from "../components";
 import { useParams } from "react-router-dom";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";
@@ -24,11 +29,11 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { getSpecificTimetable } from "@/api/timetableApi";
+import { toast } from "react-toastify";
 
 const Timetable = () => {
   const { timetableId } = useParams();
   const [timetable, setTimetable] = useState(null);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,7 +52,7 @@ const Timetable = () => {
         const response = await getSpecificTimetable(timetableId);
         setTimetable(response);
       } catch (error) {
-        setError(error.response.message);
+        toast.error("Error loading timetable! 😕");
       }
     };
 
@@ -62,12 +67,16 @@ const Timetable = () => {
     return () => clearInterval(interval);
   }, []);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  // if (error) {
+  //   return <div>Error: {error}</div>;
+  // }
 
   if (!timetable) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <TimetableSkeleton />
+      </div>
+    );
   }
 
   const backPage = async () => {

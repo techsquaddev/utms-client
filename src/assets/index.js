@@ -4,5 +4,7 @@ import timetableBg from "./timetable_bg.jpg";
 import ad from "./ad.png";
 import YTup from "./YTup.gif";
 import logo2 from "./360_logo.svg";
+import about from "./about.png";
+import contact from "./contact.png";
 
-export { skeleton, logo, timetableBg, ad, YTup, logo2 };
+export { skeleton, logo, timetableBg, ad, YTup, logo2, about, contact };
