@@ -6,7 +6,7 @@ const About = () => {
     <div>
       <Wrapper>
         <div className="mt-10">
-          <h1 className="text-center text-xl text-text font-bold">
+          <h1 className="text-center text-xl text-text font-bold md:text-2xl">
             About SLIIT 360
           </h1>
           <div className="mt-7 mb-4 p-5 mx-5 bg-white border-2 border-secondary rounded-3xl shadow-md">
