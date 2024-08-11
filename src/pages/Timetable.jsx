@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { SessionsContainer, TimetableName, Wrapper } from "../components";
+import {
+  SessionsContainer,
+  TimetableName,
+  TimetableSkeleton,
+  Wrapper,
+} from "../components";
 import { useParams } from "react-router-dom";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";
@@ -39,6 +44,7 @@ const Timetable = () => {
           const details = JSON.parse(localStorageTimetable);
           if (details._id === timetableId) {
             setTimetable(details);
+
             return;
           }
         }
@@ -67,7 +73,11 @@ const Timetable = () => {
   }
 
   if (!timetable) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <TimetableSkeleton />
+      </div>
+    );
   }
 
   const backPage = async () => {

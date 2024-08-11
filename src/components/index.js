@@ -13,6 +13,7 @@ import FindTimetableClone from "./FindTimetableClone.jsx";
 import MainLayout from "./MainLayout.jsx";
 import Loader from "./Loader.jsx";
 import ContactForm from "./ContactForm.jsx";
+import TimetableSkeleton from "./TimetableSkeleton.jsx";
 
 export {
   Navbar,
@@ -30,4 +31,5 @@ export {
   MainLayout,
   Loader,
   ContactForm,
+  TimetableSkeleton,
 };

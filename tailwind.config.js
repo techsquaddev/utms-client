@@ -23,6 +23,7 @@ module.exports = {
       "soft-blue": "#F0FFFF",
       "soft-red": "#fff1f1",
       "red-alert": "#ff4545",
+      skeliton: "#d1dff6",
     },
     container: {
       center: true,
