@@ -44,7 +44,6 @@ const Timetable = () => {
           const details = JSON.parse(localStorageTimetable);
           if (details._id === timetableId) {
             setTimetable(details);
-
             return;
           }
         }
