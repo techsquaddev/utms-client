@@ -6,5 +6,16 @@ import YTup from "./YTup.gif";
 import logo2 from "./360_logo.svg";
 import about from "./about.png";
 import contact from "./contact.png";
+import ts_logo from "./ts_logo.svg";
 
-export { skeleton, logo, timetableBg, ad, YTup, logo2, about, contact };
+export {
+  skeleton,
+  logo,
+  timetableBg,
+  ad,
+  YTup,
+  logo2,
+  about,
+  contact,
+  ts_logo,
+};
