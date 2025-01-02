@@ -12,7 +12,6 @@ import {
   AddTimetable,
   UpdateTimetable,
   ManageSessions,
-  Dashboard,
   Timetable,
   Find,
   About,
@@ -23,6 +22,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import PrivateRoute from "./components/PrivateRoute";
+import { Dashboard } from "./admin";
 
 const App = () => {
   return (
