@@ -17,23 +17,6 @@ import { logout } from "../slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = () => {
-  const { userInfo } = useSelector((state) => state.auth);
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [logoutApiCall] = useLogoutMutation();
-
-  const handleLogout = async () => {
-    try {
-      await logoutApiCall().unwrap();
-      dispatch(logout());
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   return (
     <Wrapper>
       <nav className="my-5">
@@ -72,11 +55,11 @@ const Navbar = () => {
                       <span>Contact</span>
                     </DropdownMenuItem>
                   </Link>
-                  {userInfo && (
+                  {/* {userInfo && (
                     <DropdownMenuItem className="text-text text-sm md:text-base font-semibold p-1 px-2 py-1.5 outline-none transition-colors rounded-sm select-none cursor-pointer hover:bg-soft-gray hover:text-text">
                       <button onClick={handleLogout}>Logout</button>
                     </DropdownMenuItem>
-                  )}
+                  )} */}
                 </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>

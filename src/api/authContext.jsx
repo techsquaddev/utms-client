@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { logoutUser, verifyToken } from "./userApi";
+import { getLoggedInUser, logoutUser, verifyToken } from "./userApi";
 
 const AuthContext = createContext();
 
@@ -20,13 +20,11 @@ export const AuthProvider = ({ children }) => {
         try {
           const response = await verifyToken(token);
           localStorage.setItem("token", response.data.token);
-          setLoginMessage("Login successful!");
-          navigate("/dashboard");
+          toast.success("Login successful!");
+          //navigate("/dashboard");
         } catch (error) {
-          setLoginMessage("Login failed. The link may be invalid or expired.");
+          toast.error("Login failed. The link may be invalid or expired.");
         }
-      } else {
-        setLoginMessage("Invalid login link.");
       }
     };
 
@@ -47,6 +45,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const { data } = await getLoggedInUser(token);
         setUser(data);
+        console.log(data);
       } catch (error) {
         console.error("Failed to fetch user:", error.message);
         localStorage.removeItem("token");

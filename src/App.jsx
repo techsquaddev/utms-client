@@ -23,12 +23,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import PrivateRoute from "./components/PrivateRoute";
 import { Dashboard } from "./admin";
+import { AuthProvider } from "./api/authContext";
 
 const App = () => {
   return (
     <div className="app">
       <Router>
-        <Main />
+        <AuthProvider>
+          <Main />
+        </AuthProvider>
       </Router>
     </div>
   );
@@ -36,28 +39,28 @@ const App = () => {
 
 const Main = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  //const location = useLocation();
 
-  useEffect(() => {
-    const storedTimetable = localStorage.getItem("timetable");
-    const whitelist = [
-      "/about",
-      "/contact",
-      "/admin/login",
-      "/admin/dashboard",
-      "/timetables/add",
-      "/timetables/update/:timetableId",
-      "/timetables/sessions/:timetableId",
-    ];
-    const currentPath = location.pathname;
+  // useEffect(() => {
+  //   const storedTimetable = localStorage.getItem("timetable");
+  //   const whitelist = [
+  //     "/about",
+  //     "/contact",
+  //     "/admin/login",
+  //     "/admin/dashboard",
+  //     "/timetables/add",
+  //     "/timetables/update/:timetableId",
+  //     "/timetables/sessions/:timetableId",
+  //   ];
+  //   const currentPath = location.pathname;
 
-    if (storedTimetable && !whitelist.includes(currentPath)) {
-      const timetable = JSON.parse(storedTimetable);
-      if (timetable && timetable._id) {
-        navigate(`/timetables/${timetable._id}`, { replace: true });
-      }
-    }
-  }, [location.pathname, navigate]);
+  //   if (storedTimetable && !whitelist.includes(currentPath)) {
+  //     const timetable = JSON.parse(storedTimetable);
+  //     if (timetable && timetable._id) {
+  //       navigate(`/timetables/${timetable._id}`, { replace: true });
+  //     }
+  //   }
+  // }, [location.pathname, navigate]);
 
   return (
     <div className="main">
