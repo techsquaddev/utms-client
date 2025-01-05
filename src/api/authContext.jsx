@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { api } from "./axiosInstance";
 import { toast } from "react-toastify";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { logoutUser, verifyToken } from "./userApi";
 
 const AuthContext = createContext();
 
@@ -12,12 +12,13 @@ export const AuthProvider = ({ children }) => {
   const [loginMessage, setLoginMessage] = useState("");
   const navigate = useNavigate();
 
+  // Token Verification
   useEffect(() => {
-    const login = async () => {
+    const tokenVerification = async () => {
       const token = searchParams.get("token");
       if (token) {
         try {
-          const response = await loginWithToken(token);
+          const response = await verifyToken(token);
           localStorage.setItem("token", response.data.token);
           setLoginMessage("Login successful!");
           navigate("/dashboard");
@@ -29,29 +30,29 @@ export const AuthProvider = ({ children }) => {
       }
     };
 
-    login();
+    tokenVerification();
   }, [searchParams, navigate]);
 
+  // Logout User
   const logout = async () => {
-    await api.post("/members/logout");
+    await logoutUser();
     setUser(null);
     localStorage.removeItem("token");
   };
 
+  // Fetch Logged In User
   const fetchUser = async () => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const { data } = await api.get("/members/me", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const { data } = await getLoggedInUser(token);
         setUser(data);
       } catch (error) {
         console.error("Failed to fetch user:", error.message);
         localStorage.removeItem("token");
       }
     }
-    setLoading(false); // Mark loading as complete
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -64,7 +65,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, loginMessage, logout }}>
       {children}
     </AuthContext.Provider>
   );

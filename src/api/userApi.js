@@ -24,7 +24,7 @@ export const verifyToken = async (token) => {
 };
 
 // Get user profile
-export const getUserProfile = async (token) => {
+export const getLoggedInUser = async (token) => {
   return await axios.get(`${API_URL}/me`, {
     headers: { Authorization: `Bearer ${token}` },
   });
