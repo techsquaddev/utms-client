@@ -3,9 +3,34 @@ import { BASE_URL } from "./baseURL";
 
 const API_URL = `${BASE_URL}/api/users`;
 
-export const getUserProfile = async () => {
-  const response = await axios.get(`${API_URL}/me`, {
-    withCredentials: true,
+// Send magic link
+export const loginUser = async (email) => {
+  return await axios.post(`${API_URL}/login`, { email });
+};
+
+// Register user and send verification email
+export const registerUser = async (userData) => {
+  return await axios.post(`${API_URL}/register`, userData);
+};
+
+// Verify email
+export const verifyEmail = async (token) => {
+  return await axios.post(`${API_URL}/verify-email`, { token });
+};
+
+// Login via magic link
+export const verifyToken = async (token) => {
+  return await axios.post(`${API_URL}/verify-token`, { token });
+};
+
+// Get user profile
+export const getUserProfile = async (token) => {
+  return await axios.get(`${API_URL}/me`, {
+    headers: { Authorization: `Bearer ${token}` },
   });
-  return response.data;
+};
+
+// Logout user
+export const logoutUser = async () => {
+  return await axios.post(`${API_URL}/logout`);
 };
