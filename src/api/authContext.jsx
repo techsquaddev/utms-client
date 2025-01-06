@@ -1,35 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { getLoggedInUser, logoutUser, verifyToken } from "./userApi";
+import { getLoggedInUser, logoutUser } from "./userApi";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [searchParams] = useSearchParams();
-  const [loginMessage, setLoginMessage] = useState("");
-  const navigate = useNavigate();
-
-  // Token Verification
-  useEffect(() => {
-    const tokenVerification = async () => {
-      const token = searchParams.get("token");
-      if (token) {
-        try {
-          const response = await verifyToken(token);
-          localStorage.setItem("token", response.data.token);
-          toast.success("Login successful!");
-          //navigate("/dashboard");
-        } catch (error) {
-          toast.error("Login failed. The link may be invalid or expired.");
-        }
-      }
-    };
-
-    tokenVerification();
-  }, [searchParams, navigate]);
 
   // Logout User
   const logout = async () => {
@@ -41,6 +17,7 @@ export const AuthProvider = ({ children }) => {
   // Fetch Logged In User
   const fetchUser = async () => {
     const token = localStorage.getItem("token");
+    console.log("Token: " + token);
     if (token) {
       try {
         const { data } = await getLoggedInUser(token);

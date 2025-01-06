@@ -17,6 +17,7 @@ import {
   About,
   Contact,
   AdminLogin,
+  VerifyToken,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -39,28 +40,29 @@ const App = () => {
 
 const Main = () => {
   const navigate = useNavigate();
-  //const location = useLocation();
+  const location = useLocation();
 
-  // useEffect(() => {
-  //   const storedTimetable = localStorage.getItem("timetable");
-  //   const whitelist = [
-  //     "/about",
-  //     "/contact",
-  //     "/admin/login",
-  //     "/admin/dashboard",
-  //     "/timetables/add",
-  //     "/timetables/update/:timetableId",
-  //     "/timetables/sessions/:timetableId",
-  //   ];
-  //   const currentPath = location.pathname;
+  useEffect(() => {
+    const storedTimetable = localStorage.getItem("timetable");
+    const whitelist = [
+      "/about",
+      "/contact",
+      "/login",
+      "/auth/login",
+      "/admin/dashboard",
+      "/timetables/add",
+      "/timetables/update/:timetableId",
+      "/timetables/sessions/:timetableId",
+    ];
+    const currentPath = location.pathname;
 
-  //   if (storedTimetable && !whitelist.includes(currentPath)) {
-  //     const timetable = JSON.parse(storedTimetable);
-  //     if (timetable && timetable._id) {
-  //       navigate(`/timetables/${timetable._id}`, { replace: true });
-  //     }
-  //   }
-  // }, [location.pathname, navigate]);
+    if (storedTimetable && !whitelist.includes(currentPath)) {
+      const timetable = JSON.parse(storedTimetable);
+      if (timetable && timetable._id) {
+        navigate(`/timetables/${timetable._id}`, { replace: true });
+      }
+    }
+  }, [location.pathname, navigate]);
 
   return (
     <div className="main">
@@ -68,9 +70,10 @@ const Main = () => {
       <MainLayout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/auth/login" element={<VerifyToken />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/login" element={<AdminLogin />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
           <Route path="/timetables/find" element={<Find />} />
 
