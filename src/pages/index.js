@@ -8,6 +8,7 @@ import Find from "./Find";
 import About from "./About";
 import AdminLogin from "./AdminLogin";
 import Contact from "./Contact";
+import VerifyToken from "./VerifyToken";
 
 export {
   Home,
@@ -20,4 +21,5 @@ export {
   About,
   Contact,
   AdminLogin,
+  VerifyToken,
 };

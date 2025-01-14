@@ -17,18 +17,22 @@ import {
   About,
   Contact,
   AdminLogin,
+  VerifyToken,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import PrivateRoute from "./components/PrivateRoute";
 import { Dashboard } from "./admin";
+import { AuthProvider } from "./api/authContext";
 
 const App = () => {
   return (
     <div className="app">
       <Router>
-        <Main />
+        <AuthProvider>
+          <Main />
+        </AuthProvider>
       </Router>
     </div>
   );
@@ -43,7 +47,8 @@ const Main = () => {
     const whitelist = [
       "/about",
       "/contact",
-      "/admin/login",
+      "/login",
+      "/auth/login",
       "/admin/dashboard",
       "/timetables/add",
       "/timetables/update/:timetableId",
@@ -65,9 +70,10 @@ const Main = () => {
       <MainLayout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/auth/login" element={<VerifyToken />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/login" element={<AdminLogin />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
           <Route path="/timetables/find" element={<Find />} />
 
