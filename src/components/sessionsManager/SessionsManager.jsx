@@ -37,7 +37,7 @@ const SessionsManager = ({ timetableId }) => {
     const fetchSessions = async () => {
       try {
         const sessionsResponse = await axios.get(
-          `${BASE_URL}/api/sessions/${timetableId}`
+          `${BASE_URL}/api/sessions/find/${timetableId}`
         );
         setSessions(sessionsResponse.data);
       } catch (error) {

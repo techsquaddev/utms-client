@@ -79,7 +79,7 @@ const Main = () => {
         </Route>
         <Route element={<DashboardLayout />}>
           <Route
-            path="/admin/dashboard"
+            path="/dashboard"
             element={
               <PrivateRoute requiredRole="admin">
                 <Dashboard />
@@ -87,7 +87,7 @@ const Main = () => {
             }
           />
           <Route
-            path="/timetables/add"
+            path="/dashboard/timetables/add"
             element={
               <PrivateRoute requiredRole="admin">
                 <AddTimetable />
@@ -95,7 +95,7 @@ const Main = () => {
             }
           />
           <Route
-            path="/timetables/update/:timetableId"
+            path="/dashboard/timetables/update/:timetableId"
             element={
               <PrivateRoute requiredRole="admin">
                 <UpdateTimetable />
@@ -103,7 +103,7 @@ const Main = () => {
             }
           />
           <Route
-            path="timetables/sessions/:timetableId"
+            path="/dashboard/timetables/sessions/:timetableId"
             element={
               <PrivateRoute requiredRole="admin">
                 <ManageSessions />

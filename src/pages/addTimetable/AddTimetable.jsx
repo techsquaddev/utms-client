@@ -54,7 +54,7 @@ const AddTimetable = () => {
       setSelectedFaculty("FOC");
 
       // Redirect to the timetable page
-      navigate(`/timetables/${response.data._id}`);
+      navigate(`/dashboard/timetables/sessions/${response.data._id}`);
     } catch (err) {
       toast.error("Something went wrong! 🤨");
     }
