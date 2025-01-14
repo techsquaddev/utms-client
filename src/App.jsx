@@ -6,7 +6,7 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
-import { MainLayout } from "./components";
+import { DashboardLayout, MainLayout } from "./components";
 import {
   Home,
   AddTimetable,
@@ -67,8 +67,8 @@ const Main = () => {
   return (
     <div className="main">
       <ToastContainer />
-      <MainLayout>
-        <Routes>
+      <Routes>
+        <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/auth/login" element={<VerifyToken />} />
           <Route path="/about" element={<About />} />
@@ -76,7 +76,8 @@ const Main = () => {
           <Route path="/login" element={<AdminLogin />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
           <Route path="/timetables/find" element={<Find />} />
-
+        </Route>
+        <Route element={<DashboardLayout />}>
           <Route
             path="/admin/dashboard"
             element={
@@ -109,8 +110,8 @@ const Main = () => {
               </PrivateRoute>
             }
           />
-        </Routes>
-      </MainLayout>
+        </Route>
+      </Routes>
       <div className="gradient" />
     </div>
   );
