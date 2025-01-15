@@ -77,6 +77,7 @@ const Main = () => {
           <Route path="/login" element={<AdminLogin />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
           <Route path="/timetables/find" element={<Find />} />
+          <Route path="/timetables/add" element={<AddTimetable />} />
         </Route>
         <Route element={<DashboardLayout />}>
           <Route

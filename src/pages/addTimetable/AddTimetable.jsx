@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import styles from "./addTimetable.module.css";
 import { faculties, specializations } from "../../data";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -53,7 +52,7 @@ const AddTimetable = () => {
       });
       setSelectedFaculty("FOC");
 
-      // Redirect to the timetable page
+      // Redirect to the sessions
       navigate(`/dashboard/timetables/sessions/${response.data._id}`);
     } catch (err) {
       toast.error("Something went wrong! 🤨");
@@ -61,15 +60,16 @@ const AddTimetable = () => {
   };
 
   return (
-    <div className={styles.formContainer}>
+    <div className="flex flex-col max-w-[500px] mx-auto my-[50px]">
       <TimetableName timetable={timetable} />
       <form onSubmit={handleSubmit}>
-        <div className={styles.field}>
-          <label>Year:</label>
+        <div className="mb-4">
+          <label className="block mb-1">Year:</label>
           <select
             name="year"
             value={timetable.year}
             onChange={handleChange}
+            className="w-full p-2 box-border border border-gray-300 rounded-md"
             required
           >
             <option value="Y1">Y1</option>
@@ -78,36 +78,39 @@ const AddTimetable = () => {
             <option value="Y4">Y4</option>
           </select>
         </div>
-        <div className={styles.field}>
-          <label>Semester:</label>
+        <div className="mb-4">
+          <label className="block mb-1">Semester:</label>
           <select
             name="semester"
             value={timetable.semester}
             onChange={handleChange}
+            className="w-full p-2 box-border border border-gray-300 rounded-md"
             required
           >
             <option value="S1">S1</option>
             <option value="S2">S2</option>
           </select>
         </div>
-        <div className={styles.field}>
-          <label>Batch:</label>
+        <div className="mb-4">
+          <label className="block mb-1">Batch:</label>
           <select
             name="batch"
             value={timetable.batch}
             onChange={handleChange}
+            className="w-full p-2 box-border border border-gray-300 rounded-md"
             required
           >
             <option value="WE">WE</option>
             <option value="WD">WD</option>
           </select>
         </div>
-        <div className={styles.field}>
-          <label>Faculty:</label>
+        <div className="mb-4">
+          <label className="block mb-1">Faculty:</label>
           <select
             name="faculty"
             value={timetable.faculty}
             onChange={handleChange}
+            className="w-full p-2 box-border border border-gray-300 rounded-md"
             required
           >
             {faculties.map((faculty) => (
@@ -117,12 +120,13 @@ const AddTimetable = () => {
             ))}
           </select>
         </div>
-        <div className={styles.field}>
-          <label>Specialization:</label>
+        <div className="mb-4">
+          <label className="block mb-1">Specialization:</label>
           <select
             name="specialization"
             value={timetable.specialization}
             onChange={handleChange}
+            className="w-full p-2 box-border border border-gray-300 rounded-md"
             required
           >
             {specializations[selectedFaculty] ? (
@@ -138,27 +142,32 @@ const AddTimetable = () => {
             )}
           </select>
         </div>
-        <div className={styles.field}>
-          <label>Group:</label>
+        <div className="mb-4">
+          <label className="block mb-1">Group:</label>
           <input
             type="number"
             name="group"
             value={timetable.group}
             onChange={handleChange}
+            className="w-full p-2 box-border border border-gray-300 rounded-md"
             required
           />
         </div>
-        <div className={styles.field}>
-          <label>Sub Group:</label>
+        <div className="mb-4">
+          <label className="block mb-1">Sub Group:</label>
           <input
             type="number"
             name="subGroup"
             value={timetable.subGroup}
             onChange={handleChange}
+            className="w-full p-2 box-border border border-gray-300 rounded-md"
           />
         </div>
 
-        <button type="submit" className={styles.submitButton}>
+        <button
+          type="submit"
+          className="px-6 py-2.5 bg-primary text-white rounded-md"
+        >
           Add Timetable
         </button>
       </form>
