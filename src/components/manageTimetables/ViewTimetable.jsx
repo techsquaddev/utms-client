@@ -21,7 +21,7 @@ const ViewTimetable = (props) => {
   useEffect(() => {
     const fetchTimetable = async () => {
       try {
-        const response = await axios.get(`/api/timetable/${props.id}`);
+        const response = await axios.get(`/api/timetables/${props.id}`);
         setTimetable(response.data);
       } catch (error) {
         setError(error.response.data.message);

@@ -23,6 +23,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { BASE_URL } from "@/api/baseURL";
 
 const ManageTimetables = ({ setActiveTab }) => {
   const [timetables, setTimetables] = useState([]);
@@ -31,7 +32,7 @@ const ManageTimetables = ({ setActiveTab }) => {
   useEffect(() => {
     const fetchTimetables = async () => {
       try {
-        const response = await axios.get(`/api/timetable/`);
+        const response = await axios.get(`${BASE_URL}/api/timetables`);
         setTimetables(response.data);
       } catch (error) {
         setError(error.response.data.message);

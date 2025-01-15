@@ -18,12 +18,12 @@ import {
   Contact,
   AdminLogin,
   VerifyToken,
+  Dashboard,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import PrivateRoute from "./components/PrivateRoute";
-import { Dashboard } from "./admin";
 import { AuthProvider } from "./api/authContext";
 
 const App = () => {
