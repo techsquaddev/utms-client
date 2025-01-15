@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import { Button } from "../ui/button";
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,8 +13,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { BASE_URL } from "@/api/baseURL";
+import SearchForm from "@/components/manageTimetables/SearchForm";
+import AddTimetable from "@/components/manageTimetables/AddTimetable";
+import ViewTimetable from "@/components/manageTimetables/ViewTimetable";
+import EditTimetable from "@/components/manageTimetables/EditTimetable";
+import { Button } from "@/components/ui/button";
 
-const ManageTimetables = ({ setActiveTab }) => {
+const Timetables = ({ setActiveTab }) => {
   const [timetables, setTimetables] = useState([]);
   const [error, setError] = useState(null);
 
@@ -114,4 +117,4 @@ const ManageTimetables = ({ setActiveTab }) => {
   );
 };
 
-export default ManageTimetables;
+export default Timetables;

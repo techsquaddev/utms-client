@@ -19,6 +19,7 @@ import {
   AdminLogin,
   VerifyToken,
   Dashboard,
+  Timetables,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -83,6 +84,14 @@ const Main = () => {
             element={
               <PrivateRoute requiredRole="admin">
                 <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dashboard/timetables"
+            element={
+              <PrivateRoute requiredRole="admin">
+                <Timetables />
               </PrivateRoute>
             }
           />

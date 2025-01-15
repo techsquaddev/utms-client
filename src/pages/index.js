@@ -10,6 +10,9 @@ import AdminLogin from "./AdminLogin";
 import Contact from "./Contact";
 import VerifyToken from "./VerifyToken";
 
+// Dashboard
+import Timetables from "./dashboard/Timetables";
+
 export {
   Home,
   Find,
@@ -22,4 +25,5 @@ export {
   Contact,
   AdminLogin,
   VerifyToken,
+  Timetables,
 };
