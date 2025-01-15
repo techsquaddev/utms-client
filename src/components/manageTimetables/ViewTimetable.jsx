@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./viewTimetable.module.css";
-import { Clock, SessionsContainer } from "../../components";
+import { Clock, SessionsContainer, TimetableName } from "../../components";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import MiniTimetableCard from "../MiniTimetableCard";
 
 const ViewTimetable = (props) => {
   const [timetable, setTimetable] = useState(null);
@@ -53,54 +54,10 @@ const ViewTimetable = (props) => {
         <DialogTrigger className="w-full justify-start flex">
           <span>{timetable.name}</span>
         </DialogTrigger>
-        <DialogContent className="h-[90vh] max-w-fit bg-[#f9f9f9]">
+        <DialogContent className="h-[90vh] max-w-lg bg-[#f9f9f9] overflow-y-auto scrollbar">
           <DialogTitle></DialogTitle>
-          <DialogDescription className="overflow-y-auto scrollbar">
-            <div className="mr-4">
-              <div className={styles.timetable}>
-                <div className={styles.container}>
-                  <h1 className={styles.heading}>{timetable.name}</h1>
-                  <div className={styles.info}>
-                    <p>
-                      <strong>Group:</strong> {timetable.group}
-                    </p>
-                    {timetable.subGroup && (
-                      <p>
-                        <strong>Sub Group:</strong> {timetable.subGroup}
-                      </p>
-                    )}
-                    <p>
-                      <strong>Year:</strong> {timetable.year}
-                    </p>
-                    <p>
-                      <strong>Semester:</strong> {timetable.semester}
-                    </p>
-                    <p>
-                      <strong>Batch:</strong> {timetable.batch}
-                    </p>
-                    <p>
-                      <strong>Faculty:</strong> {timetable.faculty}
-                    </p>
-                    <p>
-                      <strong>Specialization:</strong>{" "}
-                      {timetable.specialization}
-                    </p>
-                    <p>
-                      <strong>Status:</strong> {timetable.status}
-                    </p>
-                  </div>
-
-                  <div>
-                    <Clock />
-                  </div>
-                  <SessionsContainer
-                    sessions={timetable.sessions}
-                    id={props.id}
-                  />
-                </div>
-              </div>
-            </div>
-          </DialogDescription>
+          <TimetableName timetable={timetable} />
+          <SessionsContainer sessions={timetable.sessions} />
         </DialogContent>
       </Dialog>
     </div>

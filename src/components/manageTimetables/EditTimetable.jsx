@@ -34,7 +34,7 @@ const EditTimetable = (props) => {
   useEffect(() => {
     const fetchTimetable = async () => {
       try {
-        const response = await axios.get(`/api/timetable/${props.id}`);
+        const response = await axios.get(`/api/timetables/${props.id}`);
         setTimetable(response.data);
         setInitialTimetable(response.data);
         setSelectedFaculty(response.data.faculty);

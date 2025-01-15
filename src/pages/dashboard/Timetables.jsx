@@ -49,7 +49,7 @@ const Timetables = ({ setActiveTab }) => {
   return (
     <div className="p-4 flex flex-col w-full h-[90%]">
       <div className="flex justify-between h-fit">
-        <span className="text-2xl">TimeTables</span>
+        <span className="text-2xl">Timetables</span>
       </div>
       <div className="flex mt-8 justify-between w-full">
         <SearchForm />
