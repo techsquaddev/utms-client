@@ -24,7 +24,7 @@ export const getSpecificTimetableByName = async (name) => {
 };
 
 export const findTimetable = async (details) => {
-  const response = await axios.post(`${API_URL}/find-timetable`, details);
+  const response = await axios.post(`${API_URL}/find`, details);
   return response.data;
 };
 

@@ -12,7 +12,7 @@ const Modal = ({ children, title, description, content }) => {
   return (
     <Dialog>
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent className="p-8 h-[90vh] max-w-content overflow-y-scroll no-scrollbar">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

@@ -60,7 +60,7 @@ const AddTimetable = () => {
   };
 
   return (
-    <div className="flex flex-col max-w-[500px] mx-auto my-[50px]">
+    <div className="flex flex-col">
       <TimetableName timetable={timetable} />
       <form onSubmit={handleSubmit}>
         <div className="mb-4">

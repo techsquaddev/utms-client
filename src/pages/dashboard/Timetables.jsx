@@ -23,6 +23,10 @@ import { Modal } from "@/components";
 const Timetables = ({ setActiveTab }) => {
   const [timetables, setTimetables] = useState([]);
   const [error, setError] = useState(null);
+  const addTimetableDesc =
+      "You can add a new timetable by submitting this form.",
+    searchFormDesc = "You can find a specific timetable using this form.",
+    editTimetableDesc = "You can edit/ update this timetable here.";
 
   useEffect(() => {
     const fetchTimetables = async () => {
@@ -53,8 +57,20 @@ const Timetables = ({ setActiveTab }) => {
         <span className="text-2xl">Timetables</span>
       </div>
       <div className="flex mt-8 justify-between w-full">
-        <SearchForm />
-        <Modal title="Add New Timetable" content={<AddTimetable />}>
+        <Modal
+          title="Find Timetable"
+          description={searchFormDesc}
+          content={<SearchForm />}
+        >
+          <Button className="bg-[#333333] rounded-3xl">
+            Find Your Timetable
+          </Button>
+        </Modal>
+        <Modal
+          title="Add New Timetable"
+          description={addTimetableDesc}
+          content={<AddTimetable />}
+        >
           <Button className="bg-[#333333] rounded-3xl">
             Add New Timetable
           </Button>
