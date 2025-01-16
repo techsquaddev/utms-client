@@ -18,6 +18,7 @@ import AddTimetable from "@/components/manageTimetables/AddTimetable";
 import ViewTimetable from "@/components/manageTimetables/ViewTimetable";
 import EditTimetable from "@/components/manageTimetables/EditTimetable";
 import { Button } from "@/components/ui/button";
+import { Modal } from "@/components";
 
 const Timetables = ({ setActiveTab }) => {
   const [timetables, setTimetables] = useState([]);
@@ -53,7 +54,11 @@ const Timetables = ({ setActiveTab }) => {
       </div>
       <div className="flex mt-8 justify-between w-full">
         <SearchForm />
-        <AddTimetable />
+        <Modal title="Add New Timetable" content={<AddTimetable />}>
+          <Button className="bg-[#333333] rounded-3xl">
+            Add New Timetable
+          </Button>
+        </Modal>
       </div>
       {/* List */}
       <div className="mt-6 px-8 h-inherit box-border overflow-y-auto scrollbar">
