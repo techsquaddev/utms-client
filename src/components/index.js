@@ -16,6 +16,7 @@ import ContactForm from "./ContactForm.jsx";
 import TimetableSkeleton from "./TimetableSkeleton.jsx";
 import DashboardLayout from "./DashboardLayout.jsx";
 import Modal from "./Modal.jsx";
+import AlertModal from "./AlertModal.jsx";
 
 export {
   Navbar,
@@ -36,4 +37,5 @@ export {
   TimetableSkeleton,
   DashboardLayout,
   Modal,
+  AlertModal,
 };
