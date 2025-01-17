@@ -27,7 +27,7 @@ const DashboardLayout = () => {
                     to={item.path}
                     className={`flex py-4 px-8 items-center cursor-pointer hover:bg-gray-300 transition duration-200 ${
                       location.pathname === item.path ? "bg-gray-300" : ""
-                    } rounded-lg`}
+                    } rounded-xl`}
                   >
                     <span>{item.label}</span>
                   </Link>

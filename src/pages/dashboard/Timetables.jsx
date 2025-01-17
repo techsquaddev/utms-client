@@ -26,6 +26,7 @@ const Timetables = ({ setActiveTab }) => {
   const addTimetableDesc =
       "You can add a new timetable by submitting this form.",
     searchFormDesc = "You can find a specific timetable using this form.",
+    viewTimetableDesc = "View Timetable Here",
     editTimetableDesc = "You can edit/ update this timetable here.";
 
   useEffect(() => {
@@ -83,32 +84,36 @@ const Timetables = ({ setActiveTab }) => {
             className="mt-4 px-5 flex justify-between items-center cursor-pointer rounded-xl bg-white hover:rounded-l-xl hover:bg-gray-100"
             key={timetable.name}
           >
-            <ViewTimetable name={timetable.name} id={timetable._id} />
+            <Modal
+              title="View Timetable"
+              description={viewTimetableDesc}
+              content={
+                <ViewTimetable name={timetable.name} id={timetable._id} />
+              }
+            >
+              <span className="font-bold text-lg text-gray-700">
+                {timetable.name}
+              </span>
+            </Modal>
             <div className="flex">
-              <Button
-                name="manage"
-                key={`manage-${timetable.name}`}
-                className="bg-[#333333] rounded-none text-white"
-                onClick={() => {
-                  setActiveTab("sessions", {
-                    id: timetable._id,
-                    name: timetable.name,
-                  });
-                }}
+              <Modal
+                title="View Timetable"
+                description={viewTimetableDesc}
+                content={
+                  <ViewTimetable name={timetable.name} id={timetable._id} />
+                }
               >
+                <Button className="bg-[#333333] rounded-none text-white">
+                  <span>View Timetable</span>
+                </Button>
+              </Modal>
+              <Button className="bg-[#333333] rounded-none text-white">
                 <span>Manage Sessions</span>
               </Button>
-              <EditTimetable
-                key={`edit-${timetable.name}`}
-                id={timetable._id}
-              />
+              <EditTimetable id={timetable._id} />
               <AlertDialog>
                 <AlertDialogTrigger>
-                  <Button
-                    name="delete"
-                    key={`delete-${timetable.name}`}
-                    className="bg-[#333333] rounded-none rounded-r-2xl text-white"
-                  >
+                  <Button className="bg-[#333333] rounded-none rounded-r-2xl text-white">
                     Delete
                   </Button>
                 </AlertDialogTrigger>
