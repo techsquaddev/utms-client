@@ -9,8 +9,6 @@ import {
 import { DashboardLayout, MainLayout } from "./components";
 import {
   Home,
-  AddTimetable,
-  UpdateTimetable,
   ManageSessions,
   Timetable,
   Find,
@@ -77,7 +75,6 @@ const Main = () => {
           <Route path="/login" element={<AdminLogin />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
           <Route path="/timetables/find" element={<Find />} />
-          <Route path="/timetables/add" element={<AddTimetable />} />
         </Route>
         <Route element={<DashboardLayout />}>
           <Route
@@ -93,22 +90,6 @@ const Main = () => {
             element={
               <PrivateRoute requiredRole="admin">
                 <Timetables />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/dashboard/timetables/add"
-            element={
-              <PrivateRoute requiredRole="admin">
-                <AddTimetable />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/dashboard/timetables/update/:timetableId"
-            element={
-              <PrivateRoute requiredRole="admin">
-                <UpdateTimetable />
               </PrivateRoute>
             }
           />

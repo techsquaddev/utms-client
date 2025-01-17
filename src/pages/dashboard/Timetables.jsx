@@ -20,7 +20,7 @@ import EditTimetable from "@/components/manageTimetables/EditTimetable";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components";
 
-const Timetables = ({ setActiveTab }) => {
+const Timetables = () => {
   const [timetables, setTimetables] = useState([]);
   const [error, setError] = useState(null);
   const addTimetableDesc =
@@ -84,17 +84,18 @@ const Timetables = ({ setActiveTab }) => {
             className="mt-4 px-5 flex justify-between items-center cursor-pointer rounded-xl bg-white hover:rounded-l-xl hover:bg-gray-100"
             key={timetable.name}
           >
-            <Modal
-              title="View Timetable"
-              description={viewTimetableDesc}
-              content={
-                <ViewTimetable name={timetable.name} id={timetable._id} />
+            <span
+              onClick={() =>
+                window.open(
+                  `/dashboard/timetables/sessions/${timetable._id}`,
+                  "_blank"
+                )
               }
+              className="text-lg text-gray-700"
             >
-              <span className="font-bold text-lg text-gray-700">
-                {timetable.name}
-              </span>
-            </Modal>
+              📅 {timetable.name}
+            </span>
+
             <div className="flex">
               <Modal
                 title="View Timetable"
@@ -107,10 +108,30 @@ const Timetables = ({ setActiveTab }) => {
                   <span>View Timetable</span>
                 </Button>
               </Modal>
-              <Button className="bg-[#333333] rounded-none text-white">
+              <Button
+                onClick={() =>
+                  window.open(
+                    `/dashboard/timetables/sessions/${timetable._id}`,
+                    "_blank"
+                  )
+                }
+                className="bg-[#333333] rounded-none text-white"
+              >
                 <span>Manage Sessions</span>
               </Button>
-              <EditTimetable id={timetable._id} />
+              <Modal
+                title="Edit Timetable Data"
+                description={editTimetableDesc}
+                content={<EditTimetable timetableId={timetable._id} />}
+              >
+                <Button
+                  name="edit"
+                  className="bg-[#333333] rounded-none text-white border border-white/20"
+                >
+                  <span>Edit</span>
+                </Button>
+              </Modal>
+
               <AlertDialog>
                 <AlertDialogTrigger>
                   <Button className="bg-[#333333] rounded-none rounded-r-2xl text-white">
