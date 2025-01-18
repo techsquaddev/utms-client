@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { BASE_URL } from "@/api/baseURL";
