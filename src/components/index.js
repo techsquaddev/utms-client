@@ -17,6 +17,9 @@ import TimetableSkeleton from "./TimetableSkeleton.jsx";
 import DashboardLayout from "./DashboardLayout.jsx";
 import Modal from "./Modal.jsx";
 import AlertModal from "./AlertModal.jsx";
+import SessionForm from "./manageTimetables/SessionForm.jsx";
+import AddSession from "./manageSessions/AddSession.jsx";
+import UpdateSession from "./manageSessions/UpdateSession.jsx";
 
 export {
   Navbar,
@@ -38,4 +41,7 @@ export {
   DashboardLayout,
   Modal,
   AlertModal,
+  SessionForm,
+  AddSession,
+  UpdateSession,
 };

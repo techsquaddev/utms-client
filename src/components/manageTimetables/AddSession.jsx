@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { BASE_URL } from "@/api/baseURL";
 
-const SessionForm = ({ formState, handleChange, handleSubmit, isUpdate }) => {
+const AddSession = ({ timetableId, fetchSessions }) => {
+  const [formState, setFormState] = useState({
+    day: "",
+    startTime: "",
+    endTime: "",
+    moduleName: "",
+    moduleCode: "",
+    sessionType: "",
+    location: "",
+    coordinator: "",
+    deliveryType: "",
+    sessionLink: "",
+  });
+  const [error, setError] = useState(null);
+
   const days = [
     "Sunday",
     "Monday",
@@ -11,14 +27,43 @@ const SessionForm = ({ formState, handleChange, handleSubmit, isUpdate }) => {
     "Saturday",
   ];
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormState((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+
+    try {
+      await axios.post(`${BASE_URL}/api/sessions/${timetableId}`, formState);
+      fetchSessions(); // Refresh the session list
+      setFormState({
+        day: "",
+        startTime: "",
+        endTime: "",
+        moduleName: "",
+        moduleCode: "",
+        sessionType: "",
+        location: "",
+        coordinator: "",
+        deliveryType: "",
+        sessionLink: "",
+      });
+    } catch (err) {
+      console.error("Error adding session:", err);
+      setError("Failed to add session. Please try again.");
+    }
+  };
+
   return (
     <form
       className="flex flex-col p-5 border border-gray-300 rounded-md bg-white w-full max-w-2xl"
       onSubmit={handleSubmit}
     >
-      <h2 className="mb-5 text-gray-800">
-        {isUpdate ? "Update Session" : "Add Session"}
-      </h2>
+      <h2 className="mb-5 text-gray-800">Add Session</h2>
+      {error && <p className="text-red-600 mb-4">{error}</p>}
       <label className="mb-2">
         Day:
         <select
@@ -148,10 +193,10 @@ const SessionForm = ({ formState, handleChange, handleSubmit, isUpdate }) => {
         type="submit"
         className="mt-5 px-5 py-2 bg-green-600 text-white rounded cursor-pointer self-center hover:bg-green-700"
       >
-        {isUpdate ? "Update Session" : "Add Session"}
+        Add Session
       </button>
     </form>
   );
 };
 
-export default SessionForm;
+export default AddSession;
