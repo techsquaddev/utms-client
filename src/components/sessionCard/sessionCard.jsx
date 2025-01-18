@@ -1,7 +1,9 @@
 import React from "react";
 import styles from "./sessionCard.module.css";
+import { Modal, UpdateSession } from "..";
 
-const sessionCard = ({ session, onUpdate, onDelete }) => {
+const sessionCard = ({ session, fetchSessions }) => {
+  const editSessionDesc = "Edit session data here.";
   return (
     <div className={styles.card}>
       <h3 className={styles.title}>
@@ -40,18 +42,19 @@ const sessionCard = ({ session, onUpdate, onDelete }) => {
         )}
       </div>
       <div className={styles.buttons}>
-        <button
-          onClick={() => onUpdate(session)}
-          className={styles.updateButton}
+        <Modal
+          title="Edit Session Data"
+          description={editSessionDesc}
+          content={
+            <UpdateSession
+              currentSessionId={session._id}
+              fetchSessions={fetchSessions}
+            />
+          }
         >
-          Update
-        </button>
-        <button
-          onClick={() => onDelete(session)}
-          className={styles.deleteButton}
-        >
-          Delete
-        </button>
+          <button className={styles.updateButton}>Update</button>
+        </Modal>
+        <button className={styles.deleteButton}>Delete</button>
       </div>
     </div>
   );

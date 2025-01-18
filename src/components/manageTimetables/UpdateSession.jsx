@@ -64,11 +64,7 @@ const UpdateSession = ({ currentSessionId, fetchSessions }) => {
   };
 
   return (
-    <form
-      className="flex flex-col p-5 border border-gray-300 rounded-md bg-white w-full max-w-2xl"
-      onSubmit={handleSubmit}
-    >
-      <h2 className="mb-5 text-gray-800">Update Session</h2>
+    <form className="flex flex-col" onSubmit={handleSubmit}>
       {error && <p className="text-red-600 mb-4">{error}</p>}
       <label className="mb-2">
         Day:
