@@ -11,21 +11,18 @@ import {
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
 
-const AlertModal = () => {
+const AlertModal = ({ children, title, description, action }) => {
   return (
     <AlertDialog>
-      <AlertDialogTrigger>Hello</AlertDialogTrigger>
+      <AlertDialogTrigger>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete selected
-            timetable and all sessions associated with it.
-          </AlertDialogDescription>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={action}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

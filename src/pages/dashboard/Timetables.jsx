@@ -1,24 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { BASE_URL } from "@/api/baseURL";
 import SearchForm from "@/components/manageTimetables/SearchForm";
 import AddTimetable from "@/components/manageTimetables/AddTimetable";
 import ViewTimetable from "@/components/manageTimetables/ViewTimetable";
 import EditTimetable from "@/components/manageTimetables/EditTimetable";
 import { Button } from "@/components/ui/button";
-import { Modal } from "@/components";
+import { AlertModal, Modal } from "@/components";
 
 const Timetables = () => {
   const [timetables, setTimetables] = useState([]);
@@ -27,7 +15,9 @@ const Timetables = () => {
       "You can add a new timetable by submitting this form.",
     searchFormDesc = "You can find a specific timetable using this form.",
     viewTimetableDesc = "View Timetable Here",
-    editTimetableDesc = "You can edit/ update this timetable here.";
+    editTimetableDesc = "You can edit/ update this timetable here.",
+    alertDesc =
+      "This action cannot be undone. This will permanently delete selected timetable and all sessions associated with it.";
 
   useEffect(() => {
     const fetchTimetables = async () => {
@@ -132,30 +122,15 @@ const Timetables = () => {
                 </Button>
               </Modal>
 
-              <AlertDialog>
-                <AlertDialogTrigger>
-                  <Button className="bg-[#333333] rounded-none rounded-r-2xl text-white">
-                    Delete
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      selected timetable and all sessions associated with it.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={() => deleteTimetable(timetable._id)}
-                    >
-                      Continue
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+              <AlertModal
+                title="Confirm Deletion"
+                description={alertDesc}
+                action={() => deleteTimetable(timetable._id)}
+              >
+                <Button className="bg-[#333333] rounded-none rounded-r-2xl text-white">
+                  Delete
+                </Button>
+              </AlertModal>
             </div>
           </div>
         ))}
