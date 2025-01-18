@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SessionCard from "../sessionCard/sessionCard";
 import { BASE_URL } from "@/api/baseURL";
+import { AddSession, Modal } from "..";
 
 const SessionsManager = ({ timetableId }) => {
   const [sessions, setSessions] = useState([]);
+  const addSessionDesc = "Add a new session.";
 
   // From sessions container
   const [currentDay, setCurrentDay] = useState(new Date().getDay());
@@ -43,6 +45,17 @@ const SessionsManager = ({ timetableId }) => {
 
   return (
     <div className="flex flex-row items-start gap-8 mt-8">
+      <Modal
+        title="Edit Session Data"
+        description={addSessionDesc}
+        content={
+          <AddSession timetableId={timetableId} fetchSessions={fetchSessions} />
+        }
+      >
+        <button className="mt-5 px-5 py-2 bg-green-600 text-white rounded cursor-pointer self-center hover:bg-green-700">
+          Add a session
+        </button>
+      </Modal>
       <div>
         {/* from sessions container */}
         <div>
