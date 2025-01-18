@@ -1,9 +1,23 @@
 import React from "react";
 import styles from "./sessionCard.module.css";
-import { Modal, UpdateSession } from "..";
+import { AlertModal, Modal, UpdateSession } from "..";
+import { BASE_URL } from "@/api/baseURL";
+import axios from "axios";
 
 const sessionCard = ({ session, fetchSessions }) => {
-  const editSessionDesc = "Edit session data here.";
+  const editSessionDesc = "Edit session data here.",
+    alertDesc =
+      "This action cannot be undone. This will permanently delete selected session from the timetable.";
+
+  const deleteSession = async () => {
+    try {
+      await axios.delete(`${BASE_URL}/api/sessions/${session._id}`);
+      fetchSessions();
+    } catch (error) {
+      console.error("Error deleting session:", error);
+    }
+  };
+
   return (
     <div className={styles.card}>
       <h3 className={styles.title}>
@@ -54,7 +68,13 @@ const sessionCard = ({ session, fetchSessions }) => {
         >
           <button className={styles.updateButton}>Update</button>
         </Modal>
-        <button className={styles.deleteButton}>Delete</button>
+        <AlertModal
+          title="Confirm Deletion"
+          description={alertDesc}
+          action={() => deleteSession()}
+        >
+          <button className={styles.deleteButton}>Delete</button>
+        </AlertModal>
       </div>
     </div>
   );

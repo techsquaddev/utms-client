@@ -5,7 +5,6 @@ import { BASE_URL } from "@/api/baseURL";
 
 const SessionsManager = ({ timetableId }) => {
   const [sessions, setSessions] = useState([]);
-  const [currentSessionId, setCurrentSessionId] = useState(null);
 
   // From sessions container
   const [currentDay, setCurrentDay] = useState(new Date().getDay());
@@ -33,15 +32,6 @@ const SessionsManager = ({ timetableId }) => {
   useEffect(() => {
     fetchSessions();
   }, [timetableId]);
-
-  const handleDelete = async (session) => {
-    try {
-      await axios.delete(`${BASE_URL}/api/sessions/${session._id}`);
-      setSessions(sessions.filter((s) => s._id !== session._id));
-    } catch (error) {
-      console.error("Error deleting session:", error);
-    }
-  };
 
   // From sessions container
   const handleDayChange = (direction) => {
