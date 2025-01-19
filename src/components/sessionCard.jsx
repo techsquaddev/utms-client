@@ -1,6 +1,5 @@
 import React from "react";
-import styles from "./sessionCard.module.css";
-import { AlertModal, Modal, UpdateSession } from "..";
+import { AlertModal, Modal, UpdateSession } from ".";
 import { BASE_URL } from "@/api/baseURL";
 import axios from "axios";
 
@@ -19,43 +18,46 @@ const sessionCard = ({ session, fetchSessions }) => {
   };
 
   return (
-    <div className={styles.card}>
-      <h3 className={styles.title}>
+    <div className="border border-gray-300 rounded-lg p-4 bg-white shadow-md m-4 max-w-sm">
+      <h3 className="text-lg font-medium mb-2 text-gray-800">
         {session.moduleName} ({session.moduleCode})
       </h3>
-      <div className={styles.details}>
-        <p>
-          <strong>Day:</strong> {session.day}
+      <div className="space-y-1">
+        <p className="text-gray-700">
+          <strong className="text-gray-600">Day:</strong> {session.day}
         </p>
-        <p>
-          <strong>Time:</strong>{" "}
+        <p className="text-gray-700">
+          <strong className="text-gray-600">Time:</strong>{" "}
           {new Date(session.time.startTime).toLocaleTimeString()} -{" "}
           {new Date(session.time.endTime).toLocaleTimeString()}
         </p>
-        <p>
-          <strong>Type:</strong> {session.sessionType}
+        <p className="text-gray-700">
+          <strong className="text-gray-600">Type:</strong> {session.sessionType}
         </p>
-        <p>
-          <strong>Location:</strong> {session.location}
+        <p className="text-gray-700">
+          <strong className="text-gray-600">Location:</strong>{" "}
+          {session.location}
         </p>
         {session.coordinator && (
-          <p>
-            <strong>Coordinator:</strong> {session.coordinator}
+          <p className="text-gray-700">
+            <strong className="text-gray-600">Coordinator:</strong>{" "}
+            {session.coordinator}
           </p>
         )}
         {session.deliveryType && (
-          <p>
-            <strong>Delivery Type:</strong> {session.deliveryType}
+          <p className="text-gray-700">
+            <strong className="text-gray-600">Delivery Type:</strong>{" "}
+            {session.deliveryType}
           </p>
         )}
         {session.sessionLink && (
-          <p>
-            <strong>Link:</strong>{" "}
+          <p className="text-gray-700">
+            <strong className="text-gray-600">Link:</strong>{" "}
             <a href={session.sessionLink}>{session.sessionLink}</a>
           </p>
         )}
       </div>
-      <div className={styles.buttons}>
+      <div className="flex justify-between mt-4">
         <Modal
           title="Edit Session Data"
           description={editSessionDesc}
@@ -66,14 +68,18 @@ const sessionCard = ({ session, fetchSessions }) => {
             />
           }
         >
-          <button className={styles.updateButton}>Update</button>
+          <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
+            Update
+          </button>
         </Modal>
         <AlertModal
           title="Confirm Deletion"
           description={alertDesc}
           action={() => deleteSession()}
         >
-          <button className={styles.deleteButton}>Delete</button>
+          <button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+            Delete
+          </button>
         </AlertModal>
       </div>
     </div>
