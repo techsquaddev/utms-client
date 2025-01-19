@@ -18,6 +18,7 @@ import {
   VerifyToken,
   Dashboard,
   Timetables,
+  Sessions,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -97,7 +98,7 @@ const Main = () => {
             path="/dashboard/timetables/sessions/:timetableId"
             element={
               <PrivateRoute requiredRole="admin">
-                <ManageSessions />
+                <Sessions />
               </PrivateRoute>
             }
           />
