@@ -18,6 +18,7 @@ import Modal from "./Modal.jsx";
 import AlertModal from "./AlertModal.jsx";
 import AddSession from "./manageTimetables/AddSession.jsx";
 import UpdateSession from "./manageTimetables/UpdateSession.jsx";
+import SessionBoard from "./manageTimetables/SessionBoard.jsx";
 
 export {
   Navbar,
@@ -40,4 +41,5 @@ export {
   AlertModal,
   AddSession,
   UpdateSession,
+  SessionBoard,
 };
