@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "@/api/baseURL";
 
-const AddSession = ({ timetableId, fetchSessions }) => {
+const AddSession = ({ timetableId, fetchTimetable }) => {
   const [formState, setFormState] = useState({
     day: "",
     startTime: "",
@@ -38,7 +38,7 @@ const AddSession = ({ timetableId, fetchSessions }) => {
 
     try {
       await axios.post(`${BASE_URL}/api/sessions/${timetableId}`, formState);
-      fetchSessions(); // Refresh the session list
+      fetchTimetable();
       setFormState({
         day: "",
         startTime: "",

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { SessionCard } from "..";
+import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 
-const SessionBoard = ({ sessions, fetchSessions }) => {
+const SessionBoard = ({ sessions, fetchTimetable }) => {
   const [currentDay, setCurrentDay] = useState(new Date().getDay());
   const days = [
     "Sunday",
@@ -21,27 +22,30 @@ const SessionBoard = ({ sessions, fetchSessions }) => {
   };
   return (
     <div>
-      <div className="flex justify-between mb-5">
+      <div className="flex items-center justify-between mb-4">
         <button
-          className="bg-blue-500 text-white px-3 py-1 rounded transition hover:bg-blue-700"
+          className="bg-soft-blue p-2 shadow-lg rounded-full border border-primary hover:bg-soft-gray transition-colors duration-300"
           onClick={() => handleDayChange(-1)}
         >
-          Previous
+          <ArrowBackIosNew className="text-primary" />
         </button>
+        <h3 className="text-2xl text-soft-text font-semibold text-center">
+          {days[currentDay]}
+        </h3>
         <button
-          className="bg-blue-500 text-white px-3 py-1 rounded transition hover:bg-blue-700"
+          className="bg-soft-blue p-2 shadow-lg rounded-full border border-primary hover:bg-soft-gray transition-colors duration-300"
           onClick={() => handleDayChange(1)}
         >
-          Next
+          <ArrowForwardIos className="text-primary" />
         </button>
       </div>
-      <div className="flex justify-between gap-2 mb-5">
+      <div className="flex justify-center gap-2 mb-5">
         {days.map((day, index) => (
           <button
             key={index}
             className={`${
-              currentDay === index ? "bg-blue-500 text-white" : ""
-            } bg-gray-200 px-3 py-1 rounded transition hover:bg-gray-300`}
+              currentDay === index ? "bg-blue-500 text-white" : "bg-gray-200"
+            } px-3 py-1 rounded transition hover:bg-gray-300`}
             onClick={() => setCurrentDay(index)}
           >
             {day}
@@ -61,7 +65,7 @@ const SessionBoard = ({ sessions, fetchSessions }) => {
             <SessionCard
               key={session._id}
               session={session}
-              fetchSessions={fetchSessions}
+              fetchTimetable={fetchTimetable}
             />
           ))}
       </div>

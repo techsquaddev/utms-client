@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "@/api/baseURL";
 
-const UpdateSession = ({ currentSessionId, fetchSessions }) => {
+const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
   const [formState, setFormState] = useState({
     day: "",
     startTime: "",
@@ -56,7 +56,7 @@ const UpdateSession = ({ currentSessionId, fetchSessions }) => {
         `${BASE_URL}/api/sessions/${currentSessionId}`,
         formState
       );
-      fetchSessions(); // Refresh the session list
+      fetchTimetable();
     } catch (err) {
       console.error("Error updating session:", err);
       setError("Failed to update session. Please try again.");

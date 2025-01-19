@@ -1,9 +1,9 @@
 import React from "react";
-import { AlertModal, Modal, UpdateSession } from ".";
-import { BASE_URL } from "@/api/baseURL";
 import axios from "axios";
+import { AlertModal, Modal, UpdateSession } from "..";
+import { BASE_URL } from "@/api/baseURL";
 
-const sessionCard = ({ session, fetchSessions }) => {
+const SessionCard = ({ session, fetchTimetable }) => {
   const editSessionDesc = "Edit session data here.",
     alertDesc =
       "This action cannot be undone. This will permanently delete selected session from the timetable.";
@@ -11,7 +11,7 @@ const sessionCard = ({ session, fetchSessions }) => {
   const deleteSession = async () => {
     try {
       await axios.delete(`${BASE_URL}/api/sessions/${session._id}`);
-      fetchSessions();
+      fetchTimetable();
     } catch (error) {
       console.error("Error deleting session:", error);
     }
@@ -64,7 +64,7 @@ const sessionCard = ({ session, fetchSessions }) => {
           content={
             <UpdateSession
               currentSessionId={session._id}
-              fetchSessions={fetchSessions}
+              fetchTimetable={fetchTimetable}
             />
           }
         >
@@ -86,4 +86,4 @@ const sessionCard = ({ session, fetchSessions }) => {
   );
 };
 
-export default sessionCard;
+export default SessionCard;
