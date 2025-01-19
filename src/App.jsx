@@ -6,24 +6,23 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
-import { MainLayout } from "./components";
+import { DashboardLayout, MainLayout } from "./components";
 import {
   Home,
-  AddTimetable,
-  UpdateTimetable,
-  ManageSessions,
   Timetable,
   Find,
   About,
   Contact,
   AdminLogin,
   VerifyToken,
+  Dashboard,
+  Timetables,
+  Sessions,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import PrivateRoute from "./components/PrivateRoute";
-import { Dashboard } from "./admin";
 import { AuthProvider } from "./api/authContext";
 
 const App = () => {
@@ -67,8 +66,8 @@ const Main = () => {
   return (
     <div className="main">
       <ToastContainer />
-      <MainLayout>
-        <Routes>
+      <Routes>
+        <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/auth/login" element={<VerifyToken />} />
           <Route path="/about" element={<About />} />
@@ -76,9 +75,10 @@ const Main = () => {
           <Route path="/login" element={<AdminLogin />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
           <Route path="/timetables/find" element={<Find />} />
-
+        </Route>
+        <Route element={<DashboardLayout />}>
           <Route
-            path="/admin/dashboard"
+            path="/dashboard"
             element={
               <PrivateRoute requiredRole="admin">
                 <Dashboard />
@@ -86,31 +86,23 @@ const Main = () => {
             }
           />
           <Route
-            path="/timetables/add"
+            path="/dashboard/timetables"
             element={
               <PrivateRoute requiredRole="admin">
-                <AddTimetable />
+                <Timetables />
               </PrivateRoute>
             }
           />
           <Route
-            path="/timetables/update/:timetableId"
+            path="/dashboard/timetables/sessions/:timetableId"
             element={
               <PrivateRoute requiredRole="admin">
-                <UpdateTimetable />
+                <Sessions />
               </PrivateRoute>
             }
           />
-          <Route
-            path="timetables/sessions/:timetableId"
-            element={
-              <PrivateRoute requiredRole="admin">
-                <ManageSessions />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </MainLayout>
+        </Route>
+      </Routes>
       <div className="gradient" />
     </div>
   );

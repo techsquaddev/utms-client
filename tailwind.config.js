@@ -9,30 +9,30 @@ module.exports = {
   ],
   prefix: "",
   theme: {
-    colors: {
-      primary: "#0455BF",
-      secondary: "#F2B33D",
-      accent: "#F27F3D",
-      text: "#333333",
-      border: "#cccccc",
-      white: "#ffffff",
-      "dark-blue": "#0442BF",
-      "soft-text": "#444444",
-      "soft-gray": "#f4f4f4",
-      "soft-yellow": "#FFFFE0",
-      "soft-blue": "#F0FFFF",
-      "soft-red": "#fff1f1",
-      "red-alert": "#ff4545",
-      skeliton: "#d1dff6",
-    },
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
+      colors: {
+        primary: "#0455BF",
+        secondary: "#F2B33D",
+        accent: "#F27F3D",
+        text: "#333333",
+        border: "#cccccc",
+        white: "#ffffff",
+        "dark-blue": "#0442BF",
+        "soft-text": "#444444",
+        "soft-gray": "#f4f4f4",
+        "soft-yellow": "#FFFFE0",
+        "soft-blue": "#F0FFFF",
+        "soft-red": "#fff1f1",
+        "red-alert": "#ff4545",
+        skeliton: "#d1dff6",
+      },
+      container: {
+        center: true,
+        padding: "2rem",
+        screens: {
+          "2xl": "1400px",
+        },
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
