@@ -1,6 +1,5 @@
 import Home from "./Home";
 import Timetable from "./Timetable";
-import ManageSessions from "./manageSessions/ManageSessions";
 import Find from "./Find";
 import About from "./About";
 import AdminLogin from "./AdminLogin";
@@ -16,7 +15,6 @@ export {
   Home,
   Find,
   Timetable,
-  ManageSessions,
   Dashboard,
   About,
   Contact,

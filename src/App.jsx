@@ -9,7 +9,6 @@ import {
 import { DashboardLayout, MainLayout } from "./components";
 import {
   Home,
-  ManageSessions,
   Timetable,
   Find,
   About,
