@@ -16,19 +16,14 @@ export const AuthProvider = ({ children }) => {
 
   // Fetch Logged In User
   const fetchUser = async () => {
-    const token = localStorage.getItem("token");
-    console.log("Token: " + token);
-    if (token) {
-      try {
-        const { data } = await getLoggedInUser(token);
-        setUser(data);
-        console.log(data);
-      } catch (error) {
-        console.error("Failed to fetch user:", error.message);
-        localStorage.removeItem("token");
-      }
+    try {
+      const { data } = await getLoggedInUser();
+      setUser(data);
+    } catch (error) {
+      console.error("Failed to fetch user:", error.message);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -37,7 +32,7 @@ export const AuthProvider = ({ children }) => {
 
   // Render children only when loading is complete
   if (loading) {
-    return <div>Loading...</div>; // Optional: Replace with a loader
+    return <div>Loading...</div>; // Replace with a loader
   }
 
   return (

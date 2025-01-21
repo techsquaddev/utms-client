@@ -5,7 +5,13 @@ const API_URL = `${BASE_URL}/api/users`;
 
 // Send magic link
 export const loginUser = async (email) => {
-  return await axios.post(`${API_URL}/login`, { email });
+  return await axios.post(
+    `${API_URL}/login`,
+    { email },
+    {
+      withCredentials: true,
+    }
+  );
 };
 
 // Register user and send verification email
@@ -15,18 +21,30 @@ export const registerUser = async (userData) => {
 
 // Verify email
 export const verifyEmail = async (token) => {
-  return await axios.post(`${API_URL}/verify-email`, { token });
+  return await axios.post(
+    `${API_URL}/verify-email`,
+    { token },
+    {
+      withCredentials: true,
+    }
+  );
 };
 
 // Login via magic link
 export const verifyToken = async (token) => {
-  return await axios.post(`${API_URL}/verify-token`, { token });
+  return await axios.post(
+    `${API_URL}/verify-token`,
+    { token },
+    {
+      withCredentials: true,
+    }
+  );
 };
 
 // Get user profile
 export const getLoggedInUser = async (token) => {
   return await axios.get(`${API_URL}/me`, {
-    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true,
   });
 };
 
