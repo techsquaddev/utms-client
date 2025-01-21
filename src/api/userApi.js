@@ -1,54 +1,31 @@
-import axios from "axios";
-import { BASE_URL } from "./baseURL";
-
-const API_URL = `${BASE_URL}/api/users`;
+import axiosInstance from "./axiosInstance";
 
 // Send magic link
 export const loginUser = async (email) => {
-  return await axios.post(
-    `${API_URL}/login`,
-    { email },
-    {
-      withCredentials: true,
-    }
-  );
+  return await axiosInstance.post(`/users/login`, { email });
 };
 
 // Register user and send verification email
 export const registerUser = async (userData) => {
-  return await axios.post(`${API_URL}/register`, userData);
+  return await axiosInstance.post(`/users/register`, userData);
 };
 
 // Verify email
 export const verifyEmail = async (token) => {
-  return await axios.post(
-    `${API_URL}/verify-email`,
-    { token },
-    {
-      withCredentials: true,
-    }
-  );
+  return await axiosInstance.post(`/users/verify-email`, { token });
 };
 
 // Login via magic link
 export const verifyToken = async (token) => {
-  return await axios.post(
-    `${API_URL}/verify-token`,
-    { token },
-    {
-      withCredentials: true,
-    }
-  );
+  return await axiosInstance.post(`/users/verify-token`, { token });
 };
 
 // Get user profile
-export const getLoggedInUser = async (token) => {
-  return await axios.get(`${API_URL}/me`, {
-    withCredentials: true,
-  });
+export const getLoggedInUser = async () => {
+  return await axiosInstance.get(`/users/me`);
 };
 
 // Logout user
 export const logoutUser = async () => {
-  return await axios.post(`${API_URL}/logout`);
+  return await axiosInstance.post(`/users/logout`);
 };

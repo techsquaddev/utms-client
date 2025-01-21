@@ -11,7 +11,7 @@ const AdminLogin = () => {
     e.preventDefault();
     try {
       const response = await loginUser(email);
-      toast(response.data.message);
+      toast.success(response.data.message);
       setIsLoading(false);
       setEmail("");
     } catch (error) {

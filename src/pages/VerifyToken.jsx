@@ -12,9 +12,8 @@ const VerifyToken = () => {
       try {
         const token = searchParams.get("token");
         const response = await verifyToken(token);
-        localStorage.setItem("token", response.data.token);
         setMessage(response.data.message);
-        navigate("/");
+        navigate("/dashboard");
       } catch (error) {
         setMessage("Verification failed or token expired.");
       }

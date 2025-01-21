@@ -9,9 +9,12 @@ export const AuthProvider = ({ children }) => {
 
   // Logout User
   const logout = async () => {
-    await logoutUser();
-    setUser(null);
-    localStorage.removeItem("token");
+    try {
+      await logoutUser();
+      setUser(null);
+    } catch (error) {
+      console.error("Logout failed:", error.message);
+    }
   };
 
   // Fetch Logged In User
