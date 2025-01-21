@@ -5,6 +5,7 @@ import About from "./About";
 import AdminLogin from "./AdminLogin";
 import Contact from "./Contact";
 import VerifyToken from "./VerifyToken";
+import Register from "./Register";
 
 // Dashboard
 import Dashboard from "./dashboard/Dashboard";
@@ -22,4 +23,5 @@ export {
   VerifyToken,
   Timetables,
   Sessions,
+  Register,
 };

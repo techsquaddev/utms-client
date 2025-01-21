@@ -22,7 +22,9 @@ const Timetables = () => {
   useEffect(() => {
     const fetchTimetables = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/timetables`);
+        const response = await axios.get(`${BASE_URL}/api/timetables`, {
+          withCredentials: true,
+        });
         setTimetables(response.data);
       } catch (error) {
         setError(error.response.data.message);
