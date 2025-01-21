@@ -13,12 +13,13 @@ import {
   Find,
   About,
   Contact,
-  AdminLogin,
+  Login,
   VerifyToken,
   Dashboard,
   Timetables,
   Sessions,
   Register,
+  VerifyEmail,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -70,10 +71,11 @@ const Main = () => {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/auth/login" element={<VerifyToken />} />
+          <Route path="/verify/login" element={<VerifyToken />} />
+          <Route path="/verify/email" element={<VerifyEmail />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<AdminLogin />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
           <Route path="/timetables/find" element={<Find />} />

@@ -1,9 +1,9 @@
-import { verifyToken } from "@/api/userApi";
+import { verifyEmail } from "@/api/userApi";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const VerifyToken = () => {
+const VerifyEmail = () => {
   const [searchParams] = useSearchParams();
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const VerifyToken = () => {
     const verify = async () => {
       try {
         const token = searchParams.get("token");
-        const response = await verifyToken(token);
+        const response = await verifyEmail(token);
         setMessage(response.data.message);
         toast.success(response.data.message);
         navigate("/dashboard");
@@ -28,4 +28,4 @@ const VerifyToken = () => {
   return <div>{message}</div>;
 };
 
-export default VerifyToken;
+export default VerifyEmail;

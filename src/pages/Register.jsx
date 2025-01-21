@@ -21,6 +21,13 @@ const Register = () => {
     try {
       const response = await registerUser(formData);
       setMessage(response.data.message || "Registration successful!");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        role: "",
+        position: "",
+      });
     } catch (error) {
       setMessage(
         error.response?.data?.message ||
