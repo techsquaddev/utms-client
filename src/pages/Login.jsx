@@ -17,15 +17,16 @@ const Login = () => {
   }, [user, navigate]);
 
   const handleSubmit = async (e) => {
-    setIsLoading(true);
     e.preventDefault();
     try {
+      setIsLoading(true);
       const response = await loginUser(email);
       toast.success(response.data.message);
-      setIsLoading(false);
       setEmail("");
     } catch (error) {
       toast.error("Failed to send magic link. Please try again.");
+    } finally {
+      isLoading(false);
     }
   };
 

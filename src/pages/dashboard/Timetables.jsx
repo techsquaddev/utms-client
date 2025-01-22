@@ -7,10 +7,12 @@ import { Button } from "@/components/ui/button";
 import { AlertModal, Modal } from "@/components";
 import { deleteTimetable, getAllTimetables } from "@/api/timetableApi";
 import { toast } from "react-toastify";
+import { useAuth } from "@/api/authContext";
 
 const Timetables = () => {
   const [timetables, setTimetables] = useState([]);
   const [error, setError] = useState(null);
+  const { user } = useAuth();
   const addTimetableDesc =
       "You can add a new timetable by submitting this form.",
     searchFormDesc = "You can find a specific timetable using this form.",
@@ -135,16 +137,17 @@ const Timetables = () => {
                   <span>Edit</span>
                 </Button>
               </Modal>
-
-              <AlertModal
-                title="Confirm Deletion"
-                description={alertDesc}
-                action={() => handleDelete(timetable._id)}
-              >
-                <Button className="bg-[#333333] rounded-none rounded-r-2xl text-white">
-                  Delete
-                </Button>
-              </AlertModal>
+              {user?.role === "admin" && (
+                <AlertModal
+                  title="Confirm Deletion"
+                  description={alertDesc}
+                  action={() => handleDelete(timetable._id)}
+                >
+                  <Button className="bg-[#333333] rounded-none rounded-r-2xl text-white">
+                    Delete
+                  </Button>
+                </AlertModal>
+              )}
             </div>
           </div>
         ))}

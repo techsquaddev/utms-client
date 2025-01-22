@@ -12,6 +12,7 @@ import Register from "./Register";
 import Dashboard from "./dashboard/Dashboard";
 import Timetables from "./dashboard/Timetables";
 import Sessions from "./dashboard/Sessions";
+import Users from "./dashboard/Users";
 
 export {
   Home,
@@ -21,9 +22,10 @@ export {
   About,
   Contact,
   Login,
+  Register,
   VerifyToken,
   VerifyEmail,
   Timetables,
   Sessions,
-  Register,
+  Users,
 };

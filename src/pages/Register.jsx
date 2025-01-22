@@ -1,5 +1,6 @@
 import { registerUser } from "@/api/userApi";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +10,7 @@ const Register = () => {
     role: "",
     position: "",
   });
-  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,8 +20,9 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const response = await registerUser(formData);
-      setMessage(response.data.message || "Registration successful!");
+      toast.success(response.data.message || "Registration successful!");
       setFormData({
         firstName: "",
         lastName: "",
@@ -29,10 +31,12 @@ const Register = () => {
         position: "",
       });
     } catch (error) {
-      setMessage(
+      toast.error(
         error.response?.data?.message ||
           "Registration failed. Please try again."
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -155,21 +159,9 @@ const Register = () => {
               type="submit"
               className="w-full py-2 px-4 bg-indigo-600 text-white font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Register
+              {isLoading ? "Sending Email Verification Link..." : "Register"}
             </button>
           </div>
-
-          {message && (
-            <p
-              className={`text-center text-sm ${
-                message.toLowerCase().includes("success")
-                  ? "text-green-600"
-                  : "text-red-600"
-              }`}
-            >
-              {message}
-            </p>
-          )}
         </form>
       </div>
     </div>

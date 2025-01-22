@@ -19,6 +19,8 @@ import AlertModal from "./AlertModal.jsx";
 import AddSession from "./manageTimetables/AddSession.jsx";
 import UpdateSession from "./manageTimetables/UpdateSession.jsx";
 import SessionBoard from "./manageTimetables/SessionBoard.jsx";
+import PrivateRoute from "./PrivateRoute.jsx";
+import AdminRoute from "./AdminRoute.jsx";
 
 export {
   Navbar,
@@ -42,4 +44,6 @@ export {
   AddSession,
   UpdateSession,
   SessionBoard,
+  PrivateRoute,
+  AdminRoute,
 };

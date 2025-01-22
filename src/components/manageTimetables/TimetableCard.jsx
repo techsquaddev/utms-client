@@ -4,8 +4,10 @@ import EditTimetable from "./EditTimetable";
 import { deleteTimetable } from "@/api/timetableApi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth } from "@/api/authContext";
 
 const TimetableCard = ({ timetable, fetchTimetable }) => {
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const editTimetableDesc = "You can edit/ update this timetable here.";
@@ -79,15 +81,17 @@ const TimetableCard = ({ timetable, fetchTimetable }) => {
             Update
           </button>
         </Modal>
-        <AlertModal
-          title="Confirm Deletion"
-          description={alertDesc}
-          action={() => handleDelete()}
-        >
-          <button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 w-full sm:w-auto">
-            Delete
-          </button>
-        </AlertModal>
+        {user?.role === "admin" && (
+          <AlertModal
+            title="Confirm Deletion"
+            description={alertDesc}
+            action={() => handleDelete()}
+          >
+            <button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 w-full sm:w-auto">
+              Delete
+            </button>
+          </AlertModal>
+        )}
       </div>
     </div>
   );

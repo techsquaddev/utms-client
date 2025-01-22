@@ -33,7 +33,6 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
 
     try {
       await createSession(timetableId, formState);
