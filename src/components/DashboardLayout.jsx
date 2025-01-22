@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Footer } from ".";
+import { useAuth } from "@/api/authContext";
 
 const DashboardLayout = () => {
+  const { user, logout } = useAuth();
   const location = useLocation();
 
   const sideNavigation = [
@@ -21,18 +23,30 @@ const DashboardLayout = () => {
           <div className="mt-8 p-4 flex w-full h-full">
             <div className="rounded-xl p-4 w-1/5 h-full bg-gray-200 shadow-md">
               <div className="grid grid-cols-1 w-full h-fit">
-                {sideNavigation.map((item) => (
-                  <Link
-                    key={item.key}
-                    to={item.path}
-                    className={`flex py-4 px-8 items-center cursor-pointer hover:bg-gray-300 transition duration-200 ${
-                      location.pathname === item.path ? "bg-gray-300" : ""
-                    } rounded-xl`}
-                  >
-                    <span>{item.label}</span>
-                  </Link>
-                ))}
+                {sideNavigation
+                  .filter(
+                    (item) => item.key !== "users" || user.role === "admin"
+                  )
+                  .map((item) => (
+                    <Link
+                      key={item.key}
+                      to={item.path}
+                      className={`flex py-4 px-8 items-center cursor-pointer hover:bg-gray-300 transition duration-200 ${
+                        location.pathname === item.path ? "bg-gray-300" : ""
+                      } rounded-xl`}
+                    >
+                      <span>{item.label}</span>
+                    </Link>
+                  ))}
               </div>
+              {user && (
+                <button
+                  onClick={logout}
+                  className="py-4 px-8 items-center cursor-pointer hover:bg-gray-300 transition duration-200 rounded-xl"
+                >
+                  Logout
+                </button>
+              )}
             </div>
             <div className="p-4 ml-4 rounded-xl w-4/5 h-full bg-gray-100 shadow-md">
               <Outlet />

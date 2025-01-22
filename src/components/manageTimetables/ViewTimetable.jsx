@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { SessionsContainer, TimetableName } from "../../components";
-import axios from "axios";
+import { getSpecificTimetable } from "@/api/timetableApi";
 
-const ViewTimetable = (props) => {
+const ViewTimetable = ({ timetableId }) => {
   const [timetable, setTimetable] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchTimetable = async () => {
       try {
-        const response = await axios.get(`/api/timetables/${props.id}`);
+        const response = await getSpecificTimetable(timetableId);
         setTimetable(response.data);
       } catch (error) {
         setError(error.response.data.message);
@@ -17,7 +17,7 @@ const ViewTimetable = (props) => {
     };
 
     fetchTimetable();
-  }, [props.id]);
+  }, [timetableId]);
 
   useEffect(() => {
     const interval = setInterval(() => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { BASE_URL } from "@/api/baseURL";
+import { getSpecificSession, updateSession } from "@/api/sessionApi";
+import { toast } from "react-toastify";
 
 const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
   const [formState, setFormState] = useState({
@@ -15,7 +15,6 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
     deliveryType: "",
     sessionLink: "",
   });
-  const [error, setError] = useState(null);
 
   const days = [
     "Sunday",
@@ -30,13 +29,10 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
   useEffect(() => {
     const fetchSession = async () => {
       try {
-        const response = await axios.get(
-          `${BASE_URL}/api/sessions/${currentSessionId}`
-        );
+        const response = await getSpecificSession(currentSessionId);
         setFormState(response.data);
       } catch (err) {
-        console.error("Error fetching session:", err);
-        setError("Failed to fetch session details.");
+        toast.error("Error fetching session 😟");
       }
     };
     fetchSession();
@@ -49,23 +45,18 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
 
     try {
-      await axios.put(
-        `${BASE_URL}/api/sessions/${currentSessionId}`,
-        formState
-      );
+      await updateSession(currentSessionId, formState);
       fetchTimetable();
+      toast.success("Session updated successfully! 🥳");
     } catch (err) {
-      console.error("Error updating session:", err);
-      setError("Failed to update session. Please try again.");
+      toast.error("Failed to update session. Please try again. 😟");
     }
   };
 
   return (
     <form className="flex flex-col" onSubmit={handleSubmit}>
-      {error && <p className="text-red-600 mb-4">{error}</p>}
       <label className="mb-2">
         Day:
         <select

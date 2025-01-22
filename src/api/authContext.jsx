@@ -9,26 +9,24 @@ export const AuthProvider = ({ children }) => {
 
   // Logout User
   const logout = async () => {
-    await logoutUser();
-    setUser(null);
-    localStorage.removeItem("token");
+    try {
+      await logoutUser();
+      setUser(null);
+    } catch (error) {
+      console.error("Logout failed:", error.message);
+    }
   };
 
   // Fetch Logged In User
   const fetchUser = async () => {
-    const token = localStorage.getItem("token");
-    console.log("Token: " + token);
-    if (token) {
-      try {
-        const { data } = await getLoggedInUser(token);
-        setUser(data);
-        console.log(data);
-      } catch (error) {
-        console.error("Failed to fetch user:", error.message);
-        localStorage.removeItem("token");
-      }
+    try {
+      const { data } = await getLoggedInUser();
+      setUser(data);
+    } catch (error) {
+      console.error("Failed to fetch user:", error.message);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -37,11 +35,11 @@ export const AuthProvider = ({ children }) => {
 
   // Render children only when loading is complete
   if (loading) {
-    return <div>Loading...</div>; // Optional: Replace with a loader
+    return <div className="">Loading...</div>; // Replace with a loader
   }
 
   return (
-    <AuthContext.Provider value={{ user, logout }}>
+    <AuthContext.Provider value={{ user, logout, fetchUser }}>
       {children}
     </AuthContext.Provider>
   );

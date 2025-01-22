@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
-import { BASE_URL } from "@/api/baseURL";
 import { TimetableName } from "..";
 import { faculties, specializations } from "@/data";
+import { getSpecificTimetable, updateTimetable } from "@/api/timetableApi";
 
-const EditTimetable = ({ timetableId }) => {
+const EditTimetable = ({ timetableId, fetchTimetable }) => {
   const [selectedFaculty, setSelectedFaculty] = useState("FOC");
   const [timetable, setTimetable] = useState({
     year: "",
@@ -21,9 +20,7 @@ const EditTimetable = ({ timetableId }) => {
   useEffect(() => {
     const fetchTimetable = async () => {
       try {
-        const response = await axios.get(
-          `${BASE_URL}/api/timetables/${timetableId}`
-        );
+        const response = await getSpecificTimetable(timetableId);
         setTimetable(response.data);
         setInitialTimetable(response.data);
         setSelectedFaculty(response.data.faculty);
@@ -55,11 +52,9 @@ const EditTimetable = ({ timetableId }) => {
     }
 
     try {
-      const response = await axios.put(
-        `${BASE_URL}/api/timetables/${timetableId}`,
-        timetable
-      );
+      const response = await updateTimetable(timetableId, timetable);
       toast.success("Timetable updated successfully! 🥳");
+      fetchTimetable();
     } catch (err) {
       toast.error("Something went wrong! 🤨");
     }
@@ -167,7 +162,6 @@ const EditTimetable = ({ timetableId }) => {
             value={timetable.subGroup}
             onChange={handleChange}
             className="w-full px-2 py-2 border border-gray-300 rounded"
-            required
           />
         </div>
 

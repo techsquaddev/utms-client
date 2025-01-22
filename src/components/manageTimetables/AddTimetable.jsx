@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { faculties, specializations } from "@/data";
 import { TimetableName } from "..";
-import { BASE_URL } from "@/api/baseURL";
+import { createTimetable } from "@/api/timetableApi";
 
-const AddTimetable = () => {
+const AddTimetable = ({ fetchTimetables }) => {
   const [selectedFaculty, setSelectedFaculty] = useState("FOC");
   const [timetable, setTimetable] = useState({
     year: "Y1",
@@ -35,10 +34,7 @@ const AddTimetable = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        `${BASE_URL}/api/timetables`,
-        timetable
-      );
+      const response = await createTimetable(timetable);
       toast.success("Timetable created successfully! 🥳");
       // Set form data after submit the timetable
       setTimetable({
@@ -51,7 +47,7 @@ const AddTimetable = () => {
         subGroup: "",
       });
       setSelectedFaculty("FOC");
-
+      fetchTimetables();
       // Redirect to the sessions
       navigate(`/dashboard/timetables/sessions/${response.data._id}`);
     } catch (err) {

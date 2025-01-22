@@ -2,14 +2,17 @@ import Home from "./Home";
 import Timetable from "./Timetable";
 import Find from "./Find";
 import About from "./About";
-import AdminLogin from "./AdminLogin";
+import Login from "./Login";
 import Contact from "./Contact";
 import VerifyToken from "./VerifyToken";
+import VerifyEmail from "./VerifyEmail";
+import Register from "./Register";
 
 // Dashboard
 import Dashboard from "./dashboard/Dashboard";
 import Timetables from "./dashboard/Timetables";
 import Sessions from "./dashboard/Sessions";
+import Users from "./dashboard/Users";
 
 export {
   Home,
@@ -18,8 +21,11 @@ export {
   Dashboard,
   About,
   Contact,
-  AdminLogin,
+  Login,
+  Register,
   VerifyToken,
+  VerifyEmail,
   Timetables,
   Sessions,
+  Users,
 };

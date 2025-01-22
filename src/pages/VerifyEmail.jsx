@@ -1,10 +1,10 @@
 import { useAuth } from "@/api/authContext";
-import { verifyToken } from "@/api/userApi";
+import { verifyEmail } from "@/api/userApi";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const VerifyToken = () => {
+const VerifyEmail = () => {
   const [searchParams] = useSearchParams();
   const [message, setMessage] = useState("");
   const { fetchUser } = useAuth();
@@ -14,7 +14,7 @@ const VerifyToken = () => {
     const verify = async () => {
       try {
         const token = searchParams.get("token");
-        const response = await verifyToken(token);
+        const response = await verifyEmail(token);
         setMessage(response.data.message);
         toast.success(response.data.message);
         await fetchUser();
@@ -27,8 +27,8 @@ const VerifyToken = () => {
     verify();
   }, [searchParams, navigate]);
 
-  // Return a loader here
+  // TODO: Return a loader here
   return <div>{message}</div>;
 };
 
-export default VerifyToken;
+export default VerifyEmail;

@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { BASE_URL } from "@/api/baseURL";
 import SearchForm from "@/components/manageTimetables/SearchForm";
 import AddTimetable from "@/components/manageTimetables/AddTimetable";
 import ViewTimetable from "@/components/manageTimetables/ViewTimetable";
 import EditTimetable from "@/components/manageTimetables/EditTimetable";
 import { Button } from "@/components/ui/button";
 import { AlertModal, Modal } from "@/components";
+import { deleteTimetable, getAllTimetables } from "@/api/timetableApi";
+import { toast } from "react-toastify";
+import { useAuth } from "@/api/authContext";
 
 const Timetables = () => {
   const [timetables, setTimetables] = useState([]);
   const [error, setError] = useState(null);
+  const { user } = useAuth();
   const addTimetableDesc =
       "You can add a new timetable by submitting this form.",
     searchFormDesc = "You can find a specific timetable using this form.",
@@ -19,20 +21,36 @@ const Timetables = () => {
     alertDesc =
       "This action cannot be undone. This will permanently delete selected timetable and all sessions associated with it.";
 
-  useEffect(() => {
-    const fetchTimetables = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}/api/timetables`);
-        setTimetables(response.data);
-      } catch (error) {
-        setError(error.response.data.message);
-      }
-    };
+  const fetchTimetables = async () => {
+    try {
+      const response = await getAllTimetables();
+      setTimetables(response.data);
+    } catch (error) {
+      setError(error.response.data.message);
+    }
+  };
 
+  useEffect(() => {
     fetchTimetables();
   }, []);
 
-  const deleteTimetable = () => {};
+  const handleDelete = async (timetableId) => {
+    try {
+      const response = await deleteTimetable(timetableId);
+
+      if (response.status === 200) {
+        toast.success("Timetable deleted successfully! 🗑️");
+        fetchTimetables();
+      } else {
+        toast.error("Failed to delete the timetable! ❌");
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message ||
+          "An error occurred while deleting the timetable 😕"
+      );
+    }
+  };
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -60,7 +78,7 @@ const Timetables = () => {
         <Modal
           title="Add New Timetable"
           description={addTimetableDesc}
-          content={<AddTimetable />}
+          content={<AddTimetable fetchTimetables={fetchTimetables} />}
         >
           <Button className="bg-[#333333] rounded-3xl">
             Add New Timetable
@@ -90,9 +108,7 @@ const Timetables = () => {
               <Modal
                 title="View Timetable"
                 description={viewTimetableDesc}
-                content={
-                  <ViewTimetable name={timetable.name} id={timetable._id} />
-                }
+                content={<ViewTimetable timetableId={timetable._id} />}
               >
                 <Button className="bg-[#333333] rounded-none text-white">
                   <span>View Timetable</span>
@@ -121,16 +137,17 @@ const Timetables = () => {
                   <span>Edit</span>
                 </Button>
               </Modal>
-
-              <AlertModal
-                title="Confirm Deletion"
-                description={alertDesc}
-                action={() => deleteTimetable(timetable._id)}
-              >
-                <Button className="bg-[#333333] rounded-none rounded-r-2xl text-white">
-                  Delete
-                </Button>
-              </AlertModal>
+              {user?.role === "admin" && (
+                <AlertModal
+                  title="Confirm Deletion"
+                  description={alertDesc}
+                  action={() => handleDelete(timetable._id)}
+                >
+                  <Button className="bg-[#333333] rounded-none rounded-r-2xl text-white">
+                    Delete
+                  </Button>
+                </AlertModal>
+              )}
             </div>
           </div>
         ))}

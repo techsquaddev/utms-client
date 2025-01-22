@@ -1,21 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { loginUser } from "@/api/userApi";
 import { toast } from "react-toastify";
+import { useAuth } from "@/api/authContext";
+import { useNavigate } from "react-router-dom";
 
-const AdminLogin = () => {
+const Login = () => {
+  const { user } = useAuth();
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
-    setIsLoading(true);
     e.preventDefault();
     try {
+      setIsLoading(true);
       const response = await loginUser(email);
-      toast(response.data.message);
-      setIsLoading(false);
+      toast.success(response.data.message);
       setEmail("");
     } catch (error) {
-      setMessage("Failed to send magic link. Please try again.");
+      toast.error("Failed to send magic link. Please try again.");
+    } finally {
+      isLoading(false);
     }
   };
 
@@ -54,4 +65,4 @@ const AdminLogin = () => {
   );
 };
 
-export default AdminLogin;
+export default Login;

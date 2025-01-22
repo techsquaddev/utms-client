@@ -28,8 +28,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { getSpecificTimetable } from "@/api/timetableApi";
 import { toast } from "react-toastify";
+import { getSpecificTimetable } from "@/api/timetableApi";
 
 const Timetable = () => {
   const { timetableId } = useParams();
@@ -50,7 +50,7 @@ const Timetable = () => {
 
         // Fetch from the database if not found in local storage
         const response = await getSpecificTimetable(timetableId);
-        setTimetable(response);
+        setTimetable(response.data);
       } catch (error) {
         toast.error("Error loading timetable! 😕");
       }
@@ -59,16 +59,8 @@ const Timetable = () => {
     fetchTimetable();
   }, [timetableId]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      setCurrentDay(now.getDay());
-    }, 60000);
-    return () => clearInterval(interval);
-  }, []);
-
   // if (error) {
-  //   return <div>Error: {error}</div>;
+  //   return <div>Error: {error}</div>; TODO: Add an error component here
   // }
 
   if (!timetable) {
