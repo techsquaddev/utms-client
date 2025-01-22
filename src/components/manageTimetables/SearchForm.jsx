@@ -63,14 +63,11 @@ const SearchForm = () => {
     try {
       const response = await findTimetable(data);
 
-      if (response) {
+      if (response.data) {
         toast.success("Timetable Found! 🥳");
 
-        // Save timetable details to the local storage
-        localStorage.setItem("timetable", JSON.stringify(response));
-
-        // Redirect to the timetable page
-        navigate(`/timetables/${response._id}`);
+        // Redirect to the manage sessions page
+        navigate(`/dashboard/timetables/sessions/${response.data._id}`);
       } else {
         toast.info("Couldn't find the timetable! 🤷");
       }

@@ -21,8 +21,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { findTimetable } from "@/api/timetableApi";
 import { Loader } from ".";
+import { findTimetable } from "@/api/timetableApi";
 
 const FormSchema = z.object({
   year: z.string({
@@ -64,19 +64,23 @@ const FindTimetableClone = () => {
     try {
       const response = await findTimetable(data);
 
-      if (response) {
+      if (response.data) {
+        const timetable = response.data;
+
         toast.success("Timetable Found! 🥳");
 
         // Save timetable details to the local storage
-        localStorage.setItem("timetable", JSON.stringify(response));
+        localStorage.setItem("timetable", JSON.stringify(timetable));
 
         // Redirect to the timetable page
-        navigate(`/timetables/${response._id}`);
+        navigate(`/timetables/${timetable._id}`);
       } else {
         toast.info("Couldn't find the timetable! 🤷");
       }
     } catch (error) {
-      toast.error("Error finding timetable 😕");
+      toast.error(
+        error.response?.data?.message || "Error finding timetable 😕"
+      );
     } finally {
       setLoading(false);
     }

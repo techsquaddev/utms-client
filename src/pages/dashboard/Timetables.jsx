@@ -7,6 +7,8 @@ import ViewTimetable from "@/components/manageTimetables/ViewTimetable";
 import EditTimetable from "@/components/manageTimetables/EditTimetable";
 import { Button } from "@/components/ui/button";
 import { AlertModal, Modal } from "@/components";
+import { deleteTimetable, getAllTimetables } from "@/api/timetableApi";
+import { toast } from "react-toastify";
 
 const Timetables = () => {
   const [timetables, setTimetables] = useState([]);
@@ -19,22 +21,36 @@ const Timetables = () => {
     alertDesc =
       "This action cannot be undone. This will permanently delete selected timetable and all sessions associated with it.";
 
-  useEffect(() => {
-    const fetchTimetables = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}/api/timetables`, {
-          withCredentials: true,
-        });
-        setTimetables(response.data);
-      } catch (error) {
-        setError(error.response.data.message);
-      }
-    };
+  const fetchTimetables = async () => {
+    try {
+      const response = await getAllTimetables();
+      setTimetables(response.data);
+    } catch (error) {
+      setError(error.response.data.message);
+    }
+  };
 
+  useEffect(() => {
     fetchTimetables();
   }, []);
 
-  const deleteTimetable = () => {};
+  const handleDelete = async (timetableId) => {
+    try {
+      const response = await deleteTimetable(timetableId);
+
+      if (response.status === 200) {
+        toast.success("Timetable deleted successfully! 🗑️");
+        fetchTimetables();
+      } else {
+        toast.error("Failed to delete the timetable! ❌");
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message ||
+          "An error occurred while deleting the timetable 😕"
+      );
+    }
+  };
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -62,7 +78,7 @@ const Timetables = () => {
         <Modal
           title="Add New Timetable"
           description={addTimetableDesc}
-          content={<AddTimetable />}
+          content={<AddTimetable fetchTimetables={fetchTimetables} />}
         >
           <Button className="bg-[#333333] rounded-3xl">
             Add New Timetable
@@ -92,9 +108,7 @@ const Timetables = () => {
               <Modal
                 title="View Timetable"
                 description={viewTimetableDesc}
-                content={
-                  <ViewTimetable name={timetable.name} id={timetable._id} />
-                }
+                content={<ViewTimetable timetableId={timetable._id} />}
               >
                 <Button className="bg-[#333333] rounded-none text-white">
                   <span>View Timetable</span>
@@ -114,7 +128,12 @@ const Timetables = () => {
               <Modal
                 title="Edit Timetable Data"
                 description={editTimetableDesc}
-                content={<EditTimetable timetableId={timetable._id} />}
+                content={
+                  <EditTimetable
+                    timetableId={timetable._id}
+                    fetchTimetables={fetchTimetables}
+                  />
+                }
               >
                 <Button
                   name="edit"
@@ -127,7 +146,7 @@ const Timetables = () => {
               <AlertModal
                 title="Confirm Deletion"
                 description={alertDesc}
-                action={() => deleteTimetable(timetable._id)}
+                action={() => handleDelete(timetable._id)}
               >
                 <Button className="bg-[#333333] rounded-none rounded-r-2xl text-white">
                   Delete

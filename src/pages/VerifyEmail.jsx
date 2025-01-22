@@ -24,7 +24,7 @@ const VerifyEmail = () => {
     verify();
   }, [searchParams, navigate]);
 
-  // Return a loader here
+  // TODO: Return a loader here
   return <div>{message}</div>;
 };
 
