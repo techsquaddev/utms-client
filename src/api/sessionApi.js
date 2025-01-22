@@ -1,33 +1,33 @@
-import axios from "axios";
-import { BASE_URL } from "./baseURL";
+import axiosInstance from "./axiosInstance";
 
-const API_URL = `${BASE_URL}/api/sessions`;
+const SESSION_API = "/api/sessions";
 
-export const createSession = async (timetableId, session) => {
-  const response = await axios.post(`${API_URL}/${timetableId}`, session);
-  return response;
+// Create a session for a specific timetable
+export const createSession = async (timetableId, sessionData) => {
+  return await axiosInstance.post(`${SESSION_API}/${timetableId}`, sessionData);
 };
 
+// Get all sessions
 export const getAllSessions = async () => {
-  const response = await axios.get(API_URL);
-  return response;
+  return await axiosInstance.get(SESSION_API);
 };
 
-export const getSpecificSession = async (id) => {
-  const response = await axios.get(`${API_URL}/${id}`);
-  return response.data;
-};
-
+// Get all sessions for a specific timetable by its ID
 export const getAllSessionsByTimetableId = async (timetableId) => {
-  const response = await axios.get(`${API_URL}/${timetableId}`);
-  return response.data;
+  return await axiosInstance.get(`${SESSION_API}/find/${timetableId}`);
 };
 
-export const updateSession = async (id, session) => {
-  const response = await axios.put(`${API_URL}/${id}`, session);
-  return response.data;
+// Get a specific session by its ID
+export const getSpecificSession = async (sessionId) => {
+  return await axiosInstance.get(`${SESSION_API}/${sessionId}`);
 };
 
-export const deleteSession = async (id) => {
-  await axios.delete(`${API_URL}/${id}`);
+// Update a specific session by its ID
+export const updateSession = async (sessionId, updatedData) => {
+  return await axiosInstance.put(`${SESSION_API}/${sessionId}`, updatedData);
+};
+
+// Delete a specific session by its ID
+export const deleteSession = async (sessionId) => {
+  return await axiosInstance.delete(`${SESSION_API}/${sessionId}`);
 };
