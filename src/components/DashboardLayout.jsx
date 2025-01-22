@@ -4,7 +4,7 @@ import { Footer } from ".";
 import { useAuth } from "@/api/authContext";
 
 const DashboardLayout = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const location = useLocation();
 
   const sideNavigation = [
@@ -39,6 +39,14 @@ const DashboardLayout = () => {
                     </Link>
                   ))}
               </div>
+              {user && (
+                <button
+                  onClick={logout}
+                  className="py-4 px-8 items-center cursor-pointer hover:bg-gray-300 transition duration-200 rounded-xl"
+                >
+                  Logout
+                </button>
+              )}
             </div>
             <div className="p-4 ml-4 rounded-xl w-4/5 h-full bg-gray-100 shadow-md">
               <Outlet />

@@ -59,14 +59,6 @@ const Timetable = () => {
     fetchTimetable();
   }, [timetableId]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      setCurrentDay(now.getDay());
-    }, 60000);
-    return () => clearInterval(interval);
-  }, []);
-
   // if (error) {
   //   return <div>Error: {error}</div>; TODO: Add an error component here
   // }

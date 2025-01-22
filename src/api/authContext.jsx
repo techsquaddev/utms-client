@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
   // Render children only when loading is complete
   if (loading) {
-    return <div>Loading...</div>; // Replace with a loader
+    return <div className="">Loading...</div>; // Replace with a loader
   }
 
   return (
