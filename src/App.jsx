@@ -5,6 +5,7 @@ import {
   Route,
   useNavigate,
   useLocation,
+  matchPath,
 } from "react-router-dom";
 import {
   AdminRoute,
@@ -54,15 +55,25 @@ const Main = () => {
       "/about",
       "/contact",
       "/login",
-      "/auth/login",
-      "/admin/dashboard",
-      "/timetables/add",
-      "/timetables/update/:timetableId",
-      "/timetables/sessions/:timetableId",
+      "/register",
+      "/timetables/:timetableId",
+      "/verify/email",
+      "/verify/login",
+      "/dashboard",
+      "/dashboard/timetables",
+      "/dashboard/timetables/sessions/:timetableId",
+      "/dashboard/users",
+      "/dashboard/notices",
+      "/dashboard/profile",
     ];
     const currentPath = location.pathname;
 
-    if (storedTimetable && !whitelist.includes(currentPath)) {
+    // Check if the current path matches any in the whitelist
+    const isWhitelisted = whitelist.some((path) =>
+      matchPath({ path, exact: true }, currentPath)
+    );
+
+    if (storedTimetable && !isWhitelisted) {
       const timetable = JSON.parse(storedTimetable);
       if (timetable && timetable._id) {
         navigate(`/timetables/${timetable._id}`, { replace: true });
