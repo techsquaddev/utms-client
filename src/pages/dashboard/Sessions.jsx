@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import {
-  AddSession,
-  Modal,
-  SessionBoard,
-  SessionCard,
-  TimetableCard,
-} from "@/components";
-import { BASE_URL } from "@/api/baseURL";
+import { AddSession, Modal, SessionBoard, TimetableCard } from "@/components";
 import { useParams } from "react-router-dom";
+import { getSpecificTimetable } from "@/api/timetableApi";
+import { toast } from "react-toastify";
+import { getAllSessionsByTimetableId } from "@/api/sessionApi";
 
 const Sessions = () => {
   const { timetableId } = useParams();
@@ -18,21 +13,17 @@ const Sessions = () => {
 
   const fetchTimetable = async () => {
     try {
-      const timetableResponse = await axios.get(
-        `${BASE_URL}/api/timetables/${timetableId}`
-      );
-      setTimetable(timetableResponse.data);
+      const response = await getSpecificTimetable(timetableId);
+      setTimetable(response.data);
     } catch (error) {
-      console.error("Error fetching timetable", error);
+      toast.error("Failed to fetch timetable! 😕");
     }
   };
 
   const fetchSessions = async () => {
     try {
-      const sessionsResponse = await axios.get(
-        `${BASE_URL}/api/sessions/find/${timetableId}`
-      );
-      setSessions(sessionsResponse.data);
+      const response = await getAllSessionsByTimetableId(timetableId);
+      setSessions(response.data);
     } catch (error) {
       console.error("Error fetching sessions:", error);
     }
@@ -48,7 +39,12 @@ const Sessions = () => {
       <h2 className="text-2xl mb-8">Manage Sessions</h2>
       <div className="flex items-start gap-8">
         <div>
-          {timetable && <TimetableCard timetable={timetable} />}
+          {timetable && (
+            <TimetableCard
+              timetable={timetable}
+              fetchTimetable={fetchTimetable}
+            />
+          )}
           <Modal
             title="Add Session Data"
             description={addSessionDesc}

@@ -4,7 +4,7 @@ import { TimetableName } from "..";
 import { faculties, specializations } from "@/data";
 import { getSpecificTimetable, updateTimetable } from "@/api/timetableApi";
 
-const EditTimetable = ({ timetableId, fetchTimetables }) => {
+const EditTimetable = ({ timetableId, fetchTimetable }) => {
   const [selectedFaculty, setSelectedFaculty] = useState("FOC");
   const [timetable, setTimetable] = useState({
     year: "",
@@ -54,7 +54,7 @@ const EditTimetable = ({ timetableId, fetchTimetables }) => {
     try {
       const response = await updateTimetable(timetableId, timetable);
       toast.success("Timetable updated successfully! 🥳");
-      fetchTimetables();
+      fetchTimetable();
     } catch (err) {
       toast.error("Something went wrong! 🤨");
     }
@@ -162,7 +162,6 @@ const EditTimetable = ({ timetableId, fetchTimetables }) => {
             value={timetable.subGroup}
             onChange={handleChange}
             className="w-full px-2 py-2 border border-gray-300 rounded"
-            required
           />
         </div>
 

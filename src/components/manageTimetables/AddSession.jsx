@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { BASE_URL } from "@/api/baseURL";
+import { createSession } from "@/api/sessionApi";
+import { toast } from "react-toastify";
 
 const AddSession = ({ timetableId, fetchTimetable }) => {
   const [formState, setFormState] = useState({
@@ -15,7 +15,6 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
     deliveryType: "",
     sessionLink: "",
   });
-  const [error, setError] = useState(null);
 
   const days = [
     "Sunday",
@@ -37,8 +36,7 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
     setError(null);
 
     try {
-      await axios.post(`${BASE_URL}/api/sessions/${timetableId}`, formState);
-      fetchTimetable();
+      await createSession(timetableId, formState);
       setFormState({
         day: "",
         startTime: "",
@@ -51,9 +49,10 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
         deliveryType: "",
         sessionLink: "",
       });
+      fetchTimetable();
+      toast.success("Session created successfully! 🥳");
     } catch (err) {
-      console.error("Error adding session:", err);
-      setError("Failed to add session. Please try again.");
+      toast.error("Failed to add session. Please try again. 😟");
     }
   };
 
@@ -63,7 +62,6 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
       onSubmit={handleSubmit}
     >
       <h2 className="mb-5 text-gray-800">Add Session</h2>
-      {error && <p className="text-red-600 mb-4">{error}</p>}
       <label className="mb-2">
         Day:
         <select

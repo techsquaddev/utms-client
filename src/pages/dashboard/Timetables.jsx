@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { BASE_URL } from "@/api/baseURL";
 import SearchForm from "@/components/manageTimetables/SearchForm";
 import AddTimetable from "@/components/manageTimetables/AddTimetable";
 import ViewTimetable from "@/components/manageTimetables/ViewTimetable";
@@ -128,12 +126,7 @@ const Timetables = () => {
               <Modal
                 title="Edit Timetable Data"
                 description={editTimetableDesc}
-                content={
-                  <EditTimetable
-                    timetableId={timetable._id}
-                    fetchTimetables={fetchTimetables}
-                  />
-                }
+                content={<EditTimetable timetableId={timetable._id} />}
               >
                 <Button
                   name="edit"

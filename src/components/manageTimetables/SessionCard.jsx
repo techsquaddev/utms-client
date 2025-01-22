@@ -1,16 +1,15 @@
 import React from "react";
-import axios from "axios";
 import { AlertModal, Modal, UpdateSession } from "..";
-import { BASE_URL } from "@/api/baseURL";
+import { deleteSession } from "@/api/sessionApi";
 
 const SessionCard = ({ session, fetchTimetable }) => {
   const editSessionDesc = "Edit session data here.",
     alertDesc =
       "This action cannot be undone. This will permanently delete selected session from the timetable.";
 
-  const deleteSession = async () => {
+  const handleDelete = async () => {
     try {
-      await axios.delete(`${BASE_URL}/api/sessions/${session._id}`);
+      await deleteSession(session._id);
       fetchTimetable();
     } catch (error) {
       console.error("Error deleting session:", error);
@@ -75,7 +74,7 @@ const SessionCard = ({ session, fetchTimetable }) => {
         <AlertModal
           title="Confirm Deletion"
           description={alertDesc}
-          action={() => deleteSession()}
+          action={() => handleDelete()}
         >
           <button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
             Delete
