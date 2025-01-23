@@ -17,6 +17,7 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
   });
 
   const days = [
+    "Select Day",
     "Sunday",
     "Monday",
     "Tuesday",
@@ -34,8 +35,18 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate time
+    if (formState.startTime >= formState.endTime) {
+      toast.error("End time must be after start time. 🤔");
+      return;
+    }
+
     try {
-      await createSession(timetableId, formState);
+      await createSession(timetableId, {
+        ...formState,
+        startTime: formatTime(formState.startTime),
+        endTime: formatTime(formState.endTime),
+      });
       setFormState({
         day: "",
         startTime: "",
@@ -55,6 +66,10 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
     }
   };
 
+  const formatTime = (time) => {
+    return new Date(`1970-01-01T${time}:00`);
+  };
+
   return (
     <form
       className="flex flex-col p-5 border border-gray-300 rounded-md bg-white w-full max-w-2xl"
@@ -70,8 +85,12 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
           className="mt-1 p-2 border border-gray-300 rounded w-full"
           required
         >
-          {days.map((day) => (
-            <option key={day} value={day}>
+          {days.map((day, index) => (
+            <option
+              key={day}
+              value={index === 0 ? "" : day}
+              disabled={index === 0}
+            >
               {day}
             </option>
           ))}

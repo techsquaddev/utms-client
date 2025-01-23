@@ -2,6 +2,7 @@ import React from "react";
 import { AlertModal, Modal, UpdateSession } from "..";
 import { deleteSession } from "@/api/sessionApi";
 import { toast } from "react-toastify";
+import { formatTime } from "@/lib/utils";
 
 const SessionCard = ({ session, fetchTimetable }) => {
   const editSessionDesc = "Edit session data here.",
@@ -29,8 +30,8 @@ const SessionCard = ({ session, fetchTimetable }) => {
         </p>
         <p className="text-gray-700">
           <strong className="text-gray-600">Time:</strong>{" "}
-          {new Date(session.time.startTime).toLocaleTimeString()} -{" "}
-          {new Date(session.time.endTime).toLocaleTimeString()}
+          {formatTime(session.time.startTime)} -{" "}
+          {formatTime(session.time.endTime)}
         </p>
         <p className="text-gray-700">
           <strong className="text-gray-600">Type:</strong> {session.sessionType}

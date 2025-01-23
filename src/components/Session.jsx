@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import React from "react";
 import {
   Accordion,
@@ -16,6 +14,7 @@ import {
   Link,
   RssFeed,
 } from "@mui/icons-material";
+import { formatTime } from "@/lib/utils";
 
 const Session = ({ session, currentDay }) => {
   const now = new Date();
@@ -48,15 +47,8 @@ const Session = ({ session, currentDay }) => {
                     className="text-lg md:text-xl"
                   />
                   <p className="text-sm font-medium md:text-base">
-                    {new Date(session.time.startTime).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}{" "}
-                    -{" "}
-                    {new Date(session.time.endTime).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
+                    {formatTime(session.time.startTime)} -{" "}
+                    {formatTime(session.time.endTime)}
                   </p>
                 </div>
 
