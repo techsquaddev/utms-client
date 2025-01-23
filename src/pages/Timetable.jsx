@@ -34,6 +34,7 @@ import { getSpecificTimetable } from "@/api/timetableApi";
 const Timetable = () => {
   const { timetableId } = useParams();
   const [timetable, setTimetable] = useState(null);
+  const [sessions, setSessions] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,6 +52,7 @@ const Timetable = () => {
         // Fetch from the database if not found in local storage
         const response = await getSpecificTimetable(timetableId);
         setTimetable(response.data);
+        setSessions(response.data.sessions);
       } catch (error) {
         toast.error("Error loading timetable! 😕");
       }
@@ -125,7 +127,7 @@ const Timetable = () => {
 
         <TimetableName timetable={timetable} />
         <MiniTimetableCard timetable={timetable} />
-        <SessionsContainer sessions={timetable.sessions} />
+        <SessionsContainer sessions={sessions} />
       </Wrapper>
     </div>
   );

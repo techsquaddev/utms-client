@@ -1,6 +1,7 @@
 import React from "react";
 import { AlertModal, Modal, UpdateSession } from "..";
 import { deleteSession } from "@/api/sessionApi";
+import { toast } from "react-toastify";
 
 const SessionCard = ({ session, fetchTimetable }) => {
   const editSessionDesc = "Edit session data here.",
@@ -10,9 +11,10 @@ const SessionCard = ({ session, fetchTimetable }) => {
   const handleDelete = async () => {
     try {
       await deleteSession(session._id);
+      toast.success("Session deleted successfully!");
       fetchTimetable();
     } catch (error) {
-      console.error("Error deleting session:", error);
+      toast.error("Failed to delete session. Please try again. 😟");
     }
   };
 

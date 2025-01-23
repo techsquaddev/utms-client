@@ -3,7 +3,6 @@ import { AddSession, Modal, SessionBoard, TimetableCard } from "@/components";
 import { useParams } from "react-router-dom";
 import { getSpecificTimetable } from "@/api/timetableApi";
 import { toast } from "react-toastify";
-import { getAllSessionsByTimetableId } from "@/api/sessionApi";
 
 const Sessions = () => {
   const { timetableId } = useParams();
@@ -15,23 +14,24 @@ const Sessions = () => {
     try {
       const response = await getSpecificTimetable(timetableId);
       setTimetable(response.data);
+      setSessions(response.data.sessions);
     } catch (error) {
       toast.error("Failed to fetch timetable! 😕");
     }
   };
 
-  const fetchSessions = async () => {
-    try {
-      const response = await getAllSessionsByTimetableId(timetableId);
-      setSessions(response.data);
-    } catch (error) {
-      console.error("Error fetching sessions:", error);
-    }
-  };
+  // This function also can be used to fetch sessions.
+  // const fetchSessions = async () => {
+  //   try {
+  //     const response = await getAllSessionsByTimetableId(timetableId);
+  //     setSessions(response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching sessions:", error);
+  //   }
+  // };
 
   useEffect(() => {
     fetchTimetable();
-    fetchSessions();
   }, [timetableId]);
 
   return (
