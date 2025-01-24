@@ -62,10 +62,6 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
     }
   };
 
-  const formatTime = (time) => {
-    return new Date(`1970-01-01T${time}:00`);
-  };
-
   return (
     <form
       className="flex flex-col p-5 border border-gray-300 rounded-md bg-white w-full max-w-2xl"

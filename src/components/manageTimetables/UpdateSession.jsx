@@ -5,8 +5,10 @@ import { toast } from "react-toastify";
 const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
   const [formState, setFormState] = useState({
     day: "",
-    startTime: "",
-    endTime: "",
+    time: {
+      startTime: "",
+      endTime: "",
+    },
     moduleName: "",
     moduleCode: "",
     sessionType: "",
@@ -30,7 +32,13 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
     const fetchSession = async () => {
       try {
         const response = await getSpecificSession(currentSessionId);
-        setFormState(response.data);
+        setFormState({
+          ...response.data,
+          time: {
+            startTime: response.data.time?.startTime || "",
+            endTime: response.data.time?.endTime || "",
+          },
+        });
       } catch (err) {
         toast.error("Error fetching session 😟");
       }
@@ -40,11 +48,29 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormState((prev) => ({ ...prev, [name]: value }));
+
+    // Check if the input name is part of the `time` object
+    if (name === "startTime" || name === "endTime") {
+      setFormState((prev) => ({
+        ...prev,
+        time: {
+          ...prev.time,
+          [name]: value,
+        },
+      }));
+    } else {
+      setFormState((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate time
+    if (formState.time.startTime >= formState.time.endTime) {
+      toast.error("End time must be after start time. 🤔");
+      return;
+    }
 
     try {
       await updateSession(currentSessionId, formState);
@@ -78,7 +104,7 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
         <input
           type="time"
           name="startTime"
-          value={formState.startTime}
+          value={formState.time.startTime}
           onChange={handleChange}
           className="mt-1 p-2 border border-gray-300 rounded w-full"
           required
@@ -89,7 +115,7 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
         <input
           type="time"
           name="endTime"
-          value={formState.endTime}
+          value={formState.time.endTime}
           onChange={handleChange}
           className="mt-1 p-2 border border-gray-300 rounded w-full"
           required
