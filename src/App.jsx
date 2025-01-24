@@ -51,29 +51,17 @@ const Main = () => {
 
   useEffect(() => {
     const storedTimetable = localStorage.getItem("timetable");
-    const whitelist = [
-      "/about",
-      "/contact",
-      "/login",
-      "/register",
-      "/timetables/:timetableId",
-      "/verify/email",
-      "/verify/login",
-      "/dashboard",
-      "/dashboard/timetables",
-      "/dashboard/timetables/sessions/:timetableId",
-      "/dashboard/users",
-      "/dashboard/notices",
-      "/dashboard/profile",
-    ];
+
+    const blacklist = ["/", "/timetables/find"];
+
     const currentPath = location.pathname;
 
-    // Check if the current path matches any in the whitelist
-    const isWhitelisted = whitelist.some((path) =>
+    // Check if the current path matches any in the blacklist
+    const isBlacklisted = blacklist.some((path) =>
       matchPath({ path, exact: true }, currentPath)
     );
 
-    if (storedTimetable && !isWhitelisted) {
+    if (storedTimetable && isBlacklisted) {
       const timetable = JSON.parse(storedTimetable);
       if (timetable && timetable._id) {
         navigate(`/timetables/${timetable._id}`, { replace: true });
