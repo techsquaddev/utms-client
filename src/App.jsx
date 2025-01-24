@@ -91,7 +91,7 @@ const Main = () => {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/timetables" element={<Timetables />} />
             <Route
-              path="/dashboard/timetables/sessions/:timetableId"
+              path="/dashboard/timetables/:timetableId/sessions"
               element={<Sessions />}
             />
             {/* Admin Routes */}

@@ -67,7 +67,7 @@ const SearchForm = () => {
         toast.success("Timetable Found! 🥳");
 
         // Redirect to the manage sessions page
-        navigate(`/dashboard/timetables/sessions/${response.data._id}`);
+        navigate(`/dashboard/timetables/${response.data._id}/sessions`);
       } else {
         toast.info("Couldn't find the timetable! 🤷");
       }

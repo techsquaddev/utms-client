@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AlertModal, Modal, UpdateSession } from "..";
 import { deleteSession } from "@/api/sessionApi";
 import { toast } from "react-toastify";
@@ -9,8 +9,6 @@ const SessionCard = ({ session, fetchTimetable }) => {
     session.time.startTime,
     session.time.endTime
   );
-
-  console.log("start time: ", session.time.startTime);
 
   const editSessionDesc = "Edit session data here.",
     alertDesc =

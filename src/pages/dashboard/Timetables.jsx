@@ -95,7 +95,7 @@ const Timetables = () => {
             <span
               onClick={() =>
                 window.open(
-                  `/dashboard/timetables/sessions/${timetable._id}`,
+                  `/dashboard/timetables/${timetable._id}/sessions`,
                   "_blank"
                 )
               }
@@ -117,7 +117,7 @@ const Timetables = () => {
               <Button
                 onClick={() =>
                   window.open(
-                    `/dashboard/timetables/sessions/${timetable._id}`,
+                    `/dashboard/timetables/${timetable._id}/sessions`,
                     "_blank"
                   )
                 }
