@@ -42,11 +42,7 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
     }
 
     try {
-      await createSession(timetableId, {
-        ...formState,
-        startTime: formatTime(formState.startTime),
-        endTime: formatTime(formState.endTime),
-      });
+      await createSession(timetableId, formState);
       setFormState({
         day: "",
         startTime: "",

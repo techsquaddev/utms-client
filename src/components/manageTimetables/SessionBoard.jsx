@@ -56,11 +56,16 @@ const SessionBoard = ({ sessions, fetchTimetable }) => {
       <div className="mt-5">
         {sessions
           .filter((session) => session.day === days[currentDay])
-          .sort(
-            (a, b) =>
-              new Date(a.time.startTime).getTime() -
-              new Date(b.time.startTime).getTime()
-          )
+          .sort((a, b) => {
+            const [aHours, aMinutes] = a.time.startTime.split(":").map(Number);
+            const [bHours, bMinutes] = b.time.startTime.split(":").map(Number);
+
+            // Convert time to total minutes for comparison
+            const aTotalMinutes = aHours * 60 + aMinutes;
+            const bTotalMinutes = bHours * 60 + bMinutes;
+
+            return aTotalMinutes - bTotalMinutes;
+          })
           .map((session) => (
             <SessionCard
               key={session._id}

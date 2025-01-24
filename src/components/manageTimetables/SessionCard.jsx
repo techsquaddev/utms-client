@@ -2,9 +2,16 @@ import React from "react";
 import { AlertModal, Modal, UpdateSession } from "..";
 import { deleteSession } from "@/api/sessionApi";
 import { toast } from "react-toastify";
-import { formatTime } from "@/lib/utils";
+import { formatTime, isCurrentSession } from "@/lib/utils";
 
 const SessionCard = ({ session, fetchTimetable }) => {
+  const isHighlighted = isCurrentSession(
+    session.time.startTime,
+    session.time.endTime
+  );
+
+  console.log("start time: ", session.time.startTime);
+
   const editSessionDesc = "Edit session data here.",
     alertDesc =
       "This action cannot be undone. This will permanently delete selected session from the timetable.";
@@ -20,7 +27,11 @@ const SessionCard = ({ session, fetchTimetable }) => {
   };
 
   return (
-    <div className="border border-gray-300 rounded-lg p-4 bg-white shadow-md m-4 max-w-sm">
+    <div
+      className={`border border-gray-300 rounded-lg p-4 bg-white shadow-md m-4 max-w-sm ${
+        isHighlighted ? "bg-yellow-100 border-yellow-400 shadow-lg" : ""
+      }`}
+    >
       <h3 className="text-lg font-medium mb-2 text-gray-800">
         {session.moduleName} ({session.moduleCode})
       </h3>
