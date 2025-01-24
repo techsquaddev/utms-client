@@ -14,7 +14,7 @@ export const formatTime = (time) => {
   });
 };
 
-export const isCurrentSession = (startTime, endTime) => {
+export const isCurrentSession = (startTime, endTime, currentDay) => {
   const now = new Date();
 
   // Parse start and end times
@@ -29,5 +29,5 @@ export const isCurrentSession = (startTime, endTime) => {
   sessionEnd.setHours(endHours, endMinutes, 0, 0);
 
   // Check if the current time is within the session range
-  return now >= sessionStart && now <= sessionEnd;
+  return currentDay && now >= sessionStart && now <= sessionEnd;
 };

@@ -69,9 +69,9 @@ const SessionsContainer = ({ sessions }) => {
 
       <div className="mt-[20px]">
         {filteredSessions.length > 0 ? (
-          filteredSessions.map((session, idx) => (
+          filteredSessions.map((session, index) => (
             <Session
-              key={idx}
+              key={index}
               session={session}
               currentDay={currentDay === new Date().getDay()}
             />

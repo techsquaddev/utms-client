@@ -54,7 +54,6 @@ const Timetable = () => {
         const response = await getSpecificTimetable(timetableId);
         setTimetable(response.data);
         setSessions(response.data.sessions);
-        console.log("Sessions", response.data.sessions);
       } catch (error) {
         toast.error("Error loading timetable! 😕");
       }

@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
 import { AlertModal, Modal, UpdateSession } from "..";
 import { deleteSession } from "@/api/sessionApi";
 import { toast } from "react-toastify";
 import { formatTime, isCurrentSession } from "@/lib/utils";
 
-const SessionCard = ({ session, fetchTimetable }) => {
+const SessionCard = ({ session, currentDay, fetchTimetable }) => {
   const isHighlighted = isCurrentSession(
     session.time.startTime,
-    session.time.endTime
+    session.time.endTime,
+    currentDay
   );
 
   const editSessionDesc = "Edit session data here.",

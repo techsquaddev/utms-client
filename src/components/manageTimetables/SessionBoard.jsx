@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SessionCard } from "..";
 import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
+import { YTup } from "@/assets";
 
 const SessionBoard = ({ sessions, fetchTimetable }) => {
   const [currentDay, setCurrentDay] = useState(new Date().getDay());
@@ -13,6 +14,10 @@ const SessionBoard = ({ sessions, fetchTimetable }) => {
     "Friday",
     "Saturday",
   ];
+
+  const filteredSessions = sessions
+    .filter((session) => session.day === days[currentDay])
+    .sort((a, b) => a.time.startTime.localeCompare(b.time.startTime));
 
   const handleDayChange = (direction) => {
     setCurrentDay((prevDay) => {
@@ -54,25 +59,23 @@ const SessionBoard = ({ sessions, fetchTimetable }) => {
       </div>
 
       <div className="mt-5">
-        {sessions
-          .filter((session) => session.day === days[currentDay])
-          .sort((a, b) => {
-            const [aHours, aMinutes] = a.time.startTime.split(":").map(Number);
-            const [bHours, bMinutes] = b.time.startTime.split(":").map(Number);
-
-            // Convert time to total minutes for comparison
-            const aTotalMinutes = aHours * 60 + aMinutes;
-            const bTotalMinutes = bHours * 60 + bMinutes;
-
-            return aTotalMinutes - bTotalMinutes;
-          })
-          .map((session) => (
+        {filteredSessions.length > 0 ? (
+          filteredSessions.map((session, index) => (
             <SessionCard
-              key={session._id}
+              key={index}
               session={session}
+              currentDay={currentDay === new Date().getDay()}
               fetchTimetable={fetchTimetable}
             />
-          ))}
+          ))
+        ) : (
+          <div className="mt-7 flex flex-col justify-center items-center">
+            <h3 className="text-soft-text text-lg mb-3">
+              No sessions available! 😀🎉
+            </h3>
+            <img src={YTup} alt="No sessions available" />
+          </div>
+        )}
       </div>
     </div>
   );
