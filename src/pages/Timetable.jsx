@@ -45,6 +45,7 @@ const Timetable = () => {
           const details = JSON.parse(localStorageTimetable);
           if (details._id === timetableId) {
             setTimetable(details);
+            setSessions(details.sessions);
             return;
           }
         }
@@ -53,6 +54,7 @@ const Timetable = () => {
         const response = await getSpecificTimetable(timetableId);
         setTimetable(response.data);
         setSessions(response.data.sessions);
+        console.log("Sessions", response.data.sessions);
       } catch (error) {
         toast.error("Error loading timetable! 😕");
       }
