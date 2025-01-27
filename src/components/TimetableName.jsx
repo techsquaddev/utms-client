@@ -7,9 +7,9 @@ const TimetableName = ({ timetable }) => {
         {timetable.year ? timetable.year : "Y"}.
         {timetable.semester ? timetable.semester : "S"}.
         {timetable.batch ? timetable.batch : "B"}.
-        {timetable.faculty ? timetable.faculty : "F"}.
-        {timetable.specialization ? timetable.specialization : "SPEC"}.
-        {timetable.group ? timetable.group : "G"}
+        {timetable.faculty.code ? timetable.faculty.code : "F"}.
+        {timetable.specialization.code ? timetable.specialization.code : "SPEC"}
+        .{timetable.group ? timetable.group : "G"}
       </span>
       {timetable.subGroup && (
         <>
