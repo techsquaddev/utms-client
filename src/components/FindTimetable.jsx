@@ -121,6 +121,7 @@ const FindTimetable = () => {
         navigate(`/timetables/${timetable._id}`);
       } else {
         toast.info("Couldn't find the timetable! 🤷");
+        toast.info("You can add your timetable by logging into the system! 😊");
       }
     } catch (error) {
       toast.error("Error finding timetable 😕");

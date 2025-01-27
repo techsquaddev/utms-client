@@ -24,11 +24,6 @@ export const getSpecificTimetable = async (timetableId) => {
   return await axiosInstance.get(`${TIMETABLE_API}/${timetableId}`);
 };
 
-// Get a specific timetable by name
-export const getSpecificTimetableByName = async (timetableName) => {
-  return await axiosInstance.get(`${TIMETABLE_API}/find/${timetableName}`);
-};
-
 // Update a timetable by ID
 export const updateTimetable = async (timetableId, updatedData) => {
   return await axiosInstance.put(
