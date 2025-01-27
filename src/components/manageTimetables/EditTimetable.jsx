@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { TimetableName } from "..";
-import { faculties, specializations } from "@/data";
-import { getSpecificTimetable, updateTimetable } from "@/api/timetableApi";
+import {
+  getAllFaculties,
+  getAllSpecsByFacultyId,
+  getSpecificTimetable,
+  updateTimetable,
+} from "@/api/timetableApi";
 
 const EditTimetable = ({ timetableId, fetchTimetable }) => {
-  const [selectedFaculty, setSelectedFaculty] = useState("FOC");
+  const [faculties, setFaculties] = useState([]);
+  const [specializations, setSpecializations] = useState([]);
+  const [selectedFaculty, setSelectedFaculty] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [timetable, setTimetable] = useState({
     year: "",
     semester: "",
     batch: "",
-    faculty: "",
-    specialization: "",
+    faculty: { code: "" },
+    specialization: { code: "" },
     group: "",
     subGroup: "",
   });
@@ -20,23 +27,93 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
   useEffect(() => {
     const fetchTimetable = async () => {
       try {
+        setIsLoading(true);
         const response = await getSpecificTimetable(timetableId);
         setTimetable(response.data);
         setInitialTimetable(response.data);
-        setSelectedFaculty(response.data.faculty);
+        setSelectedFaculty(response.data.faculty._id);
       } catch (err) {
         toast.error("Failed to fetch timetable data! 😟");
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchTimetable();
   }, [timetableId]);
 
+  // Fetch faculties on component mount
+  useEffect(() => {
+    const fetchFaculties = async () => {
+      try {
+        setIsLoading(true);
+        const response = await getAllFaculties();
+        setFaculties(response.data);
+      } catch (error) {
+        console.error("Error fetching faculties:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchFaculties();
+  }, []);
+
+  // Fetch specializations whenever selectedFaculty changes
+  useEffect(() => {
+    if (selectedFaculty) {
+      const fetchSpecializations = async () => {
+        try {
+          setIsLoading(true);
+          const response = await getAllSpecsByFacultyId(selectedFaculty);
+          setSpecializations(response.data);
+        } catch (error) {
+          console.error("Error fetching specializations:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchSpecializations();
+    } else {
+      setSpecializations([]);
+    }
+  }, [selectedFaculty]);
+
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setTimetable({
+  //     ...timetable,
+  //     [name]: value,
+  //   });
+
+  //   if (name === "faculty") {
+  //     setSelectedFaculty(value);
+  //   }
+  // };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setTimetable({
-      ...timetable,
-      [name]: value,
+
+    setTimetable((prevState) => {
+      if (name === "faculty") {
+        const selectedFaculty = faculties.find(
+          (faculty) => faculty._id === value
+        );
+        return {
+          ...prevState,
+          faculty: selectedFaculty || { code: "" },
+          specialization: { code: "" },
+        };
+      }
+      if (name === "specialization") {
+        const selectedSpecialization = specializations.find(
+          (spec) => spec._id === value
+        );
+        return {
+          ...prevState,
+          specialization: selectedSpecialization || { code: "" },
+        };
+      }
+      return { ...prevState, [name]: value };
     });
 
     if (name === "faculty") {
@@ -60,6 +137,10 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
     }
   };
 
+  if (isLoading) {
+    return <div>Data is loading...</div>;
+  }
+
   return (
     <div className="flex flex-col">
       <TimetableName timetable={timetable} />
@@ -73,6 +154,9 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
             className="w-full px-2 py-2 border border-gray-300 rounded"
             required
           >
+            <option value="" disabled>
+              Select a year
+            </option>
             <option value="Y1">Y1</option>
             <option value="Y2">Y2</option>
             <option value="Y3">Y3</option>
@@ -88,6 +172,9 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
             className="w-full px-2 py-2 border border-gray-300 rounded"
             required
           >
+            <option value="" disabled>
+              Select a semester
+            </option>
             <option value="S1">S1</option>
             <option value="S2">S2</option>
           </select>
@@ -101,6 +188,9 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
             className="w-full px-2 py-2 border border-gray-300 rounded"
             required
           >
+            <option value="" disabled>
+              Select a batch
+            </option>
             <option value="WE">WE</option>
             <option value="WD">WD</option>
           </select>
@@ -109,14 +199,17 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
           <label className="block mb-1">Faculty:</label>
           <select
             name="faculty"
-            value={timetable.faculty}
+            value={timetable.faculty._id || ""}
             onChange={handleChange}
             className="w-full px-2 py-2 border border-gray-300 rounded"
             required
           >
+            <option value="" disabled>
+              {isLoading ? "Loading faculties..." : "Select a faculty"}
+            </option>
             {faculties.map((faculty) => (
-              <option key={faculty} value={faculty}>
-                {faculty}
+              <option key={faculty._id} value={faculty._id}>
+                {faculty.name}
               </option>
             ))}
           </select>
@@ -125,15 +218,20 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
           <label className="block mb-1">Specialization:</label>
           <select
             name="specialization"
-            value={timetable.specialization}
+            value={timetable.specialization._id || ""}
             onChange={handleChange}
             className="w-full px-2 py-2 border border-gray-300 rounded"
             required
           >
-            {specializations[selectedFaculty] ? (
-              specializations[selectedFaculty].map((specialization) => (
-                <option key={specialization} value={specialization}>
-                  {specialization}
+            <option value="" disabled>
+              {isLoading
+                ? "Loading specializations..."
+                : "Select a specialization"}
+            </option>
+            {specializations.length > 0 ? (
+              specializations.map((specialization) => (
+                <option key={specialization._id} value={specialization._id}>
+                  {specialization.name}
                 </option>
               ))
             ) : (
