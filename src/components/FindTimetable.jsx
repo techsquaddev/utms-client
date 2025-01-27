@@ -1,36 +1,90 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { faculties, specializations } from "../data";
+import {
+  findTimetable,
+  getAllFaculties,
+  getAllSpecsByFacultyId,
+} from "@/api/timetableApi";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { TimetableName } from ".";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 const FindTimetable = () => {
-  const [selectedFaculty, setSelectedFaculty] = useState("FOC");
+  const [faculties, setFaculties] = useState([]);
+  const [specializations, setSpecializations] = useState([]);
+  const [selectedFaculty, setSelectedFaculty] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFinding, setIsFinding] = useState(false);
   const [formData, setFormData] = useState({
     year: "",
     semester: "",
     batch: "",
-    faculty: "",
-    specialization: "",
+    faculty: { code: "" },
+    specialization: { code: "" },
     group: "",
     subGroup: "",
   });
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  // Fetch faculties on component mount
+  useEffect(() => {
+    const fetchFaculties = async () => {
+      try {
+        setIsLoading(true);
+        const response = await getAllFaculties();
+        setFaculties(response.data);
+      } catch (error) {
+        console.error("Error fetching faculties:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchFaculties();
+  }, []);
+
+  // Fetch specializations whenever selectedFaculty changes
+  useEffect(() => {
+    if (selectedFaculty) {
+      const fetchSpecializations = async () => {
+        try {
+          setIsLoading(true);
+          const response = await getAllSpecsByFacultyId(selectedFaculty);
+          setSpecializations(response.data);
+        } catch (error) {
+          console.error("Error fetching specializations:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchSpecializations();
+    } else {
+      setSpecializations([]);
+    }
+  }, [selectedFaculty]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value,
+
+    setFormData((prevState) => {
+      if (name === "faculty") {
+        const selectedFaculty = faculties.find(
+          (faculty) => faculty._id === value
+        );
+        return {
+          ...prevState,
+          faculty: selectedFaculty || { code: "" },
+          specialization: { code: "" },
+        };
+      }
+      if (name === "specialization") {
+        const selectedSpecialization = specializations.find(
+          (spec) => spec._id === value
+        );
+        return {
+          ...prevState,
+          specialization: selectedSpecialization || { code: "" },
+        };
+      }
+      return { ...prevState, [name]: value };
     });
 
     if (name === "faculty") {
@@ -41,35 +95,37 @@ const FindTimetable = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "/api/timetable/find-timetable",
-        formData
-      );
+      setIsFinding(true);
+      toast.info("This may take some time to find the timetable! ⏳");
+      const response = await findTimetable(formData);
       if (response.data) {
+        const timetable = response.data;
+
         toast.success("Timetable Found! 🥳");
 
         setFormData({
           year: "",
           semester: "",
           batch: "",
-          faculty: "",
-          specialization: "",
+          faculty: { code: "" },
+          specialization: { code: "" },
           group: "",
           subGroup: "",
         });
-        setSelectedFaculty("FOC");
+        setSelectedFaculty("");
 
-        // Save timetable to the local storage
-        localStorage.setItem("timetableId", response.data._id);
+        // Save timetable details to the local storage
+        localStorage.setItem("timetable", JSON.stringify(timetable));
 
         // Redirect to the timetable page
-        navigate(`/timetables/${response.data._id}`);
+        navigate(`/timetables/${timetable._id}`);
       } else {
         toast.info("Couldn't find the timetable! 🤷");
       }
     } catch (error) {
-      setError(error.response.data.message);
       toast.error("Error finding timetable 😕");
+    } finally {
+      setIsFinding(false);
     }
   };
 
@@ -79,22 +135,21 @@ const FindTimetable = () => {
       <div className="flex flex-col p-5 bg-white rounded-xl shadow-xl border border-border">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <Select
+            <select
               name="year"
               value={formData.year}
               onChange={handleChange}
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
               required
             >
-              <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4 ">
-                <SelectValue placeholder="Study year?" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Y1">Y1</SelectItem>
-                <SelectItem value="Y2">Y2</SelectItem>
-                <SelectItem value="Y3">Y3</SelectItem>
-                <SelectItem value="Y4">Y4</SelectItem>
-              </SelectContent>
-            </Select>
+              <option value="" disabled>
+                Select a year
+              </option>
+              <option value="Y1">Year 1</option>
+              <option value="Y2">Year 2</option>
+              <option value="Y3">Year 3</option>
+              <option value="Y4">Year 4</option>
+            </select>
           </div>
           <div className="mb-4">
             <select
@@ -104,11 +159,11 @@ const FindTimetable = () => {
               required
               className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
             >
-              <option value="" disabled selected hidden>
-                Semester?
+              <option value="" disabled>
+                Select a Semester
               </option>
-              <option value="S1">S1</option>
-              <option value="S2">S2</option>
+              <option value="S1">Semester 1</option>
+              <option value="S2">Semester 2</option>
             </select>
           </div>
           <div className="mb-4">
@@ -119,29 +174,27 @@ const FindTimetable = () => {
               required
               className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
             >
-              <option value="" disabled selected hidden>
-                Batch - WE or WD?
+              <option value="" disabled>
+                Select a batch
               </option>
-              <option value="WE">WE</option>
-              <option value="WD">WD</option>
+              <option value="WE">Weekend</option>
+              <option value="WD">Weekday</option>
             </select>
           </div>
           <div className="mb-4">
             <select
               name="faculty"
-              value={formData.faculty}
+              value={formData.faculty._id || ""}
               onChange={handleChange}
               required
               className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
             >
-              {faculties.map((faculty, index) => (
-                <option
-                  key={faculty}
-                  value={index === 0 ? "" : faculty}
-                  disabled={index === 0}
-                  hidden={index === 0}
-                >
-                  {faculty}
+              <option value="" disabled>
+                {isLoading ? "Loading faculties..." : "Select a faculty"}
+              </option>
+              {faculties.map((faculty) => (
+                <option key={faculty._id} value={faculty._id}>
+                  {faculty.name}
                 </option>
               ))}
             </select>
@@ -149,18 +202,20 @@ const FindTimetable = () => {
           <div className="mb-4">
             <select
               name="specialization"
-              value={formData.specialization}
+              value={formData.specialization._id || ""}
               onChange={handleChange}
               required
               className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
             >
-              <option value="" disabled selected hidden>
-                Specialization?
+              <option value="" disabled>
+                {isLoading
+                  ? "Loading specializations..."
+                  : "Select a specialization"}
               </option>
-              {specializations[selectedFaculty] ? (
-                specializations[selectedFaculty].map((specialization) => (
-                  <option key={specialization} value={specialization}>
-                    {specialization}
+              {specializations.length > 0 ? (
+                specializations.map((specialization) => (
+                  <option key={specialization._id} value={specialization._id}>
+                    {specialization.name}
                   </option>
                 ))
               ) : (
@@ -197,7 +252,7 @@ const FindTimetable = () => {
               type="submit"
               className="px-6 py-3 w-full text-xl font-semibold bg-primary shadow-lg text-white rounded-md hover:bg-dark-blue transition-colors duration-300"
             >
-              Find My Timetable
+              {isFinding ? "Finding..." : "Find My Timetable"}
             </button>
           </div>
         </form>
