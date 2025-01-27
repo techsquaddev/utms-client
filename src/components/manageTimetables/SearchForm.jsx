@@ -1,72 +1,117 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { faculties, specializations } from "@/data";
-import { Loader, TimetableName } from "..";
-import { findTimetable } from "@/api/timetableApi";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "../ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
-import { Input } from "../ui/input";
-
-const FormSchema = z.object({
-  year: z.string({
-    required_error: "Please select your academic year",
-  }),
-  semester: z.string({
-    required_error: "Please select your current semester",
-  }),
-  batch: z.string({
-    required_error: "Please select your batch",
-  }),
-  faculty: z.string({
-    required_error: "Please select your faculty",
-  }),
-  specialization: z.string({
-    required_error: "Please select your specialization",
-  }),
-  group: z
-    .string({
-      required_error: "Please select your group",
-    })
-    .min(1)
-    .max(99),
-  subGroup: z.string().optional(),
-});
+  findTimetable,
+  getAllFaculties,
+  getAllSpecsByFacultyId,
+} from "@/api/timetableApi";
+import { TimetableName } from "..";
 
 const SearchForm = () => {
-  const [loading, setLoading] = useState(false);
-  const form = useForm({
-    resolver: zodResolver(FormSchema),
+  const [faculties, setFaculties] = useState([]);
+  const [specializations, setSpecializations] = useState([]);
+  const [selectedFaculty, setSelectedFaculty] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFinding, setIsFinding] = useState(false);
+  const [formData, setFormData] = useState({
+    year: "",
+    semester: "",
+    batch: "",
+    faculty: { code: "" },
+    specialization: { code: "" },
+    group: "",
+    subGroup: "",
   });
-  const selectedFaculty = form.watch("faculty");
-
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    setLoading(true);
-    toast.info("This may take some time to find the timetable! ⏳");
-    try {
-      const response = await findTimetable(data);
+  // Fetch faculties on component mount
+  useEffect(() => {
+    const fetchFaculties = async () => {
+      try {
+        setIsLoading(true);
+        const response = await getAllFaculties();
+        setFaculties(response.data);
+      } catch (error) {
+        console.error("Error fetching faculties:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchFaculties();
+  }, []);
 
+  // Fetch specializations whenever selectedFaculty changes
+  useEffect(() => {
+    if (selectedFaculty) {
+      const fetchSpecializations = async () => {
+        try {
+          setIsLoading(true);
+          const response = await getAllSpecsByFacultyId(selectedFaculty);
+          setSpecializations(response.data);
+        } catch (error) {
+          console.error("Error fetching specializations:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchSpecializations();
+    } else {
+      setSpecializations([]);
+    }
+  }, [selectedFaculty]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormData((prevState) => {
+      if (name === "faculty") {
+        const selectedFaculty = faculties.find(
+          (faculty) => faculty._id === value
+        );
+        return {
+          ...prevState,
+          faculty: selectedFaculty || { code: "" },
+          specialization: { code: "" },
+        };
+      }
+      if (name === "specialization") {
+        const selectedSpecialization = specializations.find(
+          (spec) => spec._id === value
+        );
+        return {
+          ...prevState,
+          specialization: selectedSpecialization || { code: "" },
+        };
+      }
+      return { ...prevState, [name]: value };
+    });
+
+    if (name === "faculty") {
+      setSelectedFaculty(value);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setIsFinding(true);
+      const response = await findTimetable(formData);
       if (response.data) {
         toast.success("Timetable Found! 🥳");
 
-        // Redirect to the manage sessions page
+        setFormData({
+          year: "",
+          semester: "",
+          batch: "",
+          faculty: { code: "" },
+          specialization: { code: "" },
+          group: "",
+          subGroup: "",
+        });
+        setSelectedFaculty("");
+
+        // Redirect to the sessions page
         navigate(`/dashboard/timetables/${response.data._id}/sessions`);
       } else {
         toast.info("Couldn't find the timetable! 🤷");
@@ -74,218 +119,137 @@ const SearchForm = () => {
     } catch (error) {
       toast.error("Error finding timetable 😕");
     } finally {
-      setLoading(false);
+      setIsFinding(false);
     }
   };
 
   return (
     <div>
-      <TimetableName timetable={form.watch()} />
-      <div className="flex flex-col">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="relative">
-              <div className="mb-4">
-                <FormField
-                  control={form.control}
-                  name="year"
-                  render={({ field }) => (
-                    <FormItem>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4 ">
-                            <SelectValue placeholder="Study year?" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="Y1">Y1</SelectItem>
-                          <SelectItem value="Y2">Y2</SelectItem>
-                          <SelectItem value="Y3">Y3</SelectItem>
-                          <SelectItem value="Y4">Y4</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+      <TimetableName timetable={formData} />
+      <div className="flex flex-col p-5 bg-white rounded-xl shadow-xl border border-border">
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <select
+              name="year"
+              value={formData.year}
+              onChange={handleChange}
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+              required
+            >
+              <option value="" disabled>
+                Select a year
+              </option>
+              <option value="Y1">Year 1</option>
+              <option value="Y2">Year 2</option>
+              <option value="Y3">Year 3</option>
+              <option value="Y4">Year 4</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <select
+              name="semester"
+              value={formData.semester}
+              onChange={handleChange}
+              required
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+            >
+              <option value="" disabled>
+                Select a Semester
+              </option>
+              <option value="S1">Semester 1</option>
+              <option value="S2">Semester 2</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <select
+              name="batch"
+              value={formData.batch}
+              onChange={handleChange}
+              required
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+            >
+              <option value="" disabled>
+                Select a batch
+              </option>
+              <option value="WE">Weekend</option>
+              <option value="WD">Weekday</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <select
+              name="faculty"
+              value={formData.faculty._id || ""}
+              onChange={handleChange}
+              required
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+            >
+              <option value="" disabled>
+                {isLoading ? "Loading faculties..." : "Select a faculty"}
+              </option>
+              {faculties.map((faculty) => (
+                <option key={faculty._id} value={faculty._id}>
+                  {faculty.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-4">
+            <select
+              name="specialization"
+              value={formData.specialization._id || ""}
+              onChange={handleChange}
+              required
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+            >
+              <option value="" disabled>
+                {isLoading
+                  ? "Loading specializations..."
+                  : "Select a specialization"}
+              </option>
+              {specializations.length > 0 ? (
+                specializations.map((specialization) => (
+                  <option key={specialization._id} value={specialization._id}>
+                    {specialization.name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  No specializations available
+                </option>
+              )}
+            </select>
+          </div>
+          <div className="mb-4">
+            <input
+              type="number"
+              name="group"
+              placeholder="Group? (1,2,3...)"
+              value={formData.group}
+              onChange={handleChange}
+              required
+              className="w-full p-3 text-soft-text border text-sm border-border rounded md:text-base md:p-4"
+            />
+          </div>
+          <div className="mb-4">
+            <input
+              type="number"
+              name="subGroup"
+              placeholder="Sub group? (1,2,3...)"
+              value={formData.subGroup}
+              onChange={handleChange}
+              className="w-full p-3 text-soft-text border text-sm border-border rounded md:text-base md:p-4"
+            />
+          </div>
 
-              <div className="mb-4">
-                <FormField
-                  control={form.control}
-                  name="semester"
-                  render={({ field }) => (
-                    <FormItem>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4 ">
-                            <SelectValue placeholder="Semester?" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="S1">S1</SelectItem>
-                          <SelectItem value="S2">S2</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="mb-4">
-                <FormField
-                  control={form.control}
-                  name="batch"
-                  render={({ field }) => (
-                    <FormItem>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4 ">
-                            <SelectValue placeholder="Batch? (WE or WD)" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="WE">WE</SelectItem>
-                          <SelectItem value="WD">WD</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="mb-4">
-                <FormField
-                  control={form.control}
-                  name="faculty"
-                  render={({ field }) => (
-                    <FormItem>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4 ">
-                            <SelectValue placeholder="Faculty?" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {faculties.map((faculty) => (
-                            <SelectItem key={faculty} value={faculty}>
-                              {faculty}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="mb-4">
-                <FormField
-                  control={form.control}
-                  name="specialization"
-                  render={({ field }) => (
-                    <FormItem>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4">
-                            <SelectValue placeholder="Specialization?" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {specializations[selectedFaculty] &&
-                          specializations[selectedFaculty].length > 0 ? (
-                            specializations[selectedFaculty].map(
-                              (specialization) => (
-                                <SelectItem
-                                  key={specialization}
-                                  value={specialization}
-                                >
-                                  {specialization}
-                                </SelectItem>
-                              )
-                            )
-                          ) : (
-                            <div className="p-3 text-center text-soft-text border text-sm border-border md:text-base md:p-4">
-                              No specializations available
-                            </div>
-                          )}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="mb-4">
-                <FormField
-                  control={form.control}
-                  name="group"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Group? (1,2,3...)"
-                          {...field}
-                          className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="pb-8">
-                <FormField
-                  control={form.control}
-                  name="subGroup"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="Sub group? (1,2,3...)"
-                          {...field}
-                          className="p-3 text-soft-text border text-sm border-border md:text-base md:p-4"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              {loading && <Loader />}
-            </div>
-            <div className="">
-              <button
-                type="submit"
-                className="px-6 py-3 w-full text-xl font-semibold bg-primary shadow-lg text-white rounded-md hover:bg-dark-blue transition-colors duration-300"
-              >
-                {loading ? "Finding..." : "Find My Timetable"}
-              </button>
-            </div>
-          </form>
-        </Form>
+          <div className="mt-8">
+            <button
+              type="submit"
+              className="px-6 py-3 w-full text-xl font-semibold bg-primary shadow-lg text-white rounded-md hover:bg-dark-blue transition-colors duration-300"
+            >
+              {isFinding ? "Finding..." : "Find My Timetable"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
