@@ -157,10 +157,10 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
             <option value="" disabled>
               Select a year
             </option>
-            <option value="Y1">Y1</option>
-            <option value="Y2">Y2</option>
-            <option value="Y3">Y3</option>
-            <option value="Y4">Y4</option>
+            <option value="Y1">Year 1</option>
+            <option value="Y2">Year 2</option>
+            <option value="Y3">Year 3</option>
+            <option value="Y4">Year 4</option>
           </select>
         </div>
         <div className="mb-4">
@@ -175,8 +175,8 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
             <option value="" disabled>
               Select a semester
             </option>
-            <option value="S1">S1</option>
-            <option value="S2">S2</option>
+            <option value="S1">Semester 1</option>
+            <option value="S2">Semester 2</option>
           </select>
         </div>
         <div className="mb-4">
@@ -191,8 +191,8 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
             <option value="" disabled>
               Select a batch
             </option>
-            <option value="WE">WE</option>
-            <option value="WD">WD</option>
+            <option value="WE">Weekend</option>
+            <option value="WD">Weekday</option>
           </select>
         </div>
         <div className="mb-4">

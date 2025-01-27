@@ -107,7 +107,7 @@ const AddTimetable = ({ fetchTimetables }) => {
         group: "",
         subGroup: "",
       });
-      setSelectedFaculty("FOC");
+      setSelectedFaculty("");
       fetchTimetables();
       // Redirect to the sessions
       navigate(`/dashboard/timetables/${response.data._id}/sessions`);
