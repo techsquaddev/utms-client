@@ -1,15 +1,10 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import Session from "./Session";
+import { SessionCard } from "..";
 import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 import { YTup } from "@/assets";
 
-const SessionsContainer = ({ sessions }) => {
+const SessionBoard = ({ sessions, fetchTimetable }) => {
   const [currentDay, setCurrentDay] = useState(new Date().getDay());
-
-  const shortDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
   const days = [
     "Sunday",
     "Monday",
@@ -30,36 +25,32 @@ const SessionsContainer = ({ sessions }) => {
       return newDay;
     });
   };
-
   return (
     <div>
-      <div className="flex items-center justify-between my-7">
+      <div className="flex items-center justify-between mb-4">
         <button
-          onClick={() => handleDayChange(-1)}
           className="bg-soft-blue p-2 shadow-lg rounded-full border border-primary hover:bg-soft-gray transition-colors duration-300"
+          onClick={() => handleDayChange(-1)}
         >
           <ArrowBackIosNew className="text-primary" />
         </button>
-        <h3 className="text-2xl text-soft-text font-bold text-center">
+        <h3 className="text-2xl text-soft-text font-semibold text-center">
           {days[currentDay]}
         </h3>
         <button
-          onClick={() => handleDayChange(1)}
           className="bg-soft-blue p-2 shadow-lg rounded-full border border-primary hover:bg-soft-gray transition-colors duration-300"
+          onClick={() => handleDayChange(1)}
         >
           <ArrowForwardIos className="text-primary" />
         </button>
       </div>
-
-      <div className="flex justify-center mb-5 gap-1.5">
-        {shortDays.map((day, index) => (
+      <div className="flex justify-center gap-2 mb-5">
+        {days.map((day, index) => (
           <button
             key={index}
-            className={`py-1 px-2 rounded-xl text-xs ${
-              currentDay === index
-                ? "bg-primary text-white border border-primary"
-                : "bg-white text-soft-text border border-border"
-            } md:text-sm`}
+            className={`${
+              currentDay === index ? "bg-blue-500 text-white" : "bg-gray-200"
+            } px-3 py-1 rounded transition hover:bg-gray-300`}
             onClick={() => setCurrentDay(index)}
           >
             {day}
@@ -67,13 +58,14 @@ const SessionsContainer = ({ sessions }) => {
         ))}
       </div>
 
-      <div className="mt-[20px]">
+      <div className="mt-5">
         {filteredSessions.length > 0 ? (
           filteredSessions.map((session, index) => (
-            <Session
+            <SessionCard
               key={index}
               session={session}
               currentDay={currentDay === new Date().getDay()}
+              fetchTimetable={fetchTimetable}
             />
           ))
         ) : (
@@ -89,4 +81,4 @@ const SessionsContainer = ({ sessions }) => {
   );
 };
 
-export default SessionsContainer;
+export default SessionBoard;

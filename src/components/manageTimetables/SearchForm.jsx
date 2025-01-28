@@ -1,40 +1,90 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { faculties, specializations } from "../../data";
 import { toast } from "react-toastify";
-
-import styles from "./searchForm.module.css";
-
-import { Button } from "../ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  findTimetable,
+  getAllFaculties,
+  getAllSpecsByFacultyId,
+} from "@/api/timetableApi";
+import { TimetableName } from "..";
 
 const SearchForm = () => {
-  const [selectedFaculty, setSelectedFaculty] = useState("FOC");
+  const [faculties, setFaculties] = useState([]);
+  const [specializations, setSpecializations] = useState([]);
+  const [selectedFaculty, setSelectedFaculty] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFinding, setIsFinding] = useState(false);
   const [formData, setFormData] = useState({
-    year: "Y1",
-    semester: "S1",
-    batch: "WE",
-    faculty: "FOC",
-    specialization: "IT",
-    group: 1,
+    year: "",
+    semester: "",
+    batch: "",
+    faculty: { code: "" },
+    specialization: { code: "" },
+    group: "",
     subGroup: "",
   });
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  // Fetch faculties on component mount
+  useEffect(() => {
+    const fetchFaculties = async () => {
+      try {
+        setIsLoading(true);
+        const response = await getAllFaculties();
+        setFaculties(response.data);
+      } catch (error) {
+        console.error("Error fetching faculties:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchFaculties();
+  }, []);
+
+  // Fetch specializations whenever selectedFaculty changes
+  useEffect(() => {
+    if (selectedFaculty) {
+      const fetchSpecializations = async () => {
+        try {
+          setIsLoading(true);
+          const response = await getAllSpecsByFacultyId(selectedFaculty);
+          setSpecializations(response.data);
+        } catch (error) {
+          console.error("Error fetching specializations:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchSpecializations();
+    } else {
+      setSpecializations([]);
+    }
+  }, [selectedFaculty]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value,
+
+    setFormData((prevState) => {
+      if (name === "faculty") {
+        const selectedFaculty = faculties.find(
+          (faculty) => faculty._id === value
+        );
+        return {
+          ...prevState,
+          faculty: selectedFaculty || { code: "" },
+          specialization: { code: "" },
+        };
+      }
+      if (name === "specialization") {
+        const selectedSpecialization = specializations.find(
+          (spec) => spec._id === value
+        );
+        return {
+          ...prevState,
+          specialization: selectedSpecialization || { code: "" },
+        };
+      }
+      return { ...prevState, [name]: value };
     });
 
     if (name === "faculty") {
@@ -45,153 +95,162 @@ const SearchForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "/api/timetable/find-timetable",
-        formData
-      );
+      setIsFinding(true);
+      const response = await findTimetable(formData);
       if (response.data) {
         toast.success("Timetable Found! 🥳");
 
         setFormData({
-          year: "Y1",
-          semester: "S1",
-          batch: "WE",
-          faculty: "FOC",
-          specialization: "IT",
-          group: 1,
+          year: "",
+          semester: "",
+          batch: "",
+          faculty: { code: "" },
+          specialization: { code: "" },
+          group: "",
           subGroup: "",
         });
-        setSelectedFaculty("FOC");
+        setSelectedFaculty("");
 
-        // Redirect to the timetable page
-        navigate(`/timetables/${response.data._id}`);
+        // Redirect to the sessions page
+        navigate(`/dashboard/timetables/${response.data._id}/sessions`);
       } else {
         toast.info("Couldn't find the timetable! 🤷");
       }
     } catch (error) {
-      setError(error.response.data.message);
       toast.error("Error finding timetable 😕");
+    } finally {
+      setIsFinding(false);
     }
   };
+
   return (
     <div>
-      <Dialog>
-        <DialogTrigger>
-          <Button className="bg-[#333333] rounded-3xl">
-            Find your Timetable
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="h-[90vh] max-w-content overflow-y-scroll no-scrollbar">
-          <DialogHeader>
-            <DialogTitle>Look for your relevant timetable</DialogTitle>
-            <DialogDescription>
-              Fill in the following details and narrow down your search!
-              <div className={styles.container}>
-                <form onSubmit={handleSubmit}>
-                  <div className={styles.field}>
-                    <label>Year:</label>
-                    <select
-                      name="year"
-                      value={formData.year}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="Y1">Y1</option>
-                      <option value="Y2">Y2</option>
-                      <option value="Y3">Y3</option>
-                      <option value="Y4">Y4</option>
-                    </select>
-                  </div>
-                  <div className={styles.field}>
-                    <label>Semester:</label>
-                    <select
-                      name="semester"
-                      value={formData.semester}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="S1">S1</option>
-                      <option value="S2">S2</option>
-                    </select>
-                  </div>
-                  <div className={styles.field}>
-                    <label>Batch:</label>
-                    <select
-                      name="batch"
-                      value={formData.batch}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="WE">WE</option>
-                      <option value="WD">WD</option>
-                    </select>
-                  </div>
-                  <div className={styles.field}>
-                    <label>Faculty:</label>
-                    <select
-                      name="faculty"
-                      value={formData.faculty}
-                      onChange={handleChange}
-                      required
-                    >
-                      {faculties.map((faculty) => (
-                        <option key={faculty} value={faculty}>
-                          {faculty}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className={styles.field}>
-                    <label>Specialization:</label>
-                    <select
-                      name="specialization"
-                      value={formData.specialization}
-                      onChange={handleChange}
-                      required
-                    >
-                      {specializations[selectedFaculty] ? (
-                        specializations[selectedFaculty].map(
-                          (specialization) => (
-                            <option key={specialization} value={specialization}>
-                              {specialization}
-                            </option>
-                          )
-                        )
-                      ) : (
-                        <option value="" disabled>
-                          No specializations available
-                        </option>
-                      )}
-                    </select>
-                  </div>
-                  <div className={styles.field}>
-                    <label>Group:</label>
-                    <input
-                      type="number"
-                      name="group"
-                      value={formData.group}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className={styles.field}>
-                    <label>Sub Group:</label>
-                    <input
-                      type="number"
-                      name="subGroup"
-                      value={formData.subGroup}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <button type="submit" className={styles.submitButton}>
-                    Find Timetable
-                  </button>
-                </form>
-              </div>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+      <TimetableName timetable={formData} />
+      <div className="flex flex-col p-5 bg-white rounded-xl shadow-xl border border-border">
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <select
+              name="year"
+              value={formData.year}
+              onChange={handleChange}
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+              required
+            >
+              <option value="" disabled>
+                Select a year
+              </option>
+              <option value="Y1">Year 1</option>
+              <option value="Y2">Year 2</option>
+              <option value="Y3">Year 3</option>
+              <option value="Y4">Year 4</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <select
+              name="semester"
+              value={formData.semester}
+              onChange={handleChange}
+              required
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+            >
+              <option value="" disabled>
+                Select a Semester
+              </option>
+              <option value="S1">Semester 1</option>
+              <option value="S2">Semester 2</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <select
+              name="batch"
+              value={formData.batch}
+              onChange={handleChange}
+              required
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+            >
+              <option value="" disabled>
+                Select a batch
+              </option>
+              <option value="WE">Weekend</option>
+              <option value="WD">Weekday</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <select
+              name="faculty"
+              value={formData.faculty._id || ""}
+              onChange={handleChange}
+              required
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+            >
+              <option value="" disabled>
+                {isLoading ? "Loading faculties..." : "Select a faculty"}
+              </option>
+              {faculties.map((faculty) => (
+                <option key={faculty._id} value={faculty._id}>
+                  {faculty.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-4">
+            <select
+              name="specialization"
+              value={formData.specialization._id || ""}
+              onChange={handleChange}
+              required
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+            >
+              <option value="" disabled>
+                {isLoading
+                  ? "Loading specializations..."
+                  : "Select a specialization"}
+              </option>
+              {specializations.length > 0 ? (
+                specializations.map((specialization) => (
+                  <option key={specialization._id} value={specialization._id}>
+                    {specialization.name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  No specializations available
+                </option>
+              )}
+            </select>
+          </div>
+          <div className="mb-4">
+            <input
+              type="number"
+              name="group"
+              placeholder="Group? (1,2,3...)"
+              value={formData.group}
+              onChange={handleChange}
+              required
+              className="w-full p-3 text-soft-text border text-sm border-border rounded md:text-base md:p-4"
+            />
+          </div>
+          <div className="mb-4">
+            <input
+              type="number"
+              name="subGroup"
+              placeholder="Sub group? (1,2,3...)"
+              value={formData.subGroup}
+              onChange={handleChange}
+              className="w-full p-3 text-soft-text border text-sm border-border rounded md:text-base md:p-4"
+            />
+          </div>
+
+          <div className="mt-8">
+            <button
+              type="submit"
+              className="px-6 py-3 w-full text-xl font-semibold bg-primary shadow-lg text-white rounded-md hover:bg-dark-blue transition-colors duration-300"
+            >
+              {isFinding ? "Finding..." : "Find My Timetable"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

@@ -1,38 +1,48 @@
-import axios from "axios";
-import { BASE_URL } from "./baseURL";
+import axiosInstance from "./axiosInstance";
 
-const API_URL = `${BASE_URL}/api/timetables`;
+const TIMETABLE_API = "/api/timetables";
+const FACULTY_API = "/api/faculties";
+const SPEC_API = "/api/specializations";
 
-export const createTimetable = async (timetable) => {
-  const response = await axios.post(API_URL, timetable);
-  return response.data;
+// Create a timetable
+export const createTimetable = async (timetableData) => {
+  return await axiosInstance.post(TIMETABLE_API, timetableData);
 };
 
+// Find a timetable by specific criteria
+export const findTimetable = async (criteria) => {
+  return await axiosInstance.post(`${TIMETABLE_API}/find`, criteria);
+};
+
+// Get all timetables
 export const getAllTimetables = async () => {
-  const response = await axios.get(API_URL);
-  return response.data;
+  return await axiosInstance.get(TIMETABLE_API);
 };
 
-export const getSpecificTimetable = async (id) => {
-  const response = await axios.get(`${API_URL}/${id}`);
-  return response.data;
+// Get a specific timetable by ID
+export const getSpecificTimetable = async (timetableId) => {
+  return await axiosInstance.get(`${TIMETABLE_API}/${timetableId}`);
 };
 
-export const getSpecificTimetableByName = async (name) => {
-  const response = await axios.get(`${API_URL}/${name}`);
-  return response.data;
+// Update a timetable by ID
+export const updateTimetable = async (timetableId, updatedData) => {
+  return await axiosInstance.put(
+    `${TIMETABLE_API}/${timetableId}`,
+    updatedData
+  );
 };
 
-export const findTimetable = async (details) => {
-  const response = await axios.post(`${API_URL}/find-timetable`, details);
-  return response.data;
+// Delete a timetable by ID
+export const deleteTimetable = async (timetableId) => {
+  return await axiosInstance.delete(`${TIMETABLE_API}/${timetableId}`);
 };
 
-export const updateTimetable = async (id, timetable) => {
-  const response = await axios.put(`${API_URL}/${id}`, timetable);
-  return response.data;
+// Get all faculties
+export const getAllFaculties = async () => {
+  return await axiosInstance.get(FACULTY_API);
 };
 
-export const deleteTimetable = async (id) => {
-  await axios.delete(`${API_URL}/${id}`);
+// Get all specializations by faculty ID
+export const getAllSpecsByFacultyId = async (facultyId) => {
+  return await axiosInstance.get(`${SPEC_API}/${facultyId}`);
 };

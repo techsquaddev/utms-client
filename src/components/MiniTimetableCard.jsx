@@ -6,7 +6,7 @@ const MiniTimetableCard = ({ timetable }) => {
     if (
       timetable.year === "Y5" &&
       timetable.faculty === "FOC" &&
-      timetable.semester === "S2"
+      timetable.semester === "S1"
     ) {
       return `url(${ad})`;
     } else {

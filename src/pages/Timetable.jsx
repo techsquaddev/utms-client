@@ -28,12 +28,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { getSpecificTimetable } from "@/api/timetableApi";
 import { toast } from "react-toastify";
+import { getSpecificTimetable } from "@/api/timetableApi";
 
 const Timetable = () => {
   const { timetableId } = useParams();
   const [timetable, setTimetable] = useState(null);
+  const [sessions, setSessions] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,13 +45,15 @@ const Timetable = () => {
           const details = JSON.parse(localStorageTimetable);
           if (details._id === timetableId) {
             setTimetable(details);
+            setSessions(details.sessions);
             return;
           }
         }
 
         // Fetch from the database if not found in local storage
         const response = await getSpecificTimetable(timetableId);
-        setTimetable(response);
+        setTimetable(response.data);
+        setSessions(response.data.sessions);
       } catch (error) {
         toast.error("Error loading timetable! 😕");
       }
@@ -59,16 +62,8 @@ const Timetable = () => {
     fetchTimetable();
   }, [timetableId]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      setCurrentDay(now.getDay());
-    }, 60000);
-    return () => clearInterval(interval);
-  }, []);
-
   // if (error) {
-  //   return <div>Error: {error}</div>;
+  //   return <div>Error: {error}</div>; TODO: Add an error component here
   // }
 
   if (!timetable) {
@@ -133,7 +128,7 @@ const Timetable = () => {
 
         <TimetableName timetable={timetable} />
         <MiniTimetableCard timetable={timetable} />
-        <SessionsContainer sessions={timetable.sessions} />
+        <SessionsContainer sessions={sessions} />
       </Wrapper>
     </div>
   );

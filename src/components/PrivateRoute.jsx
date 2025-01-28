@@ -1,19 +1,9 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useAuth } from "@/api/authContext";
+import { Navigate, Outlet } from "react-router-dom";
 
-const PrivateRoute = ({ children, requiredRole }) => {
-  const { userInfo } = useSelector((state) => state.auth);
-
-  if (!userInfo) {
-    return <Navigate to="/admin/login" />;
-  }
-
-  if (requiredRole && userInfo.role !== requiredRole) {
-    return <Navigate to="/" />;
-  }
-
-  return children;
+const PrivateRoute = () => {
+  const { user } = useAuth();
+  return user ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
 export default PrivateRoute;

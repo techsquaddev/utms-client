@@ -5,30 +5,41 @@ import {
   Route,
   useNavigate,
   useLocation,
+  matchPath,
 } from "react-router-dom";
-import { MainLayout } from "./components";
+import {
+  AdminRoute,
+  DashboardLayout,
+  MainLayout,
+  PrivateRoute,
+} from "./components";
 import {
   Home,
-  AddTimetable,
-  UpdateTimetable,
-  ManageSessions,
-  Dashboard,
   Timetable,
   Find,
   About,
   Contact,
-  AdminLogin,
+  Login,
+  VerifyToken,
+  Dashboard,
+  Timetables,
+  Sessions,
+  Register,
+  VerifyEmail,
+  Users,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
-import PrivateRoute from "./components/PrivateRoute";
+import { AuthProvider } from "./api/authContext";
 
 const App = () => {
   return (
     <div className="app">
       <Router>
-        <Main />
+        <AuthProvider>
+          <Main />
+        </AuthProvider>
       </Router>
     </div>
   );
@@ -40,18 +51,17 @@ const Main = () => {
 
   useEffect(() => {
     const storedTimetable = localStorage.getItem("timetable");
-    const whitelist = [
-      "/about",
-      "/contact",
-      "/admin/login",
-      "/admin/dashboard",
-      "/timetables/add",
-      "/timetables/update/:timetableId",
-      "/timetables/sessions/:timetableId",
-    ];
+
+    const blacklist = ["/", "/timetables/find"];
+
     const currentPath = location.pathname;
 
-    if (storedTimetable && !whitelist.includes(currentPath)) {
+    // Check if the current path matches any in the blacklist
+    const isBlacklisted = blacklist.some((path) =>
+      matchPath({ path, exact: true }, currentPath)
+    );
+
+    if (storedTimetable && isBlacklisted) {
       const timetable = JSON.parse(storedTimetable);
       if (timetable && timetable._id) {
         navigate(`/timetables/${timetable._id}`, { replace: true });
@@ -62,49 +72,35 @@ const Main = () => {
   return (
     <div className="main">
       <ToastContainer />
-      <MainLayout>
-        <Routes>
+      <Routes>
+        <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/verify/login" element={<VerifyToken />} />
+          <Route path="/verify/email" element={<VerifyEmail />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
           <Route path="/timetables/find" element={<Find />} />
+        </Route>
 
-          <Route
-            path="/admin/dashboard"
-            element={
-              <PrivateRoute requiredRole="admin">
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/timetables/add"
-            element={
-              <PrivateRoute requiredRole="admin">
-                <AddTimetable />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/timetables/update/:timetableId"
-            element={
-              <PrivateRoute requiredRole="admin">
-                <UpdateTimetable />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="timetables/sessions/:timetableId"
-            element={
-              <PrivateRoute requiredRole="admin">
-                <ManageSessions />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </MainLayout>
+        {/* Private Routes */}
+        <Route path="" element={<PrivateRoute />}>
+          <Route element={<DashboardLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/timetables" element={<Timetables />} />
+            <Route
+              path="/dashboard/timetables/:timetableId/sessions"
+              element={<Sessions />}
+            />
+            {/* Admin Routes */}
+            <Route path="" element={<AdminRoute />}>
+              <Route path="/dashboard/users" element={<Users />} />
+            </Route>
+          </Route>
+        </Route>
+      </Routes>
       <div className="gradient" />
     </div>
   );

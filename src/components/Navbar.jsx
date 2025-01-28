@@ -1,8 +1,7 @@
-import React, { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import Logo from "../assets/sliit360.svg";
 import { Wrapper } from ".";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,28 +11,10 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
-import { useLogoutMutation } from "../slices/userApiSlice";
-import { logout } from "../slices/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useAuth } from "@/api/authContext";
 
 const Navbar = () => {
-  const { userInfo } = useSelector((state) => state.auth);
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [logoutApiCall] = useLogoutMutation();
-
-  const handleLogout = async () => {
-    try {
-      await logoutApiCall().unwrap();
-      dispatch(logout());
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+  const { user, logout } = useAuth();
   return (
     <Wrapper>
       <nav className="my-5">
@@ -72,10 +53,30 @@ const Navbar = () => {
                       <span>Contact</span>
                     </DropdownMenuItem>
                   </Link>
-                  {userInfo && (
-                    <DropdownMenuItem className="text-text text-sm md:text-base font-semibold p-1 px-2 py-1.5 outline-none transition-colors rounded-sm select-none cursor-pointer hover:bg-soft-gray hover:text-text">
-                      <button onClick={handleLogout}>Logout</button>
-                    </DropdownMenuItem>
+                  {user ? (
+                    <>
+                      <Link to="/dashboard">
+                        <DropdownMenuItem className="text-text text-sm md:text-base font-semibold p-1 px-2 py-1.5 outline-none transition-colors rounded-sm select-none cursor-pointer hover:bg-soft-gray hover:text-text">
+                          <span>Dashboard</span>
+                        </DropdownMenuItem>
+                      </Link>
+                      <DropdownMenuItem className="text-text text-sm md:text-base font-semibold p-1 px-2 py-1.5 outline-none transition-colors rounded-sm select-none cursor-pointer hover:bg-soft-gray hover:text-text">
+                        <button onClick={logout}>Logout</button>
+                      </DropdownMenuItem>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/login">
+                        <DropdownMenuItem className="text-text text-sm md:text-base font-semibold p-1 px-2 py-1.5 outline-none transition-colors rounded-sm select-none cursor-pointer hover:bg-soft-gray hover:text-text">
+                          <span>Login</span>
+                        </DropdownMenuItem>
+                      </Link>
+                      <Link to="/register">
+                        <DropdownMenuItem className="text-text text-sm md:text-base font-semibold p-1 px-2 py-1.5 outline-none transition-colors rounded-sm select-none cursor-pointer hover:bg-soft-gray hover:text-text">
+                          <span>Register</span>
+                        </DropdownMenuItem>
+                      </Link>
+                    </>
                   )}
                 </DropdownMenuGroup>
               </DropdownMenuContent>

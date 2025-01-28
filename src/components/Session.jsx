@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import React from "react";
 import {
   Accordion,
@@ -16,22 +14,19 @@ import {
   Link,
   RssFeed,
 } from "@mui/icons-material";
+import { formatTime, isCurrentSession } from "@/lib/utils";
 
 const Session = ({ session, currentDay }) => {
-  const now = new Date();
-  const sessionTime = new Date();
-  sessionTime.setHours(session.time.startTime.split(":")[0]);
-  sessionTime.setMinutes(session.time.startTime.split(":")[1]);
-
-  const isCurrentSession =
-    currentDay &&
-    now >= sessionTime &&
-    now <= sessionTime.setMinutes(sessionTime.getMinutes() + 90);
+  const isHighlighted = isCurrentSession(
+    session.time.startTime,
+    session.time.endTime,
+    currentDay
+  );
 
   return (
     <div
       className={`${`bg-gradient-to-t from-soft-blue to-white rounded-xl border border-border p-5 my-2.5 md:my-3`} ${
-        isCurrentSession ? "border-secondary" : ""
+        isHighlighted ? "border-secondary" : ""
       }`}
     >
       <Accordion type="single" collapsible>
@@ -48,15 +43,8 @@ const Session = ({ session, currentDay }) => {
                     className="text-lg md:text-xl"
                   />
                   <p className="text-sm font-medium md:text-base">
-                    {new Date(session.time.startTime).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}{" "}
-                    -{" "}
-                    {new Date(session.time.endTime).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
+                    {formatTime(session.time.startTime)} -{" "}
+                    {formatTime(session.time.endTime)}
                   </p>
                 </div>
 
