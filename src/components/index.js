@@ -22,7 +22,7 @@ import SessionBoard from "./manageTimetables/SessionBoard.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
 import AdminRoute from "./AdminRoute.jsx";
 import Loading from "./Loading.jsx";
-import Error404 from "./Error404.jsx";
+import NotFound from "./NotFound.jsx";
 
 export {
   Navbar,
@@ -49,5 +49,5 @@ export {
   PrivateRoute,
   AdminRoute,
   Loading,
-  Error404,
+  NotFound,
 };

@@ -1,7 +1,7 @@
 import { error404 } from "@/assets";
 import React from "react";
 
-const Error404 = () => {
+const NotFound = () => {
   return (
     <div className="flex items-center justify-center min-h-screen">
       <img
@@ -13,4 +13,4 @@ const Error404 = () => {
   );
 };
 
-export default Error404;
+export default NotFound;

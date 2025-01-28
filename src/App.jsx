@@ -11,6 +11,7 @@ import {
   AdminRoute,
   DashboardLayout,
   MainLayout,
+  NotFound,
   PrivateRoute,
 } from "./components";
 import {
@@ -100,6 +101,7 @@ const Main = () => {
             </Route>
           </Route>
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <div className="gradient" />
     </div>
