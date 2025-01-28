@@ -52,13 +52,13 @@
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
-    background: #007bff;
+    background: #333333;
     border-radius: 100vh;
     border: 0px solid black;
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #e0cbcb;
+    background: rgb(51, 51, 51, 0.5);
   }
 
   .no-scrollbar::-webkit-scrollbar {
