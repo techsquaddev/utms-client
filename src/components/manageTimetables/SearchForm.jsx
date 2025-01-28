@@ -126,14 +126,14 @@ const SearchForm = () => {
   return (
     <div>
       <TimetableName timetable={formData} />
-      <div className="flex flex-col p-5 bg-white rounded-xl shadow-xl border border-border">
+      <div className="flex flex-col">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <select
               name="year"
               value={formData.year}
               onChange={handleChange}
-              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
               required
             >
               <option value="" disabled>
@@ -151,7 +151,7 @@ const SearchForm = () => {
               value={formData.semester}
               onChange={handleChange}
               required
-              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
             >
               <option value="" disabled>
                 Select a Semester
@@ -166,7 +166,7 @@ const SearchForm = () => {
               value={formData.batch}
               onChange={handleChange}
               required
-              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
             >
               <option value="" disabled>
                 Select a batch
@@ -181,7 +181,7 @@ const SearchForm = () => {
               value={formData.faculty._id || ""}
               onChange={handleChange}
               required
-              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
             >
               <option value="" disabled>
                 {isLoading ? "Loading faculties..." : "Select a faculty"}
@@ -199,7 +199,7 @@ const SearchForm = () => {
               value={formData.specialization._id || ""}
               onChange={handleChange}
               required
-              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
             >
               <option value="" disabled>
                 {isLoading
@@ -227,7 +227,7 @@ const SearchForm = () => {
               value={formData.group}
               onChange={handleChange}
               required
-              className="w-full p-3 text-soft-text border text-sm border-border rounded md:text-base md:p-4"
+              className="w-full p-3 text-soft-text border text-sm border-border rounded md:text-base"
             />
           </div>
           <div className="mb-4">
@@ -237,7 +237,7 @@ const SearchForm = () => {
               placeholder="Sub group? (1,2,3...)"
               value={formData.subGroup}
               onChange={handleChange}
-              className="w-full p-3 text-soft-text border text-sm border-border rounded md:text-base md:p-4"
+              className="w-full p-3 text-soft-text border text-sm border-border rounded md:text-base"
             />
           </div>
 
