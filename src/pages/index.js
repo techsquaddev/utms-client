@@ -7,7 +7,6 @@ import Contact from "./Contact";
 import VerifyToken from "./VerifyToken";
 import VerifyEmail from "./VerifyEmail";
 import Register from "./Register";
-import Loading from "./Loading";
 
 // Dashboard
 import Dashboard from "./dashboard/Dashboard";
@@ -29,5 +28,4 @@ export {
   Timetables,
   Sessions,
   Users,
-  Loading,
 };

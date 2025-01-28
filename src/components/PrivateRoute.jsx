@@ -1,6 +1,6 @@
 import { useAuth } from "@/api/authContext";
-import { Loading } from "@/pages";
 import { Navigate, Outlet } from "react-router-dom";
+import { Loading } from ".";
 
 const PrivateRoute = () => {
   const { user, loading } = useAuth();
