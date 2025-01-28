@@ -27,6 +27,7 @@ import {
   Register,
   VerifyEmail,
   Users,
+  Loading,
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -83,6 +84,7 @@ const Main = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
           <Route path="/timetables/find" element={<Find />} />
+          <Route path="/loading" element={<Loading />} />
         </Route>
 
         {/* Private Routes */}
