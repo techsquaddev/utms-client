@@ -1,6 +1,8 @@
 import axiosInstance from "./axiosInstance";
 
 const TIMETABLE_API = "/api/timetables";
+const FACULTY_API = "/api/faculties";
+const SPEC_API = "/api/specializations";
 
 // Create a timetable
 export const createTimetable = async (timetableData) => {
@@ -22,11 +24,6 @@ export const getSpecificTimetable = async (timetableId) => {
   return await axiosInstance.get(`${TIMETABLE_API}/${timetableId}`);
 };
 
-// Get a specific timetable by name
-export const getSpecificTimetableByName = async (timetableName) => {
-  return await axiosInstance.get(`${TIMETABLE_API}/find/${timetableName}`);
-};
-
 // Update a timetable by ID
 export const updateTimetable = async (timetableId, updatedData) => {
   return await axiosInstance.put(
@@ -38,4 +35,14 @@ export const updateTimetable = async (timetableId, updatedData) => {
 // Delete a timetable by ID
 export const deleteTimetable = async (timetableId) => {
   return await axiosInstance.delete(`${TIMETABLE_API}/${timetableId}`);
+};
+
+// Get all faculties
+export const getAllFaculties = async () => {
+  return await axiosInstance.get(FACULTY_API);
+};
+
+// Get all specializations by faculty ID
+export const getAllSpecsByFacultyId = async (facultyId) => {
+  return await axiosInstance.get(`${SPEC_API}/${facultyId}`);
 };

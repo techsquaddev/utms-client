@@ -5,7 +5,7 @@ const MiniTimetableCard = ({ timetable }) => {
   const getBackgroundImage = () => {
     if (
       timetable.year === "Y5" &&
-      timetable.faculty === "FOC" &&
+      timetable.faculty.code === "FOC" &&
       timetable.semester === "S1"
     ) {
       return `url(${ad})`;
@@ -26,7 +26,7 @@ const MiniTimetableCard = ({ timetable }) => {
       style={backgroundImageStyle}
     >
       {timetable.year === "Y5" &&
-      timetable.faculty === "FOC" &&
+      timetable.faculty.code === "FOC" &&
       timetable.semester === "S2" ? (
         ""
       ) : (

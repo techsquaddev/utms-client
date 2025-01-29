@@ -1,4 +1,4 @@
-import { FindTimetableClone, Wrapper } from "@/components";
+import { FindTimetable, Wrapper } from "@/components";
 import React from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ const Find = () => {
         >
           <ArrowBackIosNewIcon className="text-soft-text" />
         </button>
-        <FindTimetableClone />
+        <FindTimetable />
         <div className="mt-7 mb-4 p-5 bg-white border-2 border-primary rounded-3xl shadow-lg">
           <p className="text-soft-text text-center text-sm">
             You only have to find your timetable once. Then every time you visit

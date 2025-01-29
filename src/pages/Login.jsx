@@ -26,7 +26,7 @@ const Login = () => {
     } catch (error) {
       toast.error("Failed to send magic link. Please try again.");
     } finally {
-      isLoading(false);
+      setIsLoading(false);
     }
   };
 

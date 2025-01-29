@@ -7,8 +7,6 @@ const Register = () => {
     firstName: "",
     lastName: "",
     email: "",
-    role: "",
-    position: "",
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,12 +21,11 @@ const Register = () => {
       setIsLoading(true);
       const response = await registerUser(formData);
       toast.success(response.data.message || "Registration successful!");
+      toast.info("Please check spam/junk emails as well! 👀");
       setFormData({
         firstName: "",
         lastName: "",
         email: "",
-        role: "",
-        position: "",
       });
     } catch (error) {
       toast.error(
@@ -67,7 +64,7 @@ const Register = () => {
                 type="text"
                 required
                 className="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
-                placeholder="John"
+                placeholder="Ashen"
                 value={formData.firstName}
                 onChange={handleChange}
               />
@@ -85,7 +82,7 @@ const Register = () => {
                 type="text"
                 required
                 className="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
-                placeholder="Doe"
+                placeholder="Fernando"
                 value={formData.lastName}
                 onChange={handleChange}
               />
@@ -105,51 +102,8 @@ const Register = () => {
               type="email"
               required
               className="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
-              placeholder="you@example.com"
+              placeholder="it21276142@my.sliit.lk"
               value={formData.email}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="role"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Role
-            </label>
-            <select
-              id="role"
-              name="role"
-              required
-              className="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
-              value={formData.role}
-              onChange={handleChange}
-            >
-              <option value="" disabled>
-                Select Role
-              </option>
-              <option value="admin">Admin</option>
-              <option value="user">User</option>
-              <option value="moderator">Moderator</option>
-            </select>
-          </div>
-
-          <div>
-            <label
-              htmlFor="position"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Position
-            </label>
-            <input
-              id="position"
-              name="position"
-              type="text"
-              required
-              className="mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm"
-              placeholder="Software Engineer"
-              value={formData.position}
               onChange={handleChange}
             />
           </div>

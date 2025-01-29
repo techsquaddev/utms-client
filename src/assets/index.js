@@ -1,5 +1,4 @@
 import skeleton from "./skeleton.gif";
-import logo from "./logo.png";
 import timetableBg from "./timetable_bg.jpg";
 import ad from "./ad.png";
 import YTup from "./YTup.gif";
@@ -7,10 +6,11 @@ import logo2 from "./360_logo.svg";
 import about from "./about.png";
 import contact from "./contact.png";
 import ts_logo from "./ts_logo.svg";
+import loading from "./loading.gif";
+import error404 from "./error404.png";
 
 export {
   skeleton,
-  logo,
   timetableBg,
   ad,
   YTup,
@@ -18,4 +18,6 @@ export {
   about,
   contact,
   ts_logo,
+  loading,
+  error404,
 };

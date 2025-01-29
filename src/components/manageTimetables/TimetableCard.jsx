@@ -50,11 +50,11 @@ const TimetableCard = ({ timetable, fetchTimetable }) => {
         </p>
         <p className="text-gray-700">
           <strong className="text-gray-600">Faculty:</strong>{" "}
-          {timetable.faculty}
+          {timetable.faculty.name} ({timetable.faculty.code})
         </p>
         <p className="text-gray-700">
           <strong className="text-gray-600">Specialization:</strong>{" "}
-          {timetable.specialization}
+          {timetable.specialization.name} ({timetable.specialization.code})
         </p>
         <p className="text-gray-700">
           <strong className="text-gray-600">Group:</strong> {timetable.group}
