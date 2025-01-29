@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getLoggedInUser, logoutUser } from "./userApi";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext();
 
@@ -13,6 +14,7 @@ export const AuthProvider = ({ children }) => {
       await logoutUser();
       setUser(null);
     } catch (error) {
+      toast.error("Logout failed, try again! 😕");
       console.error("Logout failed:", error.message);
     }
   };
@@ -33,13 +35,8 @@ export const AuthProvider = ({ children }) => {
     fetchUser();
   }, []);
 
-  // Render children only when loading is complete
-  if (loading) {
-    return <div className="">Loading...</div>; // Replace with a loader
-  }
-
   return (
-    <AuthContext.Provider value={{ user, logout, fetchUser }}>
+    <AuthContext.Provider value={{ user, logout, fetchUser, loading }}>
       {children}
     </AuthContext.Provider>
   );

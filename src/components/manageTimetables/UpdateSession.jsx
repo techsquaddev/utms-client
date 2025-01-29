@@ -3,6 +3,8 @@ import { getSpecificSession, updateSession } from "@/api/sessionApi";
 import { toast } from "react-toastify";
 
 const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [formState, setFormState] = useState({
     day: "",
     time: {
@@ -31,6 +33,7 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
   useEffect(() => {
     const fetchSession = async () => {
       try {
+        setIsLoading(true);
         const response = await getSpecificSession(currentSessionId);
         setFormState({
           ...response.data,
@@ -41,6 +44,8 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
         });
       } catch (err) {
         toast.error("Error fetching session 😟");
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchSession();
@@ -73,13 +78,22 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
     }
 
     try {
+      setIsUpdating(true);
       await updateSession(currentSessionId, formState);
       fetchTimetable();
       toast.success("Session updated successfully! 🥳");
     } catch (err) {
       toast.error("Failed to update session. Please try again. 😟");
+    } finally {
+      setIsUpdating(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center">Data is loading...</div>
+    );
+  }
 
   return (
     <form className="flex flex-col" onSubmit={handleSubmit}>
@@ -89,7 +103,7 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
           name="day"
           value={formState.day}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           required
         >
           {days.map((day) => (
@@ -106,7 +120,7 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
           name="startTime"
           value={formState.time.startTime}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           required
         />
       </label>
@@ -117,7 +131,7 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
           name="endTime"
           value={formState.time.endTime}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           required
         />
       </label>
@@ -128,7 +142,7 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
           name="moduleName"
           value={formState.moduleName}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           required
         />
       </label>
@@ -139,7 +153,7 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
           name="moduleCode"
           value={formState.moduleCode}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           required
         />
       </label>
@@ -149,7 +163,7 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
           name="sessionType"
           value={formState.sessionType}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           required
         >
           <option value="">Select</option>
@@ -167,7 +181,7 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
           name="location"
           value={formState.location}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           required
         />
       </label>
@@ -177,7 +191,7 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
           type="text"
           name="coordinator"
           value={formState.coordinator}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           onChange={handleChange}
         />
       </label>
@@ -187,7 +201,7 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
           name="deliveryType"
           value={formState.deliveryType}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
         >
           <option value="">Select</option>
           <option value="Physical">Physical</option>
@@ -203,16 +217,16 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
             type="url"
             name="sessionLink"
             value={formState.sessionLink}
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
+            className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
             onChange={handleChange}
           />
         </label>
       )}
       <button
         type="submit"
-        className="mt-5 px-5 py-2 bg-blue-600 text-white rounded cursor-pointer self-center hover:bg-blue-700"
+        className="mt-4 px-6 py-3 w-full text-xl font-semibold bg-green-600 shadow-lg text-white rounded-md hover:bg-green-700 transition-colors duration-300"
       >
-        Update Session
+        {isUpdating ? "Updating..." : "Update Session"}
       </button>
     </form>
   );

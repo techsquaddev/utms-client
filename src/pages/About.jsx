@@ -33,16 +33,16 @@ const About = () => {
             </p>
             <br />
             <p className="text-soft-text text-left text-sm md:text-base">
-              In case anyone finds that their timetables are missing in the
-              system, send us an email and we'll add it as soon as possible.
+              If someone finds that their timetables are missing from the
+              system, they can add their timetable by registering with the
+              system.
             </p>
           </div>
 
           <div className="p-5 mx-5 bg-white border-2 border-secondary rounded-3xl shadow-md">
             <p className="text-soft-text text-left text-sm md:text-base">
-              We have plans for a feature that allows you to add your own
-              timetables in the works, so stay tuned with SLIIT 360 and spread
-              the word!
+              We warmly invite all SLIIT students to register with the system
+              and contribute to the collection of timetables. 😊
             </p>
           </div>
 

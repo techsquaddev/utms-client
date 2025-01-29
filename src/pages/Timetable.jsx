@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  NotFound,
   SessionsContainer,
   TimetableName,
   TimetableSkeleton,
@@ -35,6 +36,7 @@ const Timetable = () => {
   const { timetableId } = useParams();
   const [timetable, setTimetable] = useState(null);
   const [sessions, setSessions] = useState([]);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,6 +57,7 @@ const Timetable = () => {
         setTimetable(response.data);
         setSessions(response.data.sessions);
       } catch (error) {
+        setError(error);
         toast.error("Error loading timetable! 😕");
       }
     };
@@ -62,9 +65,9 @@ const Timetable = () => {
     fetchTimetable();
   }, [timetableId]);
 
-  // if (error) {
-  //   return <div>Error: {error}</div>; TODO: Add an error component here
-  // }
+  if (error) {
+    return <NotFound />;
+  }
 
   if (!timetable) {
     return (

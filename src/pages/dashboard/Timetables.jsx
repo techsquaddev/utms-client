@@ -4,7 +4,7 @@ import AddTimetable from "@/components/manageTimetables/AddTimetable";
 import ViewTimetable from "@/components/manageTimetables/ViewTimetable";
 import EditTimetable from "@/components/manageTimetables/EditTimetable";
 import { Button } from "@/components/ui/button";
-import { AlertModal, Modal } from "@/components";
+import { AlertModal, DataLoader, Modal, NotFound } from "@/components";
 import { deleteTimetable, getAllTimetables } from "@/api/timetableApi";
 import { toast } from "react-toastify";
 import { useAuth } from "@/api/authContext";
@@ -12,6 +12,7 @@ import { useAuth } from "@/api/authContext";
 const Timetables = () => {
   const [timetables, setTimetables] = useState([]);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
   const addTimetableDesc =
       "You can add a new timetable by submitting this form.",
@@ -23,10 +24,13 @@ const Timetables = () => {
 
   const fetchTimetables = async () => {
     try {
+      setIsLoading(true);
       const response = await getAllTimetables();
       setTimetables(response.data);
     } catch (error) {
       setError(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,16 +57,16 @@ const Timetables = () => {
   };
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <NotFound />;
   }
 
-  if (!timetables) {
-    return <div>Where be the timetables?!</div>;
+  if (isLoading) {
+    return <DataLoader />;
   }
 
   return (
-    <div className="p-4 flex flex-col w-full h-[90%]">
-      <div className="flex justify-between h-fit">
+    <div className="p-4 flex flex-col h-full">
+      <div className="flex justify-between">
         <span className="text-2xl">Timetables</span>
       </div>
       <div className="flex mt-8 justify-between w-full">
@@ -71,7 +75,7 @@ const Timetables = () => {
           description={searchFormDesc}
           content={<SearchForm />}
         >
-          <Button className="bg-[#333333] rounded-3xl">
+          <Button className="bg-[#333333] rounded-3xl hover:bg-current/">
             Find Your Timetable
           </Button>
         </Modal>
@@ -86,10 +90,10 @@ const Timetables = () => {
         </Modal>
       </div>
       {/* List */}
-      <div className="mt-6 px-8 h-inherit box-border overflow-y-auto scrollbar">
+      <div className="mt-4 box-border overflow-y-auto scrollbar">
         {timetables.map((timetable) => (
           <div
-            className="mt-4 px-5 flex justify-between items-center cursor-pointer rounded-xl bg-white hover:rounded-l-xl hover:bg-gray-100"
+            className="mt-4 pl-4 mr-4 flex justify-between items-center cursor-pointer rounded-xl bg-white hover:rounded-l-xl hover:bg-black/5"
             key={timetable.name}
           >
             <span
@@ -121,7 +125,7 @@ const Timetables = () => {
                     "_blank"
                   )
                 }
-                className="bg-[#333333] rounded-none text-white"
+                className="bg-[#333333] rounded-none text-white border border-white/20"
               >
                 <span>Manage Sessions</span>
               </Button>

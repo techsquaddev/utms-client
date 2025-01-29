@@ -13,6 +13,7 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
   const [specializations, setSpecializations] = useState([]);
   const [selectedFaculty, setSelectedFaculty] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [timetable, setTimetable] = useState({
     year: "",
     semester: "",
@@ -129,16 +130,21 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
     }
 
     try {
+      setIsUpdating(true);
       const response = await updateTimetable(timetableId, timetable);
       toast.success("Timetable updated successfully! 🥳");
       fetchTimetable();
     } catch (err) {
       toast.error("Something went wrong! 🤨");
+    } finally {
+      setIsUpdating(false);
     }
   };
 
   if (isLoading) {
-    return <div>Data is loading...</div>;
+    return (
+      <div className="flex items-center justify-center">Data is loading...</div>
+    );
   }
 
   return (
@@ -151,7 +157,7 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
             name="year"
             value={timetable.year}
             onChange={handleChange}
-            className="w-full px-2 py-2 border border-gray-300 rounded"
+            className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
             required
           >
             <option value="" disabled>
@@ -169,7 +175,7 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
             name="semester"
             value={timetable.semester}
             onChange={handleChange}
-            className="w-full px-2 py-2 border border-gray-300 rounded"
+            className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
             required
           >
             <option value="" disabled>
@@ -185,7 +191,7 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
             name="batch"
             value={timetable.batch}
             onChange={handleChange}
-            className="w-full px-2 py-2 border border-gray-300 rounded"
+            className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
             required
           >
             <option value="" disabled>
@@ -201,7 +207,7 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
             name="faculty"
             value={timetable.faculty._id || ""}
             onChange={handleChange}
-            className="w-full px-2 py-2 border border-gray-300 rounded"
+            className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
             required
           >
             <option value="" disabled>
@@ -220,7 +226,7 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
             name="specialization"
             value={timetable.specialization._id || ""}
             onChange={handleChange}
-            className="w-full px-2 py-2 border border-gray-300 rounded"
+            className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
             required
           >
             <option value="" disabled>
@@ -246,9 +252,10 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
           <input
             type="number"
             name="group"
+            placeholder="Group? (1,2,3...)"
             value={timetable.group}
             onChange={handleChange}
-            className="w-full px-2 py-2 border border-gray-300 rounded"
+            className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
             required
           />
         </div>
@@ -257,14 +264,18 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
           <input
             type="number"
             name="subGroup"
+            placeholder="Sub Group? (1,2,3...)"
             value={timetable.subGroup}
             onChange={handleChange}
-            className="w-full px-2 py-2 border border-gray-300 rounded"
+            className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           />
         </div>
 
-        <button type="submit" className="px-6 py-2 bg-primary rounded">
-          Update Timetable
+        <button
+          type="submit"
+          className="mt-4 px-6 py-3 w-full text-xl font-semibold bg-primary shadow-lg text-white rounded-md hover:bg-dark-blue transition-colors duration-300"
+        >
+          {isUpdating ? "Updating..." : "Update Timetable"}
         </button>
       </form>
     </div>

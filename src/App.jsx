@@ -10,7 +10,9 @@ import {
 import {
   AdminRoute,
   DashboardLayout,
+  HiddenRoute,
   MainLayout,
+  NotFound,
   PrivateRoute,
 } from "./components";
 import {
@@ -75,14 +77,16 @@ const Main = () => {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/verify/login" element={<VerifyToken />} />
-          <Route path="/verify/email" element={<VerifyEmail />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/timetables/:timetableId" element={<Timetable />} />
           <Route path="/timetables/find" element={<Find />} />
+          <Route path="" element={<HiddenRoute />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/verify/login" element={<VerifyToken />} />
+            <Route path="/verify/email" element={<VerifyEmail />} />
+          </Route>
         </Route>
 
         {/* Private Routes */}
@@ -100,6 +104,7 @@ const Main = () => {
             </Route>
           </Route>
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <div className="gradient" />
     </div>

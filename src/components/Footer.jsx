@@ -6,11 +6,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <Wrapper>
-      <Link
-        target="_blank"
-        rel="noopener noreferrer"
-        to="https://tsdev.netlify.app"
-      >
+      <Link target="_blank" rel="noopener noreferrer" to="#">
         <div className="flex items-end justify-center p-5 gap-1 mt-10 transform transition ">
           <span className="text-sm text-soft-text">Developed by</span>
           <img
