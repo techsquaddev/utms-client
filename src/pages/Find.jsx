@@ -24,10 +24,9 @@ const Find = () => {
         </div>
         <div className="p-5 bg-white border-2 border-secondary rounded-3xl shadow-lg">
           <p className="text-soft-text text-center text-sm">
-            Some timetables may not be available in our system, if you can't
-            find your timetable, please contact us by sending an email. We
-            encourage batch representatives to inform us about timetable
-            changes.
+            Some timetables may not be available in our system, if you cannot
+            find your timetable, please register with the system and add your
+            timetable. We encourage batch representatives to manage timetables.
           </p>
         </div>
       </Wrapper>

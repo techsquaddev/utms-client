@@ -20,6 +20,7 @@ import AddSession from "./manageTimetables/AddSession.jsx";
 import UpdateSession from "./manageTimetables/UpdateSession.jsx";
 import SessionBoard from "./manageTimetables/SessionBoard.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
+import HiddenRoute from "./HiddenRoute.jsx";
 import AdminRoute from "./AdminRoute.jsx";
 import Loading from "./Loading.jsx";
 import NotFound from "./NotFound.jsx";
@@ -52,4 +53,5 @@ export {
   Loading,
   NotFound,
   DataLoader,
+  HiddenRoute,
 };

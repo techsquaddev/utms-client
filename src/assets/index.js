@@ -8,6 +8,7 @@ import contact from "./contact.png";
 import ts_logo from "./ts_logo.svg";
 import loading from "./loading.gif";
 import error404 from "./error404.png";
+import developing from "./developing.png";
 
 export {
   skeleton,
@@ -20,4 +21,5 @@ export {
   ts_logo,
   loading,
   error404,
+  developing,
 };
