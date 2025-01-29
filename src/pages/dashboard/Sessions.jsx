@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { AddSession, Modal, SessionBoard, TimetableCard } from "@/components";
+import {
+  AddSession,
+  DataLoader,
+  Modal,
+  SessionBoard,
+  TimetableCard,
+} from "@/components";
 import { useParams } from "react-router-dom";
 import { getSpecificTimetable } from "@/api/timetableApi";
 import { toast } from "react-toastify";
@@ -8,15 +14,19 @@ const Sessions = () => {
   const { timetableId } = useParams();
   const [timetable, setTimetable] = useState(null);
   const [sessions, setSessions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const addSessionDesc = "Add a new session.";
 
   const fetchTimetable = async () => {
     try {
+      setIsLoading(true);
       const response = await getSpecificTimetable(timetableId);
       setTimetable(response.data);
       setSessions(response.data.sessions);
     } catch (error) {
       toast.error("Failed to fetch timetable! 😕");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -33,6 +43,10 @@ const Sessions = () => {
   useEffect(() => {
     fetchTimetable();
   }, [timetableId]);
+
+  if (isLoading) {
+    return <DataLoader />;
+  }
 
   return (
     <div>

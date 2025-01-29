@@ -4,7 +4,7 @@ import AddTimetable from "@/components/manageTimetables/AddTimetable";
 import ViewTimetable from "@/components/manageTimetables/ViewTimetable";
 import EditTimetable from "@/components/manageTimetables/EditTimetable";
 import { Button } from "@/components/ui/button";
-import { AlertModal, Modal } from "@/components";
+import { AlertModal, DataLoader, Modal, NotFound } from "@/components";
 import { deleteTimetable, getAllTimetables } from "@/api/timetableApi";
 import { toast } from "react-toastify";
 import { useAuth } from "@/api/authContext";
@@ -12,6 +12,7 @@ import { useAuth } from "@/api/authContext";
 const Timetables = () => {
   const [timetables, setTimetables] = useState([]);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
   const addTimetableDesc =
       "You can add a new timetable by submitting this form.",
@@ -23,10 +24,13 @@ const Timetables = () => {
 
   const fetchTimetables = async () => {
     try {
+      setIsLoading(true);
       const response = await getAllTimetables();
       setTimetables(response.data);
     } catch (error) {
       setError(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,11 +57,11 @@ const Timetables = () => {
   };
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <NotFound />;
   }
 
-  if (!timetables) {
-    return <div>Where be the timetables?!</div>;
+  if (isLoading) {
+    return <DataLoader />;
   }
 
   return (
