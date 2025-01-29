@@ -273,7 +273,7 @@ const EditTimetable = ({ timetableId, fetchTimetable }) => {
 
         <button
           type="submit"
-          className="mt-2 px-6 py-3 w-full text-xl font-semibold bg-primary shadow-lg text-white rounded-md hover:bg-dark-blue transition-colors duration-300"
+          className="mt-4 px-6 py-3 w-full text-xl font-semibold bg-primary shadow-lg text-white rounded-md hover:bg-dark-blue transition-colors duration-300"
         >
           {isUpdating ? "Updating..." : "Update Timetable"}
         </button>

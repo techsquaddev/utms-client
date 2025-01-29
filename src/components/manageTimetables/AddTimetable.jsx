@@ -233,7 +233,7 @@ const AddTimetable = ({ fetchTimetables }) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-1">Sub Group:</label>
+          <label className="block mb-1">Sub Group (optional):</label>
           <input
             type="number"
             name="subGroup"
@@ -246,7 +246,7 @@ const AddTimetable = ({ fetchTimetables }) => {
 
         <button
           type="submit"
-          className="mt-2 px-6 py-3 w-full text-xl font-semibold bg-primary shadow-lg text-white rounded-md hover:bg-dark-blue transition-colors duration-300"
+          className="mt-4 px-6 py-3 w-full text-xl font-semibold bg-primary shadow-lg text-white rounded-md hover:bg-dark-blue transition-colors duration-300"
         >
           {isAdding ? "Adding..." : "Add Timetable"}
         </button>

@@ -3,6 +3,7 @@ import { createSession } from "@/api/sessionApi";
 import { toast } from "react-toastify";
 
 const AddSession = ({ timetableId, fetchTimetable }) => {
+  const [isAdding, setIsAdding] = useState(false);
   const [formState, setFormState] = useState({
     day: "",
     startTime: "",
@@ -42,6 +43,7 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
     }
 
     try {
+      setIsAdding(true);
       await createSession(timetableId, formState);
       setFormState({
         day: "",
@@ -59,22 +61,20 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
       toast.success("Session created successfully! 🥳");
     } catch (err) {
       toast.error("Failed to add session. Please try again. 😟");
+    } finally {
+      setIsAdding(false);
     }
   };
 
   return (
-    <form
-      className="flex flex-col p-5 border border-gray-300 rounded-md bg-white w-full max-w-2xl"
-      onSubmit={handleSubmit}
-    >
-      <h2 className="mb-5 text-gray-800">Add Session</h2>
+    <form className="flex flex-col" onSubmit={handleSubmit}>
       <label className="mb-2">
         Day:
         <select
           name="day"
           value={formState.day}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           required
         >
           {days.map((day, index) => (
@@ -95,7 +95,7 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
           name="startTime"
           value={formState.startTime}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           required
         />
       </label>
@@ -106,7 +106,7 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
           name="endTime"
           value={formState.endTime}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           required
         />
       </label>
@@ -115,9 +115,10 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
         <input
           type="text"
           name="moduleName"
+          placeholder="OOP, DSA..."
           value={formState.moduleName}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           required
         />
       </label>
@@ -126,9 +127,10 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
         <input
           type="text"
           name="moduleCode"
+          placeholder="ITXXXXX"
           value={formState.moduleCode}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           required
         />
       </label>
@@ -138,7 +140,7 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
           name="sessionType"
           value={formState.sessionType}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           required
         >
           <option value="">Select</option>
@@ -154,29 +156,31 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
         <input
           type="text"
           name="location"
+          placeholder="A502, F301..."
           value={formState.location}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           required
         />
       </label>
       <label className="mb-2">
-        Coordinator:
+        Coordinator (optional):
         <input
           type="text"
           name="coordinator"
+          placeholder="Mr. Ashen Fernando"
           value={formState.coordinator}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
           onChange={handleChange}
         />
       </label>
       <label className="mb-2">
-        Delivery Type:
+        Delivery Type (optional):
         <select
           name="deliveryType"
           value={formState.deliveryType}
           onChange={handleChange}
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
+          className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
         >
           <option value="">Select</option>
           <option value="Physical">Physical</option>
@@ -187,21 +191,21 @@ const AddSession = ({ timetableId, fetchTimetable }) => {
       {(formState.deliveryType === "Online" ||
         formState.deliveryType === "Hybrid") && (
         <label className="mb-2">
-          Session Link:
+          Session Link (optional):
           <input
             type="url"
             name="sessionLink"
             value={formState.sessionLink}
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
+            className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
             onChange={handleChange}
           />
         </label>
       )}
       <button
         type="submit"
-        className="mt-5 px-5 py-2 bg-green-600 text-white rounded cursor-pointer self-center hover:bg-green-700"
+        className="mt-4 px-6 py-3 w-full text-xl font-semibold bg-green-600 shadow-lg text-white rounded-md hover:bg-green-700 transition-colors duration-300"
       >
-        Add Session
+        {isAdding ? "Adding..." : "Add Session"}
       </button>
     </form>
   );
