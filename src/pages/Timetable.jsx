@@ -92,11 +92,22 @@ const Timetable = () => {
     fetchTimetable();
   };
 
+  const updateTimetable = async () => {
+    try {
+      localStorage.removeItem("timetable");
+      await fetchTimetable();
+      localStorage.setItem("timetable", JSON.stringify(timetable));
+      toast.success("Timetable updated successfully! 🥳");
+    } catch (error) {
+      toast.success("Error loading timetable! 😕");
+    }
+  };
+
   return (
     <div>
       <Wrapper>
-        <div className="flex items-center justify-between mb-5">
-          <div className="flex items-center gap-6">
+        <div className="flex items-center justify-between mb-5 gap-4">
+          <div className="flex items-center gap-4">
             <AlertModal
               title="Are you absolutely sure?"
               description={alertDesc}
@@ -108,7 +119,7 @@ const Timetable = () => {
             </AlertModal>
 
             <Breadcrumb>
-              <BreadcrumbList>
+              <BreadcrumbList className="text-sm/3">
                 <BreadcrumbItem>
                   <BreadcrumbLink href="/">Home</BreadcrumbLink>
                 </BreadcrumbItem>
@@ -123,8 +134,8 @@ const Timetable = () => {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          {!isTimetable &&
-            (prevTimetable ? (
+          {!isTimetable ? (
+            prevTimetable ? (
               <AlertModal
                 title="Are you absolutely sure?"
                 description={alertSaveDesc}
@@ -141,7 +152,15 @@ const Timetable = () => {
               >
                 SAVE
               </button>
-            ))}
+            )
+          ) : (
+            <button
+              onClick={updateTimetable}
+              className="bg-green-100 border text-green-600 font-medium border-green-600 py-2 px-3 shadow-lg rounded-lg hover:bg-green-50 transition-colors duration-300"
+            >
+              UPDATE
+            </button>
+          )}
         </div>
 
         <TimetableName timetable={timetable} />
