@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <Wrapper>
-      <div className="pt-16">
-        <h1 className="text-center font-bold text-xl text-text md:text-2xl">
-          Welcome to SLIIT 360!
+      <div className="pt-8">
+        <h1 className="text-center text-2xl text-text md:text-3xl">
+          Welcome to SLIIT 360! 🥳
         </h1>
 
         <div className="px-4 md:px-10">
@@ -18,10 +18,15 @@ const Home = () => {
               browser!
             </p>
           </div>
-          <div className="flex justify-center -mt-10 w-96">
-            <img src={object} alt="object" className="w-full object-contain" />
+          <div className="flex justify-center -mt-10 w-full">
+            <img
+              src={object}
+              alt="object"
+              className="w-full h-auto object-contain"
+            />
           </div>
-          <div className="mt-7">
+
+          <div className="mt-4">
             <Link to="/timetables/find">
               <button
                 type="submit"

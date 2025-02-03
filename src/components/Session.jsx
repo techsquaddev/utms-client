@@ -66,13 +66,14 @@ const Session = ({ session, currentDay }) => {
                     {session.sessionType}
                   </p>
                 </div>
-
-                <div className="flex items-center justify-start gap-1.5 py-1 px-2 rounded-md bg-secondary text-white w-fit">
-                  <RssFeed fontSize="string" className="text-lg md:text-xl" />
-                  <p className="text-sm font-medium md:text-base">
-                    {session.deliveryType}
-                  </p>
-                </div>
+                {session.deliveryType && (
+                  <div className="flex items-center justify-start gap-1.5 py-1 px-2 rounded-md bg-secondary text-white w-fit">
+                    <RssFeed fontSize="string" className="text-lg md:text-xl" />
+                    <p className="text-sm font-medium md:text-base">
+                      {session.deliveryType}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </AccordionTrigger>

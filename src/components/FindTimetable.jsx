@@ -140,7 +140,7 @@ const FindTimetable = () => {
               name="year"
               value={formData.year}
               onChange={handleChange}
-              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md bg-transparent md:text-base md:p-4"
               required
             >
               <option value="" disabled>
@@ -158,7 +158,7 @@ const FindTimetable = () => {
               value={formData.semester}
               onChange={handleChange}
               required
-              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md bg-transparent md:text-base md:p-4"
             >
               <option value="" disabled>
                 Select a Semester
@@ -173,7 +173,7 @@ const FindTimetable = () => {
               value={formData.batch}
               onChange={handleChange}
               required
-              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md bg-transparent md:text-base md:p-4"
             >
               <option value="" disabled>
                 Select a batch
@@ -188,7 +188,7 @@ const FindTimetable = () => {
               value={formData.faculty._id || ""}
               onChange={handleChange}
               required
-              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md bg-transparent md:text-base md:p-4"
             >
               <option value="" disabled>
                 {isLoading ? "Loading faculties..." : "Select a faculty"}
@@ -206,7 +206,7 @@ const FindTimetable = () => {
               value={formData.specialization._id || ""}
               onChange={handleChange}
               required
-              className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base md:p-4"
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md bg-transparent md:text-base md:p-4"
             >
               <option value="" disabled>
                 {isLoading
@@ -234,7 +234,7 @@ const FindTimetable = () => {
               value={formData.group}
               onChange={handleChange}
               required
-              className="w-full p-3 text-soft-text border text-sm border-border rounded md:text-base md:p-4"
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md bg-transparent md:text-base md:p-4"
             />
           </div>
           <div className="mb-4">
@@ -244,7 +244,7 @@ const FindTimetable = () => {
               placeholder="Sub group? (1,2,3...)"
               value={formData.subGroup}
               onChange={handleChange}
-              className="w-full p-3 text-soft-text border text-sm border-border rounded md:text-base md:p-4"
+              className="w-full p-3 text-soft-text border text-sm border-border rounded-md bg-transparent md:text-base md:p-4"
             />
           </div>
 
