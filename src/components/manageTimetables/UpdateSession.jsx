@@ -182,7 +182,6 @@ const UpdateSession = ({ currentSessionId, fetchTimetable }) => {
           value={formState.location}
           onChange={handleChange}
           className="w-full p-3 text-soft-text border text-sm border-border rounded-md md:text-base"
-          required
         />
       </label>
       <label className="mb-2">
