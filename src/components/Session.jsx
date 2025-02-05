@@ -47,16 +47,17 @@ const Session = ({ session, currentDay }) => {
                     {formatTime(session.time.endTime)}
                   </p>
                 </div>
-
-                <div className="flex items-center justify-start gap-1.5 py-1 px-2 rounded-md bg-secondary text-white w-fit">
-                  <CorporateFare
-                    fontSize="string"
-                    className="text-lg md:text-xl"
-                  />
-                  <p className="text-sm font-medium md:text-base">
-                    {session.location}
-                  </p>
-                </div>
+                {session.location && (
+                  <div className="flex items-center justify-start gap-1.5 py-1 px-2 rounded-md bg-secondary text-white w-fit">
+                    <CorporateFare
+                      fontSize="string"
+                      className="text-lg md:text-xl"
+                    />
+                    <p className="text-sm font-medium md:text-base">
+                      {session.location}
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div className="mt-1 flex gap-1 md:gap-2 md:mt-2">

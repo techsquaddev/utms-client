@@ -45,10 +45,12 @@ const SessionCard = ({ session, currentDay, fetchTimetable }) => {
         <p className="text-gray-700">
           <strong className="text-gray-600">Type:</strong> {session.sessionType}
         </p>
-        <p className="text-gray-700">
-          <strong className="text-gray-600">Location:</strong>{" "}
-          {session.location}
-        </p>
+        {session.location && (
+          <p className="text-gray-700">
+            <strong className="text-gray-600">Location:</strong>{" "}
+            {session.location}
+          </p>
+        )}
         {session.coordinator && (
           <p className="text-gray-700">
             <strong className="text-gray-600">Coordinator:</strong>{" "}
