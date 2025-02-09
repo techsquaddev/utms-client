@@ -4,6 +4,7 @@ import { useAuth } from "@/api/authContext";
 import MenuIco from "@/assets/menu.png";
 import { useState } from "react";
 import LogoutIco from "@/assets/logout.png";
+import LogoutMDIco from "@/assets/logout_md.png";
 
 const DashboardLayout = () => {
   const { user, logout } = useAuth();
@@ -56,9 +57,10 @@ const DashboardLayout = () => {
                 .filter((item) => item.key !== "users" || user.role === "admin")
                 .map((item) => (
                   <Link
+                    onClick={handleClick}
                     key={item.key}
                     to={item.path}
-                    className={`group flex items-center border p-3 cursor-pointer rounded-lg transition duration-200 ${
+                    className={`group flex items-center border border-[#0455bf]/10 p-3 cursor-pointer rounded-lg transition duration-200 ${
                       location.pathname === item.path
                         ? "bg-gray-200 font-medium"
                         : "hover:bg-gray-200"
@@ -71,17 +73,15 @@ const DashboardLayout = () => {
             {/* Logout Button */}
             <div>
               {user && (
-                <div className="w-full items-end justify-end flex">
+                <div className="w-full items-end justify-end md:justify-start flex">
                   <button
                     onClick={logout}
-                    className="py-3 hidden px-6 border xl:flex cursor-pointer hover:bg-gray-200 transition duration-200 rounded-lg w-full text-left"
+                    className="py-3 hidden items-center justify-between px-6 border border-[#0455bf]/10 xl:flex cursor-pointer hover:bg-gray-200 transition duration-200 rounded-lg w-full text-left"
                   >
                     Logout
+                    <img src={LogoutMDIco} className="w-8 h-8" />
                   </button>
-                  <img
-                    src={LogoutIco}
-                    className="xl:hidden w-8 h-8 my-4 flip scale-y-[-1] scale-x-[-1]"
-                  />
+                  <img src={LogoutMDIco} className="xl:hidden w-8 h-8 mt-4" />
                 </div>
               )}
             </div>
