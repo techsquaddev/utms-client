@@ -51,8 +51,8 @@ const Sessions = () => {
   return (
     <div>
       <h2 className="text-2xl mb-16">Manage Sessions</h2>
-      <div className="flex gap-10">
-        <div className="w-[30%] mx-10">
+      <div className="flex flex-col gap-10 md:flex-row">
+        <div className="flex-1">
           {timetable && (
             <TimetableCard
               timetable={timetable}
@@ -76,7 +76,7 @@ const Sessions = () => {
             </Modal>
           </div>
         </div>
-        <div className="justify-center flex w-full">
+        <div className="flex-2">
           <SessionBoard sessions={sessions} fetchTimetable={fetchTimetable} />
         </div>
       </div>

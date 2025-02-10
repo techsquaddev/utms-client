@@ -44,7 +44,7 @@ const SessionBoard = ({ sessions, fetchTimetable }) => {
           <ArrowForwardIos className="text-primary" />
         </button>
       </div>
-      <div className="flex justify-center gap-2 mb-5">
+      <div className="flex flex-wrap items-center justify-center gap-2 mb-5">
         {days.map((day, index) => (
           <button
             key={index}

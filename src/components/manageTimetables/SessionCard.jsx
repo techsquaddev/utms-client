@@ -26,7 +26,7 @@ const SessionCard = ({ session, currentDay, fetchTimetable }) => {
 
   return (
     <div
-      className={`border border-gray-300 rounded-lg p-4 bg-white shadow-md m-4 max-w-sm ${
+      className={`border border-gray-300 rounded-lg p-4 bg-white shadow-md mb-4 break-words w-full ${
         isHighlighted ? "bg-yellow-100 border-yellow-400 shadow-lg" : ""
       }`}
     >
@@ -66,7 +66,9 @@ const SessionCard = ({ session, currentDay, fetchTimetable }) => {
         {session.sessionLink && (
           <p className="text-gray-700">
             <strong className="text-gray-600">Link:</strong>{" "}
-            <a href={session.sessionLink}>{session.sessionLink}</a>
+            <a href={session.sessionLink} className="underline text-blue-700">
+              {session.sessionLink}
+            </a>
           </p>
         )}
       </div>
