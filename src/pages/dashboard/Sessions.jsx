@@ -51,7 +51,7 @@ const Sessions = () => {
   return (
     <div>
       <h2 className="text-2xl mb-16">Manage Sessions</h2>
-      <div className="flex flex-col gap-10 md:flex-row">
+      <div className="flex flex-col gap-20 md:flex-row">
         <div className="flex-1">
           {timetable && (
             <TimetableCard

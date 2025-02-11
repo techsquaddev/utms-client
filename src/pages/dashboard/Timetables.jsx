@@ -76,7 +76,7 @@ const Timetables = () => {
           description={searchFormDesc}
           content={<SearchForm />}
         >
-          <Button className="md:bg-[#0455bf] bg-transparent rounded-3xl hover:bg-[#0455bf]/75">
+          <Button className="bg-primary text-white hover:bg-primary/80 rounded-xl">
             <span className="hidden md:block">Find Your Timetable</span>
             <img src={searchIco} className="w-8 h-8 block md:hidden" />
           </Button>
@@ -86,7 +86,7 @@ const Timetables = () => {
           description={addTimetableDesc}
           content={<AddTimetable fetchTimetables={fetchTimetables} />}
         >
-          <Button className="md:bg-[#0455bf] bg-transparent text-[#0455bf] md:text-white border border-[#0455bf] hover:bg-[#0455bf]/75 rounded-3xl">
+          <Button className="bg-gray-600 text-white hover:bg-gray-600/80 rounded-xl">
             Add New Timetable
           </Button>
         </Modal>
