@@ -26,14 +26,14 @@ const DashboardLayout = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex-1 xl:grid grid-cols-12 gap-4 overflow-hidden p-4">
+      <div className="flex-1 grid grid-cols-12 gap-4 overflow-hidden p-4">
         {/* Sidebar */}
-        <div className="col-span-2 bg-gray-100/80 backdrop-blur-lg border rounded-lg flex flex-col p-4">
+        <div className="col-span-12 bg-gray-100/80 backdrop-blur-lg border rounded-lg flex flex-col p-4 lg:col-span-2">
           <div className="flex justify-between items-center">
             <img
               src={MenuIco}
               alt="menu"
-              className="w-8 z-10 h-8 cursor-pointer xl:hidden"
+              className="w-8 z-10 h-8 cursor-pointer lg:hidden"
               onClick={handleClick}
             />
             <Link to="/" className="flex justify-start">
@@ -89,7 +89,7 @@ const DashboardLayout = () => {
         </div>
 
         {/* Main Content */}
-        <div className="lg:col-span-10 mt-4 xl:mt-0 md:col-span-9 col-span-12 p-4 rounded-xl bg-gray-100/80 border backdrop-blur-lg max-h-full overflow-auto">
+        <div className="mt-4 xl:mt-0 col-span-12 p-4 rounded-xl bg-gray-100/80 border backdrop-blur-lg max-h-full overflow-auto lg:col-span-10">
           <Outlet />
         </div>
       </div>
