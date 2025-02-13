@@ -9,6 +9,7 @@ import { deleteTimetable, getAllTimetables } from "@/api/timetableApi";
 import { toast } from "react-toastify";
 import { useAuth } from "@/api/authContext";
 import searchIco from "@/assets/search.png";
+import { Link } from "react-router-dom";
 
 const Timetables = () => {
   const [timetables, setTimetables] = useState([]);
@@ -66,7 +67,7 @@ const Timetables = () => {
   }
 
   return (
-    <div className="md:p-4 flex flex-col h-full mb-24 md:mb-0">
+    <div className="md:p-4 flex flex-col h-full">
       <div className="flex justify-between transition-all duration-500">
         <span className="font-semibold text-2xl">Timetables</span>
       </div>
@@ -76,7 +77,7 @@ const Timetables = () => {
           description={searchFormDesc}
           content={<SearchForm />}
         >
-          <Button className="bg-primary text-white hover:bg-primary/80 rounded-xl">
+          <Button className="bg-transparent md:bg-primary text-white hover:bg-transparent md:hover:bg-primary/80 rounded-xl">
             <span className="hidden md:block">Find Your Timetable</span>
             <img src={searchIco} className="w-8 h-8 block md:hidden" />
           </Button>
@@ -120,17 +121,11 @@ const Timetables = () => {
                   <span>View Timetable</span>
                 </Button>
               </Modal>
-              <Button
-                onClick={() =>
-                  window.open(
-                    `/dashboard/timetables/${timetable._id}/sessions`,
-                    "_blank"
-                  )
-                }
-                className="bg-gray-600 text-white w-full rounded-none border-r hover:bg-gray-600/80"
-              >
-                <span>Manage Sessions</span>
-              </Button>
+              <Link to={`/dashboard/timetables/${timetable._id}/sessions`}>
+                <Button className="bg-gray-600 text-white w-full rounded-none border-r hover:bg-gray-600/80">
+                  <span>Manage Sessions</span>
+                </Button>
+              </Link>
               <Modal
                 title="Edit Timetable Data"
                 description={editTimetableDesc}
