@@ -70,7 +70,7 @@ const Timetables = () => {
       <div className="flex justify-between transition-all duration-500">
         <span className="font-semibold text-2xl">Timetables</span>
       </div>
-      <div className="flex mt-8 justify-start md:gap-4 md:pr-4 w-full">
+      <div className="flex mt-8 items-center justify-start gap-4">
         <Modal
           title="Find Timetable"
           description={searchFormDesc}
@@ -116,7 +116,7 @@ const Timetables = () => {
                 description={viewTimetableDesc}
                 content={<ViewTimetable timetableId={timetable._id} />}
               >
-                <Button className="md:bg-[#0455bf] border border-[#0455bf] bg-transparent text-[#0455bf] w-full hover:bg-[#0455bf]/75 rounded-none rounded-tl md:rounded-tl-none md:text-white">
+                <Button className="bg-primary text-white w-full rounded-none border-r hover:bg-primary/80">
                   <span>View Timetable</span>
                 </Button>
               </Modal>
@@ -127,7 +127,7 @@ const Timetables = () => {
                     "_blank"
                   )
                 }
-                className="md:bg-[#0455bf] border-[#0455bf] bg-transparent text-[#0455bf] w-full hover:bg-[#0455bf]/75 rounded-none rounded-tr md:rounded-tr-none md:text-white border md:border-white/20"
+                className="bg-gray-600 text-white w-full rounded-none border-r hover:bg-gray-600/80"
               >
                 <span>Manage Sessions</span>
               </Button>
@@ -138,7 +138,7 @@ const Timetables = () => {
               >
                 <Button
                   name="edit"
-                  className="md:bg-[#0455bf] w-full hover:bg-[#0455bf]/75 border-[#0455bf] bg-transparent text-[#0455bf] rounded-none md:rounded-bl-none rounded-bl md:text-white border md:border-white/20"
+                  className="bg-gray-600 text-white w-full rounded-none border-r hover:bg-gray-600/80"
                 >
                   <span>Edit</span>
                 </Button>
@@ -149,7 +149,7 @@ const Timetables = () => {
                   description={alertDesc}
                   action={() => handleDelete(timetable._id)}
                 >
-                  <Button className="md:bg-[#0455bf] w-full hover:bg-[#0455bf]/75 border border-[#0455bf] bg-transparent text-[#0455bf] rounded-none rounded-br md:rounded-br-none md:rounded-r-xl md:text-white">
+                  <Button className="bg-gray-600 text-white w-full rounded-none hover:bg-gray-600/80">
                     Delete
                   </Button>
                 </AlertModal>
