@@ -1,6 +1,6 @@
 import React from "react";
 import object from "../assets/object.png";
-import { Wrapper } from "../components";
+import { WhatsAppShareButton, Wrapper } from "../components";
 import { Link } from "react-router-dom";
 
 const Home = () => {
