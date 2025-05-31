@@ -10,15 +10,26 @@ const About = () => {
             About SLIIT 360
           </h1>
           <div className="mt-7 mb-4 p-5 mx-5 bg-white border-2 border-secondary rounded-3xl shadow-md">
-            <p className="text-soft-text text-left text-sm md:text-base">
+            <p className="text-soft-text text-left text-sm md:text-base mb-8">
               <span className="font-semibold bg-secondary">
                 Welcome to SLIIT 360, an online material hub for all students at
                 SLIIT!
               </span>{" "}
               <br />
             </p>
-            <br />
-            <p className="text-soft-text text-left text-sm md:text-base">
+
+            <iframe
+              width="100%"
+              height="200"
+              src="https://www.youtube.com/embed/JjBdps0nnBk"
+              title="Introducing SLIIT 360"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+
+            <p className="text-soft-text text-left text-sm md:text-base mt-8">
               In this platform, we made it our goal to give everyone access to
               user-friendly timetables as opposed to hard-to-read HTML
               schedules. In the near future, we plan to add important links and

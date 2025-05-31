@@ -25,6 +25,7 @@ import AdminRoute from "./AdminRoute.jsx";
 import Loading from "./Loading.jsx";
 import NotFound from "./NotFound.jsx";
 import DataLoader from "./DataLoader.jsx";
+import WhatsAppShareButton from "./WhatsAppShareButton.jsx";
 
 export {
   Navbar,
@@ -54,4 +55,5 @@ export {
   NotFound,
   DataLoader,
   HiddenRoute,
+  WhatsAppShareButton,
 };
